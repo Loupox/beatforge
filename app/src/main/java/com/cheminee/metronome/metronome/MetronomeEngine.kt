@@ -11,7 +11,8 @@ private const val DEFAULT_BEATS_PER_BAR = 4
 
 object MetronomeEngine {
     private var handler: Handler? = null
-    private var tickRunnable: Runnable? = null
+    private var tickId: Int = 0
+    private var currentTickId: Int = 0
 
     private val _flash = MutableStateFlow(false)
     val flash: StateFlow<Boolean> = _flash
@@ -47,23 +48,31 @@ object MetronomeEngine {
             Log.e("MetronomeEngine", "start: handler is null, cannot start!")
             return
         }
+        tickId++
+        currentTickId = tickId
         stop()
         if (bpm <= 0) return
         _currentBpm.value = bpm
         currentBeatsPerBar = beatsPerBar
         intervalMs = intervalMsFor(bpm)
         val flashMs = (intervalMs / 2).coerceIn(50L, 200L)
-        Log.d("MetronomeEngine", "Starting: bpm=$bpm, intervalMs=$intervalMs, flashMs=$flashMs")
+        Log.d("MetronomeEngine", "Starting: bpm=$bpm, intervalMs=$intervalMs, flashMs=$flashMs, tickId=$currentTickId")
         _running.value = true
         currentBeat = 0
         lastEmittedBeat = -1
 
         val runnable = object : Runnable {
+            private val myTickId = currentTickId
             override fun run() {
+                if (myTickId != currentTickId) {
+                    Log.d("MetronomeEngine", "Stale tick ignored, tickId=$myTickId vs currentTickId=$currentTickId")
+                    return
+                }
                 if (!_running.value) return
 
                 val currentHandler = handler ?: return
                 val currentRunnable = this
+                val scheduledTime = SystemClock.elapsedRealtime()
 
                 _beatIndex.value = currentBeat % currentBeatsPerBar
                 _flash.value = true
@@ -71,25 +80,27 @@ object MetronomeEngine {
                     lastEmittedBeat = currentBeat
                     _beatTrigger.value = currentBeat
                 }
-                Log.d("MetronomeEngine", "Flash ON: beat=$currentBeat")
+                Log.d("MetronomeEngine", "Flash ON: beat=$currentBeat, tickId=$myTickId")
 
                 currentHandler.postDelayed({
+                    if (myTickId != currentTickId) {
+                        Log.d("MetronomeEngine", "Stale flash-off ignored, tickId=$myTickId")
+                        return@postDelayed
+                    }
                     if (!_running.value) return@postDelayed
                     _flash.value = false
-                    Log.d("MetronomeEngine", "Flash OFF")
+                    Log.d("MetronomeEngine", "Flash OFF, next beat in ${intervalMs - flashMs}ms, tickId=$myTickId")
                     currentBeat++
-                    currentHandler.post(currentRunnable)
+                    currentHandler.postDelayed(currentRunnable, intervalMs - flashMs)
                 }, flashMs)
             }
         }
-        tickRunnable = runnable
         handler?.post(runnable)
     }
 
     fun stop() {
-        Log.d("MetronomeEngine", "Stopping")
+        Log.d("MetronomeEngine", "Stopping, tickId=$currentTickId")
         handler?.removeCallbacksAndMessages(null)
-        tickRunnable = null
         _flash.value = false
         _beatIndex.value = 0
         _running.value = false

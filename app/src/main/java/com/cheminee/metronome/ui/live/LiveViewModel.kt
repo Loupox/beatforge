@@ -160,8 +160,7 @@ class LiveViewModel(
                     Log.d("MetronomeEngine", "LiveVM playFor: already running at $bpm, skipping")
                     return@withLock
                 }
-                Log.d("MetronomeEngine", "LiveVM playFor: bpm = $bpm")
-                engine.stop()
+                Log.d("MetronomeEngine", "LiveVM playFor: bpm = $bpm, currentBpm = ${engine.currentBpm.value}")
                 engine.start(bpm)
             }
         }
