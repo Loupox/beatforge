@@ -1,0 +1,35 @@
+services:
+  build:
+    platform: linux/amd64
+    image: cheminee/android-build:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cheminee-android-build
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+      - gradle-cache:/root/.gradle
+      - android-cache:/opt/android-sdk/.cache
+    command: []
+
+  shell:
+    platform: linux/amd64
+    image: cheminee/android-build:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cheminee-android-shell
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+      - gradle-cache:/root/.gradle
+      - android-cache:/opt/android-sdk/.cache
+    entrypoint: ["/bin/bash"]
+    command: []
+    stdin_open: true
+    tty: true
+
+volumes:
+  gradle-cache:
+  android-cache:

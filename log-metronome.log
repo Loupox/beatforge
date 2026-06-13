@@ -1,0 +1,873 @@
+--------- beginning of main
+06-13 17:49:05.699 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:05.804 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:05.846 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:06.928 27319 27319 D MetronomeEngine: NavGraph: Navigating to live: setId=1, autoplay=true
+06-13 17:49:06.951 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:06.958 27319 27319 D MetronomeEngine: NavGraph: Entering LIVE_AUTOPLAY: setId=1
+06-13 17:49:06.961 27319 27319 D MetronomeEngine: LiveVM init: creating ToneGenerator
+06-13 17:49:06.961 27319 27319 D MetronomeEngine: setScope: Handler created
+06-13 17:49:06.974 27319 27319 D MetronomeEngine: LiveVM init: ToneGenerator created successfully
+06-13 17:49:06.975 27319 27319 D MetronomeEngine: LiveVM songs.collect: list size = 0, autoplayRequested = false
+06-13 17:49:06.980 27319 27319 D MetronomeEngine: NavGraph: LiveViewModel created
+06-13 17:49:06.981 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:06.983 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=0, running=false
+06-13 17:49:07.015 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:07.017 27319 27319 D MetronomeEngine: NavGraph: Entering LIVE_AUTOPLAY: setId=1
+06-13 17:49:07.017 27319 27319 D MetronomeEngine: NavGraph: LiveViewModel created
+06-13 17:49:07.017 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.018 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=0, running=false
+06-13 17:49:07.047 27319 27319 D MetronomeEngine: LiveScreen LaunchedEffect triggered, calling bind(1, true)
+06-13 17:49:07.047 27319 27319 D MetronomeEngine: LiveVM bind: setId = 1, autoplay = true
+06-13 17:49:07.047 27319 27319 D MetronomeEngine: Repository observeSongs: setId=1
+06-13 17:49:07.055 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:07.058 27319 27319 D MetronomeEngine: NavGraph: Entering LIVE_AUTOPLAY: setId=1
+06-13 17:49:07.058 27319 27319 D MetronomeEngine: NavGraph: LiveViewModel created
+06-13 17:49:07.058 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.059 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=true, songs.size=0, running=false
+06-13 17:49:07.081 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 0, toneGenerator = true
+06-13 17:49:07.131 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:07.132 27319 27319 D MetronomeEngine: Repository observeSongs: received 11 songs for setId=1
+06-13 17:49:07.132 27319 27319 D MetronomeEngine: LiveVM songs.collect: list size = 11, autoplayRequested = true
+06-13 17:49:07.132 27319 27319 D MetronomeEngine: LiveVM songs.collect: autoplaying song Billie Jean (Michael Jackson) at 117 BPM
+06-13 17:49:07.132 27319 27319 D MetronomeEngine: start: bpm=117, handler=true
+06-13 17:49:07.132 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:07.132 27319 27319 D MetronomeEngine: Starting: bpm=117, intervalMs=512, flashMs=200
+06-13 17:49:07.134 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.135 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.217 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:07.218 27319 27319 D MetronomeEngine: LiveVM playFor: bpm = 117
+06-13 17:49:07.218 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:07.218 27319 27319 D MetronomeEngine: start: bpm=117, handler=true
+06-13 17:49:07.218 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:07.218 27319 27319 D MetronomeEngine: Starting: bpm=117, intervalMs=512, flashMs=200
+06-13 17:49:07.225 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:07.227 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.228 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.267 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.268 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.282 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.283 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.297 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.298 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.311 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.311 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.324 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.324 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.336 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.336 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.348 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.349 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.361 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.362 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.373 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.374 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.382 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.382 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.395 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.396 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.406 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.407 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.417 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.418 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.431 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.431 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.438 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:07.440 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.441 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.450 27319 27319 D MetronomeEngine: Flash ON: beat=1
+06-13 17:49:07.454 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.454 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.478 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.478 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.489 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.489 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.500 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.500 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.507 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 1, toneGenerator = true
+06-13 17:49:07.564 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:07.566 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.567 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.575 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.576 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.584 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.585 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.593 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.594 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.602 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.603 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.612 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.613 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.622 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.623 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.634 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.634 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.645 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.645 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.652 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:07.652 27319 27319 D MetronomeEngine: Flash ON: beat=2
+06-13 17:49:07.656 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.657 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.668 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.668 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.678 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.678 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.689 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.689 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.700 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.701 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.706 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 2, toneGenerator = true
+06-13 17:49:07.707 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:07.723 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.723 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.759 27319 27319 D MetronomeEngine: NavGraph: Entering LIVE_AUTOPLAY: setId=1
+06-13 17:49:07.759 27319 27319 D MetronomeEngine: NavGraph: LiveViewModel created
+06-13 17:49:07.759 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.760 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.796 27319 27319 D MetronomeEngine: NavGraph: Entering LIVE_AUTOPLAY: setId=1
+06-13 17:49:07.797 27319 27319 D MetronomeEngine: NavGraph: LiveViewModel created
+06-13 17:49:07.797 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.797 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.853 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:07.854 27319 27319 D MetronomeEngine: Flash ON: beat=3
+06-13 17:49:07.855 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:07.855 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:07.906 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 3, toneGenerator = true
+06-13 17:49:07.979 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:08.055 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:08.057 27319 27319 D MetronomeEngine: Flash ON: beat=4
+06-13 17:49:08.069 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:08.071 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:08.108 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 4, toneGenerator = true
+06-13 17:49:08.110 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:08.258 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:08.260 27319 27319 D MetronomeEngine: Flash ON: beat=5
+06-13 17:49:08.268 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:08.268 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:08.311 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 5, toneGenerator = true
+06-13 17:49:08.377 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:08.461 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:08.463 27319 27319 D MetronomeEngine: Flash ON: beat=6
+06-13 17:49:08.468 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:08.468 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:08.513 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 6, toneGenerator = true
+06-13 17:49:08.514 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:08.664 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:08.666 27319 27319 D MetronomeEngine: Flash ON: beat=7
+06-13 17:49:08.674 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:08.674 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:08.717 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 7, toneGenerator = true
+06-13 17:49:08.790 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:08.868 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:08.870 27319 27319 D MetronomeEngine: Flash ON: beat=8
+06-13 17:49:08.873 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:08.874 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:08.921 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 8, toneGenerator = true
+06-13 17:49:08.995 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:09.071 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:09.073 27319 27319 D MetronomeEngine: Flash ON: beat=9
+06-13 17:49:09.074 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:09.075 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:09.124 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 9, toneGenerator = true
+06-13 17:49:09.125 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:09.274 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:09.276 27319 27319 D MetronomeEngine: Flash ON: beat=10
+06-13 17:49:09.292 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:09.292 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:09.327 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 10, toneGenerator = true
+06-13 17:49:09.398 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:09.477 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:09.479 27319 27319 D MetronomeEngine: Flash ON: beat=11
+06-13 17:49:09.491 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:09.491 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:09.528 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 11, toneGenerator = true
+06-13 17:49:09.530 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:09.681 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:09.683 27319 27319 D MetronomeEngine: Flash ON: beat=12
+06-13 17:49:09.691 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:09.692 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:09.734 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 12, toneGenerator = true
+06-13 17:49:09.786 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:09.885 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:09.886 27319 27319 D MetronomeEngine: Flash ON: beat=13
+06-13 17:49:09.892 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:09.892 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:09.937 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 13, toneGenerator = true
+06-13 17:49:09.938 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:10.088 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:10.090 27319 27319 D MetronomeEngine: Flash ON: beat=14
+06-13 17:49:10.092 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.092 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.142 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 14, toneGenerator = true
+06-13 17:49:10.216 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:10.291 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:10.334 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.335 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.347 27319 27319 D MetronomeEngine: Flash ON: beat=15
+06-13 17:49:10.358 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.358 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.403 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 15, toneGenerator = true
+06-13 17:49:10.475 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:10.482 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.482 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.494 27319 27319 D MetronomeEngine: LiveVM playFor: bpm = 165
+06-13 17:49:10.494 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:10.494 27319 27319 D MetronomeEngine: start: bpm=165, handler=true
+06-13 17:49:10.494 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:10.494 27319 27319 D MetronomeEngine: Starting: bpm=165, intervalMs=363, flashMs=181
+06-13 17:49:10.498 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.498 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.521 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:10.525 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.526 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.554 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.554 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.571 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 0, toneGenerator = true
+06-13 17:49:10.572 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:10.576 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.576 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.587 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.588 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.598 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.599 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.609 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.610 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.621 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.621 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.632 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.632 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.642 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.643 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.654 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.654 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.665 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.665 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.676 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.676 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.687 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.688 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.698 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.698 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.705 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:10.709 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.710 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.715 27319 27319 D MetronomeEngine: Flash ON: beat=1
+06-13 17:49:10.721 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.721 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.765 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 1, toneGenerator = true
+06-13 17:49:10.834 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:10.837 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.838 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.854 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.854 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.877 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.878 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.889 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.889 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.896 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:10.897 27319 27319 D MetronomeEngine: Flash ON: beat=2
+06-13 17:49:10.900 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.900 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.932 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:10.933 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:10.947 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 2, toneGenerator = true
+06-13 17:49:10.949 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:11.079 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:11.087 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:11.087 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:11.096 27319 27319 D MetronomeEngine: Flash ON: beat=3
+06-13 17:49:11.099 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:11.099 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:11.145 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 3, toneGenerator = true
+06-13 17:49:11.214 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:11.277 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:11.278 27319 27319 D MetronomeEngine: Flash ON: beat=4
+06-13 17:49:11.291 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:11.291 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:11.329 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 4, toneGenerator = true
+06-13 17:49:11.331 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:11.460 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:11.462 27319 27319 D MetronomeEngine: Flash ON: beat=5
+06-13 17:49:11.465 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:11.466 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:11.514 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 5, toneGenerator = true
+06-13 17:49:11.569 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:11.645 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:11.646 27319 27319 D MetronomeEngine: Flash ON: beat=6
+06-13 17:49:11.655 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:11.656 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:11.697 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 6, toneGenerator = true
+06-13 17:49:11.698 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:11.829 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:11.831 27319 27319 D MetronomeEngine: Flash ON: beat=7
+06-13 17:49:11.833 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:11.834 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:11.882 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 7, toneGenerator = true
+06-13 17:49:11.950 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:12.014 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:12.015 27319 27319 D MetronomeEngine: Flash ON: beat=8
+06-13 17:49:12.022 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.022 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.066 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 8, toneGenerator = true
+06-13 17:49:12.069 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:12.198 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:12.200 27319 27319 D MetronomeEngine: Flash ON: beat=9
+06-13 17:49:12.205 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.206 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.253 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 9, toneGenerator = true
+06-13 17:49:12.316 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:12.384 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.384 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.393 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:12.394 27319 27319 D MetronomeEngine: LiveVM playFor: bpm = 110
+06-13 17:49:12.394 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:12.394 27319 27319 D MetronomeEngine: start: bpm=110, handler=true
+06-13 17:49:12.394 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:12.394 27319 27319 D MetronomeEngine: Starting: bpm=110, intervalMs=545, flashMs=200
+06-13 17:49:12.397 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.397 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.410 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:12.413 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.413 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.462 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 0, toneGenerator = true
+06-13 17:49:12.536 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:12.619 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:12.629 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.629 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.638 27319 27319 D MetronomeEngine: Flash ON: beat=1
+06-13 17:49:12.644 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.645 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.689 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 1, toneGenerator = true
+06-13 17:49:12.691 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:12.706 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.706 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.739 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.739 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.762 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.763 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.783 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.783 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.828 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.829 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.841 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:12.841 27319 27319 D MetronomeEngine: Flash ON: beat=2
+06-13 17:49:12.851 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:12.851 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:12.891 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 2, toneGenerator = true
+06-13 17:49:12.956 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:13.042 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:13.044 27319 27319 D MetronomeEngine: Flash ON: beat=3
+06-13 17:49:13.050 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:13.051 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:13.094 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 3, toneGenerator = true
+06-13 17:49:13.176 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:13.245 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:13.247 27319 27319 D MetronomeEngine: Flash ON: beat=4
+06-13 17:49:13.251 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:13.251 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:13.298 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 4, toneGenerator = true
+06-13 17:49:13.302 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:13.449 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:13.451 27319 27319 D MetronomeEngine: Flash ON: beat=5
+06-13 17:49:13.461 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:13.462 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:13.502 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 5, toneGenerator = true
+06-13 17:49:13.566 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:13.653 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:13.655 27319 27319 D MetronomeEngine: Flash ON: beat=6
+06-13 17:49:13.663 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:13.664 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:13.705 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 6, toneGenerator = true
+06-13 17:49:13.774 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:13.857 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:13.859 27319 27319 D MetronomeEngine: Flash ON: beat=7
+06-13 17:49:13.864 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:13.864 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:13.910 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 7, toneGenerator = true
+06-13 17:49:13.912 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:14.061 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:14.064 27319 27319 D MetronomeEngine: Flash ON: beat=8
+06-13 17:49:14.069 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.069 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.116 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 8, toneGenerator = true
+06-13 17:49:14.181 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:14.265 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:14.266 27319 27319 D MetronomeEngine: Flash ON: beat=9
+06-13 17:49:14.282 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.282 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.322 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 9, toneGenerator = true
+06-13 17:49:14.323 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:14.403 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.403 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.412 27319 27319 D MetronomeEngine: LiveVM playFor: bpm = 126
+06-13 17:49:14.412 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:14.412 27319 27319 D MetronomeEngine: start: bpm=126, handler=true
+06-13 17:49:14.412 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:14.412 27319 27319 D MetronomeEngine: Starting: bpm=126, intervalMs=476, flashMs=200
+06-13 17:49:14.415 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.415 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.428 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:14.430 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.430 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.478 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 0, toneGenerator = true
+06-13 17:49:14.479 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:14.632 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:14.641 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.641 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.649 27319 27319 D MetronomeEngine: Flash ON: beat=1
+06-13 17:49:14.654 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.654 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.699 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 1, toneGenerator = true
+06-13 17:49:14.764 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:14.769 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.769 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.780 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.781 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.796 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.796 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.842 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.842 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.850 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:14.850 27319 27319 D MetronomeEngine: Flash ON: beat=2
+06-13 17:49:14.855 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:14.855 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:14.901 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 2, toneGenerator = true
+06-13 17:49:14.974 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:15.052 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:15.053 27319 27319 D MetronomeEngine: Flash ON: beat=3
+06-13 17:49:15.063 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.063 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:15.104 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 3, toneGenerator = true
+06-13 17:49:15.108 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 24 for duration 75
+06-13 17:49:15.263 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:15.265 27319 27319 D MetronomeEngine: Flash ON: beat=4
+06-13 17:49:15.274 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.274 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=true
+06-13 17:49:15.315 27319 27319 D MetronomeEngine: LiveVM beatTrigger: beat = 4, toneGenerator = true
+06-13 17:49:15.373 27319 27319 D MetronomeEngine: LiveVM beatTrigger: played tone 28 for duration 100
+06-13 17:49:15.381 27319 27319 D MetronomeEngine: LiveVM stop called
+06-13 17:49:15.381 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:15.394 27319 27319 D MetronomeEngine: NavGraph: Entering LIVE_AUTOPLAY: setId=1
+06-13 17:49:15.394 27319 27319 D MetronomeEngine: NavGraph: LiveViewModel created
+06-13 17:49:15.394 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.395 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.402 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:15.499 27319 27319 D MetronomeEngine: LiveVM stop called
+06-13 17:49:15.499 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:15.507 27319 27319 D MetronomeEngine: NavGraph: Entering LIVE_AUTOPLAY: setId=1
+06-13 17:49:15.507 27319 27319 D MetronomeEngine: NavGraph: LiveViewModel created
+06-13 17:49:15.507 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.508 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.510 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:15.527 27319 27319 D MetronomeEngine: NavGraph: Entering LIVE_AUTOPLAY: setId=1
+06-13 17:49:15.527 27319 27319 D MetronomeEngine: NavGraph: LiveViewModel created
+06-13 17:49:15.527 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.527 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.529 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:15.546 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.546 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.555 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.555 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.563 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.564 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.575 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.575 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.586 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.586 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.597 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.597 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.608 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.608 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.619 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.619 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.630 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.630 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.642 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.642 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.653 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.653 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.664 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.664 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.675 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.675 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.686 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.686 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.697 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.697 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.708 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.708 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.720 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.720 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.731 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.731 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.742 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.742 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.753 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.753 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.764 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.764 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:15.786 27319 27319 D MetronomeEngine: LiveScreen composing START: setId=1, autoplay=true
+06-13 17:49:15.786 27319 27319 D MetronomeEngine: LiveScreen state: isLoading=false, songs.size=11, running=false
+06-13 17:49:16.201 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:16.215 27319 27319 D MetronomeEngine: LiveVM stop called
+06-13 17:49:16.215 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:16.228 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:16.248 27319 27319 D MetronomeEngine: LiveVM onCleared: releasing ToneGenerator, stopping engine
+06-13 17:49:16.248 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:16.251 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:17.514 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:17.517 27319 27319 D MetronomeEngine: NavGraph: Entering METRONOME
+06-13 17:49:17.518 27319 27319 D MetronomeEngine: StandaloneVM init: creating ToneGenerator (enabled=true)
+06-13 17:49:17.521 27319 27319 D MetronomeEngine: StandaloneVM init: ToneGenerator created
+06-13 17:49:17.523 27319 27319 D MetronomeEngine: NavGraph: StandaloneMetronomeViewModel created
+06-13 17:49:17.594 27319 27319 D MetronomeEngine: NavGraph: Entering SETS
+06-13 17:49:17.596 27319 27319 D MetronomeEngine: NavGraph: Entering METRONOME
+06-13 17:49:17.596 27319 27319 D MetronomeEngine: NavGraph: StandaloneMetronomeViewModel created
+06-13 17:49:17.616 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=4
+06-13 17:49:17.674 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:18.295 27319 27319 D MetronomeEngine: NavGraph: Entering METRONOME
+06-13 17:49:18.295 27319 27319 D MetronomeEngine: NavGraph: StandaloneMetronomeViewModel created
+06-13 17:49:18.332 27319 27319 D MetronomeEngine: NavGraph: Entering METRONOME
+06-13 17:49:18.332 27319 27319 D MetronomeEngine: NavGraph: StandaloneMetronomeViewModel created
+06-13 17:49:18.710 27319 27319 D MetronomeEngine: start: bpm=126, handler=true
+06-13 17:49:18.710 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:18.710 27319 27319 D MetronomeEngine: Starting: bpm=126, intervalMs=476, flashMs=200
+06-13 17:49:18.729 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:18.783 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=0
+06-13 17:49:18.854 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:18.929 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:18.930 27319 27319 D MetronomeEngine: Flash ON: beat=1
+06-13 17:49:18.984 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=1
+06-13 17:49:18.985 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:19.130 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:19.132 27319 27319 D MetronomeEngine: Flash ON: beat=2
+06-13 17:49:19.182 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=2
+06-13 17:49:19.244 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:19.332 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:19.334 27319 27319 D MetronomeEngine: Flash ON: beat=3
+06-13 17:49:19.386 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=3
+06-13 17:49:19.457 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:19.535 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:19.537 27319 27319 D MetronomeEngine: Flash ON: beat=4
+06-13 17:49:19.588 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=4
+06-13 17:49:19.590 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:19.739 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:19.741 27319 27319 D MetronomeEngine: Flash ON: beat=5
+06-13 17:49:19.792 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=5
+06-13 17:49:19.861 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:19.942 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:19.943 27319 27319 D MetronomeEngine: Flash ON: beat=6
+06-13 17:49:19.994 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=6
+06-13 17:49:19.997 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:20.144 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:20.146 27319 27319 D MetronomeEngine: Flash ON: beat=7
+06-13 17:49:20.196 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=7
+06-13 17:49:20.256 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:20.347 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:20.348 27319 27319 D MetronomeEngine: Flash ON: beat=8
+06-13 17:49:20.400 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=8
+06-13 17:49:20.467 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:20.549 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:20.551 27319 27319 D MetronomeEngine: Flash ON: beat=9
+06-13 17:49:20.602 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=9
+06-13 17:49:20.604 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:20.752 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:20.754 27319 27319 D MetronomeEngine: Flash ON: beat=10
+06-13 17:49:20.805 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=10
+06-13 17:49:20.872 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:20.955 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:20.957 27319 27319 D MetronomeEngine: Flash ON: beat=11
+06-13 17:49:21.007 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=11
+06-13 17:49:21.009 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:21.159 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:21.161 27319 27319 D MetronomeEngine: Flash ON: beat=12
+06-13 17:49:21.212 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=12
+06-13 17:49:21.273 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:21.361 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:21.363 27319 27319 D MetronomeEngine: Flash ON: beat=13
+06-13 17:49:21.413 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=13
+06-13 17:49:21.562 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:21.564 27319 27319 D MetronomeEngine: Flash ON: beat=14
+06-13 17:49:21.614 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=14
+06-13 17:49:21.764 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:21.766 27319 27319 D MetronomeEngine: Flash ON: beat=15
+06-13 17:49:21.817 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=15
+06-13 17:49:21.967 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:21.968 27319 27319 D MetronomeEngine: Flash ON: beat=16
+06-13 17:49:22.018 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=16
+06-13 17:49:22.170 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:22.171 27319 27319 D MetronomeEngine: Flash ON: beat=17
+06-13 17:49:22.222 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=17
+06-13 17:49:22.372 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:22.373 27319 27319 D MetronomeEngine: Flash ON: beat=18
+06-13 17:49:22.424 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=18
+06-13 17:49:22.486 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:22.574 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:22.576 27319 27319 D MetronomeEngine: Flash ON: beat=19
+06-13 17:49:22.626 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=19
+06-13 17:49:22.695 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:22.777 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:22.778 27319 27319 D MetronomeEngine: Flash ON: beat=20
+06-13 17:49:22.829 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=20
+06-13 17:49:22.832 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:22.982 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:22.984 27319 27319 D MetronomeEngine: Flash ON: beat=21
+06-13 17:49:23.035 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=21
+06-13 17:49:23.098 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:23.186 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:23.188 27319 27319 D MetronomeEngine: Flash ON: beat=22
+06-13 17:49:23.239 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=22
+06-13 17:49:23.305 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:23.389 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:23.391 27319 27319 D MetronomeEngine: Flash ON: beat=23
+06-13 17:49:23.442 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=23
+06-13 17:49:23.445 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:23.592 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:23.594 27319 27319 D MetronomeEngine: Flash ON: beat=24
+06-13 17:49:23.645 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=24
+06-13 17:49:23.703 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:23.717 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:25.567 27319 27319 D MetronomeEngine: start: bpm=126, handler=true
+06-13 17:49:25.567 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:25.567 27319 27319 D MetronomeEngine: Starting: bpm=126, intervalMs=476, flashMs=200
+06-13 17:49:25.588 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:25.646 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=0
+06-13 17:49:25.718 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:25.791 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:25.792 27319 27319 D MetronomeEngine: Flash ON: beat=1
+06-13 17:49:25.846 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=1
+06-13 17:49:25.847 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:25.993 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:25.996 27319 27319 D MetronomeEngine: Flash ON: beat=2
+06-13 17:49:26.046 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=2
+06-13 17:49:26.103 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:26.197 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:26.199 27319 27319 D MetronomeEngine: Flash ON: beat=3
+06-13 17:49:26.249 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=3
+06-13 17:49:26.251 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:26.400 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:26.403 27319 27319 D MetronomeEngine: Flash ON: beat=4
+06-13 17:49:26.453 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=4
+06-13 17:49:26.519 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:26.604 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:26.606 27319 27319 D MetronomeEngine: Flash ON: beat=5
+06-13 17:49:26.658 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=5
+06-13 17:49:26.663 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:26.808 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:26.810 27319 27319 D MetronomeEngine: Flash ON: beat=6
+06-13 17:49:26.862 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=6
+06-13 17:49:26.921 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:27.012 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:27.013 27319 27319 D MetronomeEngine: Flash ON: beat=7
+06-13 17:49:27.064 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=7
+06-13 17:49:27.068 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:27.214 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:27.216 27319 27319 D MetronomeEngine: Flash ON: beat=8
+06-13 17:49:27.267 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=8
+06-13 17:49:27.329 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:27.418 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:27.420 27319 27319 D MetronomeEngine: Flash ON: beat=9
+06-13 17:49:27.471 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=9
+06-13 17:49:27.474 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:27.622 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:27.624 27319 27319 D MetronomeEngine: Flash ON: beat=10
+06-13 17:49:27.675 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=10
+06-13 17:49:27.737 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:27.825 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:27.827 27319 27319 D MetronomeEngine: Flash ON: beat=11
+06-13 17:49:27.877 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=11
+06-13 17:49:27.943 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:27.945 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:37.486 27319 27319 D MetronomeEngine: start: bpm=126, handler=true
+06-13 17:49:37.486 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:37.486 27319 27319 D MetronomeEngine: Starting: bpm=126, intervalMs=476, flashMs=200
+06-13 17:49:37.488 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:37.542 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=0
+06-13 17:49:37.589 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:37.688 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:37.689 27319 27319 D MetronomeEngine: Flash ON: beat=1
+06-13 17:49:37.739 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=1
+06-13 17:49:37.742 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:37.890 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:37.891 27319 27319 D MetronomeEngine: Flash ON: beat=2
+06-13 17:49:37.942 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=2
+06-13 17:49:38.005 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:38.092 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:38.095 27319 27319 D MetronomeEngine: Flash ON: beat=3
+06-13 17:49:38.145 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=3
+06-13 17:49:38.224 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:38.296 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:38.297 27319 27319 D MetronomeEngine: Flash ON: beat=4
+06-13 17:49:38.348 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=4
+06-13 17:49:38.352 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:38.500 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:38.504 27319 27319 D MetronomeEngine: Flash ON: beat=5
+06-13 17:49:38.555 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=5
+06-13 17:49:38.620 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:38.706 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:38.708 27319 27319 D MetronomeEngine: Flash ON: beat=6
+06-13 17:49:38.758 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=6
+06-13 17:49:38.829 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:38.909 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:38.910 27319 27319 D MetronomeEngine: Flash ON: beat=7
+06-13 17:49:38.961 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=7
+06-13 17:49:38.963 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:39.112 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:39.114 27319 27319 D MetronomeEngine: Flash ON: beat=8
+06-13 17:49:39.165 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=8
+06-13 17:49:39.222 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:39.316 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:39.318 27319 27319 D MetronomeEngine: Flash ON: beat=9
+06-13 17:49:39.369 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=9
+06-13 17:49:39.371 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:39.520 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:39.521 27319 27319 D MetronomeEngine: Flash ON: beat=10
+06-13 17:49:39.573 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=10
+06-13 17:49:39.642 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:39.723 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:39.725 27319 27319 D MetronomeEngine: Flash ON: beat=11
+06-13 17:49:39.775 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=11
+06-13 17:49:39.779 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:39.927 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:39.928 27319 27319 D MetronomeEngine: Flash ON: beat=12
+06-13 17:49:39.979 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=12
+06-13 17:49:40.045 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:40.130 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:40.131 27319 27319 D MetronomeEngine: Flash ON: beat=13
+06-13 17:49:40.182 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=13
+06-13 17:49:40.184 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:40.333 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:40.335 27319 27319 D MetronomeEngine: Flash ON: beat=14
+06-13 17:49:40.385 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=14
+06-13 17:49:40.446 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:40.537 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:40.539 27319 27319 D MetronomeEngine: Flash ON: beat=15
+06-13 17:49:40.589 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=15
+06-13 17:49:40.666 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:40.740 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:40.741 27319 27319 D MetronomeEngine: Flash ON: beat=16
+06-13 17:49:40.793 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=16
+06-13 17:49:40.797 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:40.943 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:40.944 27319 27319 D MetronomeEngine: Flash ON: beat=17
+06-13 17:49:40.995 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=17
+06-13 17:49:41.070 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:41.145 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:41.146 27319 27319 D MetronomeEngine: Flash ON: beat=18
+06-13 17:49:41.195 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=18
+06-13 17:49:41.196 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:41.229 27319 27319 D MetronomeEngine: start: bpm=135, handler=true
+06-13 17:49:41.229 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.229 27319 27319 D MetronomeEngine: Starting: bpm=135, intervalMs=444, flashMs=200
+06-13 17:49:41.242 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.245 27319 27319 D MetronomeEngine: start: bpm=137, handler=true
+06-13 17:49:41.245 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.245 27319 27319 D MetronomeEngine: Starting: bpm=137, intervalMs=437, flashMs=200
+06-13 17:49:41.252 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.255 27319 27319 D MetronomeEngine: start: bpm=140, handler=true
+06-13 17:49:41.255 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.255 27319 27319 D MetronomeEngine: Starting: bpm=140, intervalMs=428, flashMs=200
+06-13 17:49:41.262 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.264 27319 27319 D MetronomeEngine: start: bpm=143, handler=true
+06-13 17:49:41.264 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.264 27319 27319 D MetronomeEngine: Starting: bpm=143, intervalMs=419, flashMs=200
+06-13 17:49:41.271 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.273 27319 27319 D MetronomeEngine: start: bpm=146, handler=true
+06-13 17:49:41.273 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.273 27319 27319 D MetronomeEngine: Starting: bpm=146, intervalMs=410, flashMs=200
+06-13 17:49:41.279 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.285 27319 27319 D MetronomeEngine: start: bpm=150, handler=true
+06-13 17:49:41.285 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.285 27319 27319 D MetronomeEngine: Starting: bpm=150, intervalMs=400, flashMs=200
+06-13 17:49:41.291 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.292 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=0
+06-13 17:49:41.352 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:41.357 27319 27319 D MetronomeEngine: start: bpm=194, handler=true
+06-13 17:49:41.357 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.357 27319 27319 D MetronomeEngine: Starting: bpm=194, intervalMs=309, flashMs=154
+06-13 17:49:41.365 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.367 27319 27319 D MetronomeEngine: start: bpm=200, handler=true
+06-13 17:49:41.367 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.367 27319 27319 D MetronomeEngine: Starting: bpm=200, intervalMs=300, flashMs=150
+06-13 17:49:41.374 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.376 27319 27319 D MetronomeEngine: start: bpm=204, handler=true
+06-13 17:49:41.376 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.376 27319 27319 D MetronomeEngine: Starting: bpm=204, intervalMs=294, flashMs=147
+06-13 17:49:41.382 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.385 27319 27319 D MetronomeEngine: start: bpm=208, handler=true
+06-13 17:49:41.385 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.385 27319 27319 D MetronomeEngine: Starting: bpm=208, intervalMs=288, flashMs=144
+06-13 17:49:41.391 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.396 27319 27319 D MetronomeEngine: start: bpm=210, handler=true
+06-13 17:49:41.396 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.396 27319 27319 D MetronomeEngine: Starting: bpm=210, intervalMs=285, flashMs=142
+06-13 17:49:41.402 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.407 27319 27319 D MetronomeEngine: start: bpm=213, handler=true
+06-13 17:49:41.407 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.407 27319 27319 D MetronomeEngine: Starting: bpm=213, intervalMs=281, flashMs=140
+06-13 17:49:41.413 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.418 27319 27319 D MetronomeEngine: start: bpm=214, handler=true
+06-13 17:49:41.418 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.418 27319 27319 D MetronomeEngine: Starting: bpm=214, intervalMs=280, flashMs=140
+06-13 17:49:41.424 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.429 27319 27319 D MetronomeEngine: start: bpm=214, handler=true
+06-13 17:49:41.429 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.429 27319 27319 D MetronomeEngine: Starting: bpm=214, intervalMs=280, flashMs=140
+06-13 17:49:41.434 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.440 27319 27319 D MetronomeEngine: start: bpm=214, handler=true
+06-13 17:49:41.440 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.440 27319 27319 D MetronomeEngine: Starting: bpm=214, intervalMs=280, flashMs=140
+06-13 17:49:41.444 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.537 27319 27319 D MetronomeEngine: start: bpm=214, handler=true
+06-13 17:49:41.537 27319 27319 D MetronomeEngine: Stopping
+06-13 17:49:41.537 27319 27319 D MetronomeEngine: Starting: bpm=214, intervalMs=280, flashMs=140
+06-13 17:49:41.538 27319 27319 D MetronomeEngine: Flash ON: beat=0
+06-13 17:49:41.678 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:41.679 27319 27319 D MetronomeEngine: Flash ON: beat=1
+06-13 17:49:41.733 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=1
+06-13 17:49:41.798 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:41.820 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:41.821 27319 27319 D MetronomeEngine: Flash ON: beat=2
+06-13 17:49:41.872 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=2
+06-13 17:49:41.875 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:41.962 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:41.964 27319 27319 D MetronomeEngine: Flash ON: beat=3
+06-13 17:49:42.016 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=3
+06-13 17:49:42.079 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:42.105 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:42.107 27319 27319 D MetronomeEngine: Flash ON: beat=4
+06-13 17:49:42.157 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=4
+06-13 17:49:42.159 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:42.247 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:42.249 27319 27319 D MetronomeEngine: Flash ON: beat=5
+06-13 17:49:42.300 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=5
+06-13 17:49:42.370 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:42.390 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:42.391 27319 27319 D MetronomeEngine: Flash ON: beat=6
+06-13 17:49:42.443 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=6
+06-13 17:49:42.446 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:42.532 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:42.533 27319 27319 D MetronomeEngine: Flash ON: beat=7
+06-13 17:49:42.585 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=7
+06-13 17:49:42.588 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:42.674 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:42.676 27319 27319 D MetronomeEngine: Flash ON: beat=8
+06-13 17:49:42.727 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=8
+06-13 17:49:42.800 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:42.817 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:42.818 27319 27319 D MetronomeEngine: Flash ON: beat=9
+06-13 17:49:42.868 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=9
+06-13 17:49:42.870 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:42.958 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:42.959 27319 27319 D MetronomeEngine: Flash ON: beat=10
+06-13 17:49:43.011 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=10
+06-13 17:49:43.014 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:43.100 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:43.102 27319 27319 D MetronomeEngine: Flash ON: beat=11
+06-13 17:49:43.153 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=11
+06-13 17:49:43.220 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 24
+06-13 17:49:43.242 27319 27319 D MetronomeEngine: Flash OFF
+06-13 17:49:43.244 27319 27319 D MetronomeEngine: Flash ON: beat=12
+06-13 17:49:43.296 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: beat=12
+06-13 17:49:43.298 27319 27319 D MetronomeEngine: StandaloneVM beatTrigger: played tone 28
+06-13 17:49:43.376 27319 27319 D MetronomeEngine: Stopping

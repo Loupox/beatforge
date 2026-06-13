@@ -1,0 +1,29 @@
+FROM gradle:8.7-jdk17 AS builder
+
+ENV ANDROID_SDK_ROOT=/opt/android-sdk
+ENV PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools
+
+RUN mkdir -p $ANDROID_SDK_ROOT/cmdline-tools && \
+    cd $ANDROID_SDK_ROOT/cmdline-tools && \
+    wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip && \
+    unzip -q cmdline-tools.zip && \
+    mv cmdline-tools latest && \
+    rm cmdline-tools.zip && \
+    yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true && \
+    $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
+WORKDIR /app
+COPY cheminee/build.gradle.kts /app/
+COPY cheminee/settings.gradle.kts /app/
+COPY cheminee/gradle.properties /app/
+COPY cheminee/gradlew /app/
+COPY cheminee/gradlew.bat /app/
+COPY cheminee/gradle /app/gradle
+
+WORKDIR /app/cheminee
+COPY cheminee/app/build.gradle.kts /app/cheminee/
+COPY cheminee/app/src /app/cheminee/src
+
+RUN chmod +x gradlew
+
+ENTRYPOINT ["./gradlew", "testDebugUnitTest", "--no-daemon"]
