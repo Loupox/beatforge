@@ -29,6 +29,8 @@ Donner aux agents une méthode claire pour reprendre le code du projet sans perd
 - Le déploiement utilise `./scripts/deploy.sh` ou `adb install -r`.
 - Les écrans live sont dans `ui/live/`.
 - L’import/export JSON est géré dans `data/`.
+- Ne pas utiliser fetch_webpage ou des outils externes pour lire des fichiers locaux du repo ; privilégier read_file, grep_search, etc.
+
 
 ## Comment limiter les tokens
 - Ne pas envoyer tout le fichier quand une section suffit.

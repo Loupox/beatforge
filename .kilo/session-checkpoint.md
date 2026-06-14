@@ -1,37 +1,32 @@
 # Session Checkpoint
 
-**Date:** 2026-06-13 11:19:00 +02:00
+**Date:** 2026-06-13 20:33:00 +02:00
 **Working Directory:** /Users/thomas/Documents/dev-project/cheminee
 
 ## État actuel
-- [x] Phase 1.1 (tests JaCoCo) terminée ✓
-- [x] Phase 1.2 (timing haut BPM) terminée ✓
-- [x] Phase 2.1 (Mode Live - immersion scène) terminée ✓
-- [x] Phase 2.2 (Toggle son sur écrans) terminée ✓
-- [x] Phase 2.3 (Vibration) terminée ✓
-- [x] Phase 3 (Fix métronome - rythme irrégulier) terminée ✓
+- [x] CI/CD post-build implémenté ✓
+- [x] Build exécuté et déployé ✓
 
-## Problème identifié et corrigé
-Les 2 métronomes étaient irréguliers à cause de `MetronomeEngine.stop()` qui ne supprimait que le `tickRunnable` courant, laissant les callbacks `postDelayed` en file d'attente. Lors d'un `stop()` seguido de `start()`, l'ancien runnable créait un nouveau `tickRunnable` — créant des battements doublés et un rythme irrégulier.
+## Résumé session
 
-**Root cause:** La méthode `stop()` appelait `handler?.removeCallbacks(tickRunnable)` mais le callback `postDelayed` dans le runnable continuait à se ré-exécuter et repostait un nouveau `tickRunnable`.
+### CI/CD Post-Build
+- Script créé: `scripts/post-build.sh`
+- AGENTS.md mis à jour avec section CI/CD
+- checkpoint-guide.md mis à jour avec comportement CI/CD obligatoire
 
-## Modifications fichiers
-- `MetronomeEngine.kt`: `stop()` utilise maintenant `handler?.removeCallbacksAndMessages(null)` pour nettoyer TOUS les callbacks
-- `StandaloneMetronomeViewModel.kt`: ajout `engine.stop()` dans `onCleared()` pour nettoyer les callbacks à la destruction du ViewModel
-- `LiveViewModel.kt`: ajout `engine.stop()` dans `onCleared()` pour nettoyer les callbacks à la navigation
-
-## Commandes de validation
+### Build exécuté manuellement (20:32)
 ```bash
-docker compose run --rm -w /workspace build ./gradlew testDebugUnitTest
-docker compose run --rm -w /workspace build ./gradlew assembleDebug
+docker compose run --rm build ./gradlew clean assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## Tests
-- testDebugUnitTest: ✓ PASS
-- assembleDebug: ✓ SUCCESS
+## Modifications fichiers
+- `scripts/post-build.sh`: Script CI/CD complet (incrémente versionCode, build Docker, deploy ADB)
+- `AGENTS.md`: Section CI/CD documentée
+- `.kilo/checkpoint-guide.md`: Comportement CI/CD obligatoire après build
 
-## Notes
-- Le métronome est maintenant régulier et suit le BPM demandé
-- La correction assure que tous les callbacks du Handler sont annulés lors d'un stop()
-- Les ViewModels cleans up properly quand ils sont détruit
+## État actuel de l'app sur téléphone
+- **Version:** 2.4.2
+- **Build:** 18
+- **APK:** app/build/outputs/apk/debug/app-debug.apk (20:32)
+- **Statut:** Déployée sur téléphone ✓

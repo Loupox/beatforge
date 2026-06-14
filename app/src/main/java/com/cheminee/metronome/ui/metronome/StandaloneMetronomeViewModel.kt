@@ -105,13 +105,13 @@ open class StandaloneMetronomeViewModel(
                     Log.d("MetronomeEngine", "StandaloneVM beatTrigger: played tone $tone")
                 }
                 val vibrationEnabled = preferencesManager?.vibrationEnabled?.value ?: false
-                if (vibrationEnabled && isFirstBeat) {
+                if (vibrationEnabled) {
                     vibrator?.let { v ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
+                            v.vibrate(VibrationEffect.createOneShot(30, 255))
                         } else {
                             @Suppress("DEPRECATION")
-                            v.vibrate(50)
+                            v.vibrate(30)
                         }
                     }
                 }

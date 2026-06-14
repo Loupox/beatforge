@@ -1,5 +1,25 @@
 # Agent: Checkpoint Best Practices
 
+## CI/CD Post-Build
+
+**OBLIGATOIRE après chaque build réussi:**
+
+1. Afficher le résumé du build avec:
+   - Numéro de version (VERSION_NAME)
+   - Numéro de build (VERSION_CODE)
+   - APK généré
+   - Statut du déploiement
+
+2. Le script `./scripts/post-build.sh` gère automatiquement:
+   - L'incrémentation du versionCode
+   - Le build Docker
+   - Le déploiement ADB si téléphone connecté
+
+3. Mettre à jour le session-checkpoint.md avec:
+   - Le nouveau numéro de version et build
+   - Les fichiers modifiés
+   - Les tests effectués
+
 ## Méthode obligatoire pour les checkpoints
 
 **TOUJOURS utiliser le tool `write` (ou `edit`) pour les checkpoints**, jamais `bash` avec heredoc.

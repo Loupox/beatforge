@@ -51,7 +51,7 @@ fun AppNavGraph(
     triggerImport: Boolean = false,
     onImportHandled: () -> Unit = {}
 ) {
-    NavHost(navController = navController, startDestination = Routes.SETS, modifier = modifier) {
+    NavHost(navController = navController, startDestination = Routes.ABOUT, modifier = modifier) {
         composable(Routes.SETS) {
             Log.d("MetronomeEngine", "NavGraph: Entering SETS")
             val vm: SetsListViewModel = viewModel(factory = viewModelFactory)

@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -87,6 +88,7 @@ fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
     val flashEnabled by (viewModel.flashEnabled?.collectAsState(initial = true) ?: remember { mutableStateOf(true) })
     val flashColorIndex by (viewModel.flashColorIndex?.collectAsState(initial = 0) ?: remember { mutableStateOf(0) })
     val soundEnabled by (viewModel.soundEnabled?.collectAsState(initial = true) ?: remember { mutableStateOf(true) })
+    val vibrationEnabled by (viewModel.vibrationEnabled?.collectAsState(initial = false) ?: remember { mutableStateOf(false) })
 
     val flashColors = PreferencesManager.FLASH_COLORS
     val flashColor = Color(flashColors.getOrElse(flashColorIndex) { flashColors[0] })
@@ -243,17 +245,34 @@ fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
 
         Spacer(modifier = Modifier.height(Spacing.lg))
 
-        IconButton(
-            onClick = { viewModel.toggleSound() },
-            colors = IconButtonDefaults.iconButtonColors(
-                contentColor = if (soundEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-            )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(Spacing.lg),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = if (soundEnabled) Icons.Default.VolumeUp else Icons.Default.VolumeOff,
-                contentDescription = if (soundEnabled) "Son activé" else "Son désactivé",
-                modifier = Modifier.size(32.dp)
-            )
+            IconButton(
+                onClick = { viewModel.toggleSound() },
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = if (soundEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            ) {
+                Icon(
+                    imageVector = if (soundEnabled) Icons.Default.VolumeUp else Icons.Default.VolumeOff,
+                    contentDescription = if (soundEnabled) "Son activé" else "Son désactivé",
+                    modifier = Modifier.size(32.dp)
+                )
+            }
+            IconButton(
+                onClick = { viewModel.toggleVibration() },
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Vibration,
+                    contentDescription = if (vibrationEnabled) "Vibration activée" else "Vibration désactivée",
+                    modifier = Modifier.size(32.dp)
+                )
+            }
         }
     }
     }

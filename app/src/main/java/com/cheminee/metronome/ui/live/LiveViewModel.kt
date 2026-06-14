@@ -122,13 +122,13 @@ class LiveViewModel(
                     Log.d("MetronomeEngine", "LiveVM beatTrigger: played tone $tone for duration $duration")
                 }
                 val vibrationEnabled = preferencesManager?.vibrationEnabled?.value ?: false
-                if (vibrationEnabled && isFirstBeat) {
+                if (vibrationEnabled) {
                     vibrator?.let { v ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
+                            v.vibrate(VibrationEffect.createOneShot(30, 255))
                         } else {
                             @Suppress("DEPRECATION")
-                            v.vibrate(50)
+                            v.vibrate(30)
                         }
                     }
                 }
@@ -174,6 +174,10 @@ class LiveViewModel(
     fun toggleSound() {
         val current = preferencesManager?.soundEnabled?.value ?: true
         preferencesManager?.setSoundEnabled(!current)
+    }
+
+    fun setFlashColorIndex(index: Int) {
+        preferencesManager?.setFlashColorIndex(index)
     }
 
     override fun onCleared() {
