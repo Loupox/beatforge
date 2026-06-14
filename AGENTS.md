@@ -1,25 +1,59 @@
-# Compilation
+# Cheminée — Agent Guide
 
-## Build standard (sans incrémenter le versionCode)
+## Démarrage d'une session
 
+**Lire en premier :** `SESSION_BRIEF.md` — contient l'état du projet, la prochaine tâche, et le contexte nécessaire.
+
+```
+SESSION_BRIEF.md → .kilo/plans/design-refresh-v3.md → livrables visés
+```
+
+---
+
+## Build & Deploy
+
+```bash
+./scripts/post-build.sh          # Build Docker + incrémente versionCode + deploy téléphone
+```
+
+Sans incrémenter :
 ```bash
 docker compose run --rm build ./gradlew assembleDebug
 ```
 
-## CI/CD Post-Build (recommandé)
+---
 
-Après chaque modification de code, utiliser le script CI/CD qui :
-- Incrémente automatiquement le versionCode
-- Compile l'APK via Docker
-- Déploie sur téléphone si connecté (sinon indique que l'APK est prêt)
+## Tests
 
 ```bash
-./scripts/post-build.sh
+docker compose run --rm shell ./gradlew testDebugUnitTest
 ```
+**72 tests, 1 ignoré** (`moveSet_reordersCorrectly` — Room Flow/Robolectric)
 
-L'agent DOIT afficher le résumé du build avec :
-- Numéro de version (VERSION_NAME)
-- Numéro de build (VERSION_CODE)
-- Statut du déploiement
+---
 
-Les APK sont générées dans `app/build/outputs/apk/debug/`
+## Checkpoint
+
+À chaque fin de session : mettre à jour `SESSION_BRIEF.md` (section "Session en cours") et `DOCS/CHECKPOINT_v2.6.0.md`.
+
+---
+
+## Fichiers clés
+
+| Fichier | Rôle |
+|---------|------|
+| `MetronomeEngine.kt` | Moteur singleton |
+| `PreferencesManager.kt` | Persistance |
+| `LivePerformanceScreen.kt` | Écran Live |
+| `LiveViewModel.kt` | VM Live |
+| `MetronomeScreen.kt` | Écran Standalone |
+| `AppNavGraph.kt` | NavHost |
+
+## Stack
+- Compose BOM 2024.06.00 (1.6.x)
+- Room + Hilt
+- Navigation Compose
+- StateFlow + LaunchedEffect
+
+## Limitations connues
+- Swipe cyclique `HorizontalPager` : non résolu → boutons Prev/Next (cf. `SESSION_BRIEF.md`)
