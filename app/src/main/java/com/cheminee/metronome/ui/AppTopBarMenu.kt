@@ -44,7 +44,8 @@ fun AppTopBarMenu(
     }) {
         Icon(
             imageVector = if (expanded) Icons.Default.Close else Icons.Default.Menu,
-            contentDescription = if (expanded) stringResource(R.string.close) else "Menu"
+            contentDescription = if (expanded) stringResource(R.string.close) else "Menu",
+            tint = MaterialTheme.colorScheme.onPrimary
         )
     }
 

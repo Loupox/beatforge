@@ -35,8 +35,8 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
-import androidx.compose.material.icons.filled.VolumeOff
-import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -208,7 +208,7 @@ fun LivePerformanceScreen(
                         text = currentSong?.name ?: "Live",
                         maxLines = 1,
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = Color(0xFFF7F4F0)
                     )
                 },
                 modifier = Modifier.statusBarsPadding(),
@@ -220,7 +220,7 @@ fun LivePerformanceScreen(
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Quitter",
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = Color(0xFFF7F4F0)
                         )
                     }
                 },
@@ -229,9 +229,9 @@ fun LivePerformanceScreen(
                         viewModel.toggleSound()
                     }) {
                         Icon(
-                            imageVector = if (soundEnabled) Icons.Default.VolumeUp else Icons.Default.VolumeOff,
+                            imageVector = if (soundEnabled) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
                             contentDescription = if (soundEnabled) "Son activé" else "Son désactivé",
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = if (soundEnabled) Color(0xFFC4973A) else Color(0xFFF7F4F0).copy(alpha = 0.5f)
                         )
                     }
                     IconButton(onClick = {
@@ -240,7 +240,7 @@ fun LivePerformanceScreen(
                         Icon(
                             imageVector = Icons.Default.Vibration,
                             contentDescription = if (vibrationEnabled) "Vibration activée" else "Vibration désactivée",
-                            tint = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                            tint = if (vibrationEnabled) Color(0xFFC4973A) else Color(0xFFF7F4F0).copy(alpha = 0.5f)
                         )
                     }
                 },

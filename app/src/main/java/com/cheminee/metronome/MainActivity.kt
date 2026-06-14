@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                 val currentRoute = navBackStackEntry?.destination?.route
                 var triggerImport by remember { mutableStateOf(false) }
 
-                val routesWithMenu = listOf(Routes.SETS, Routes.EDITOR, Routes.METRONOME, Routes.LIVE, Routes.ABOUT, Routes.SETTINGS)
+                val routesWithMenu = listOf(Routes.SETS, Routes.EDITOR, Routes.METRONOME, Routes.ABOUT, Routes.SETTINGS)
 
                 Scaffold(
                     topBar = {

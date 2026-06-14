@@ -1,5 +1,6 @@
 package com.cheminee.metronome.ui.components
 
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -8,10 +9,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.cheminee.metronome.ui.theme.Spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +30,7 @@ fun ChemineeTopBar(
                 style = MaterialTheme.typography.titleLarge
             )
         },
-        modifier = modifier,
+        modifier = modifier.statusBarsPadding(),
         navigationIcon = {
             navigationIcon?.invoke()
         },
@@ -37,7 +38,7 @@ fun ChemineeTopBar(
             if (onImportClick != null) {
                 IconButton(onClick = onImportClick) {
                     Icon(
-                        imageVector = Icons.Default.FileUpload,
+                        imageVector = Icons.Filled.FileUpload,
                         contentDescription = "Importer",
                         tint = MaterialTheme.colorScheme.onSurface
                     )
@@ -61,14 +62,14 @@ fun ChemineeSmallTopBar(
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable () -> Unit = {}
 ) {
-    androidx.compose.material3.SmallTopAppBar(
+    TopAppBar(
         title = {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium
             )
         },
-        modifier = modifier,
+        modifier = modifier.statusBarsPadding(),
         navigationIcon = {
             navigationIcon?.invoke()
         },
@@ -76,14 +77,15 @@ fun ChemineeSmallTopBar(
             if (onImportClick != null) {
                 IconButton(onClick = onImportClick) {
                     Icon(
-                        imageVector = Icons.Default.FileUpload,
-                        contentDescription = "Importer"
+                        imageVector = Icons.Filled.FileUpload,
+                        contentDescription = "Importer",
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
             actions()
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surface,
             titleContentColor = MaterialTheme.colorScheme.onSurface
         )
