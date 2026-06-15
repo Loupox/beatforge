@@ -114,18 +114,19 @@ jacoco {
 }
 
 val coverageSourceDirs = files("src/main/java", "src/main/kotlin")
+val buildDirPath = layout.buildDirectory.get().asFile
 val coverageClassDirs = files(
-    fileTree("${buildDir}/tmp/kotlin-classes/debug") {
+    fileTree("${buildDirPath}/tmp/kotlin-classes/debug") {
         exclude("**/R.class", "**/R\$*.class", "**/BuildConfig.*", "**/Manifest*.*")
     },
-    fileTree("${buildDir}/intermediates/javac/debug/compileDebugJavaWithJavac/classes") {
+    fileTree("${buildDirPath}/intermediates/javac/debug/compileDebugJavaWithJavac/classes") {
         exclude("**/R.class", "**/R\$*.class", "**/BuildConfig.*", "**/Manifest*.*")
     }
 )
 
 tasks.register<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest")
-    executionData.setFrom(fileTree(buildDir).include("**/jacoco/*.exec"))
+    executionData.setFrom(fileTree(buildDirPath).include("**/jacoco/*.exec"))
     sourceDirectories.setFrom(coverageSourceDirs)
     classDirectories.setFrom(coverageClassDirs)
     reports {
@@ -137,7 +138,7 @@ tasks.register<JacocoReport>("jacocoTestReport") {
 
 tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
     dependsOn("testDebugUnitTest")
-    executionData.setFrom(fileTree(buildDir).include("**/jacoco/*.exec"))
+    executionData.setFrom(fileTree(buildDirPath).include("**/jacoco/*.exec"))
     sourceDirectories.setFrom(coverageSourceDirs)
     classDirectories.setFrom(coverageClassDirs)
     violationRules {
