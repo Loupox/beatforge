@@ -88,6 +88,10 @@
 - [x] Tests unitaires passent
 - [x] Build APK OK
 
+### S9 (cleanup)
+- [x] Remplacement `buildDir` → `layout.buildDirectory` dans Jacoco (app/build.gradle.kts)
+- [x] Tests + build OK
+
 ---
 
 ## Fix BUG-001 — Détail technique
