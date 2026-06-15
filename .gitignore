@@ -11,3 +11,11 @@ captures/
 *.apk
 *.aab
 *.keystore
+
+# Noise
+.DS_Store
+*.log
+*.jpeg
+*.jpg
+*.png
+ss.jpeg

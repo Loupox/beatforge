@@ -1,32 +1,45 @@
 # Session Checkpoint
 
-**Date:** 2026-06-13 20:33:00 +02:00
+**Date:** 2026-06-15 13:18:00 +02:00
 **Working Directory:** /Users/thomas/Documents/dev-project/cheminee
+**Repo:** https://github.com/Loupox/beatforge
 
 ## État actuel
-- [x] CI/CD post-build implémenté ✓
-- [x] Build exécuté et déployé ✓
+- [x] v3.0.0 stable — tous les deprecated résolus
+- [x] Remote GitHub configuré et pushé
+- [x] Fichiers inutilisés déplacés dans `to-delete/`
 
-## Résumé session
+## Résumé v3.0 (S6-S9)
 
-### CI/CD Post-Build
-- Script créé: `scripts/post-build.sh`
-- AGENTS.md mis à jour avec section CI/CD
-- checkpoint-guide.md mis à jour avec comportement CI/CD obligatoire
+| Session | Livrable | Commit |
+|---------|----------|--------|
+| S6 | Palette Acier & Métal, TopBar Material3, logo | `734aefb` |
+| S7-S8 | Layouts Live + Metronome unifiés, composants partagés, BUG-001 fix, swipe cyclique | `387063c` |
+| S9 | Fix buildDir deprecated, v3.0 stable | `f61cf99`, `5d3747d` |
 
-### Build exécuté manuellement (20:32)
-```bash
-docker compose run --rm build ./gradlew clean assembleDebug
-adb install -r app/build/outputs/apk/debug/app-debug.apk
-```
+## Fichiers déplacés dans `to-delete/`
+- `DOCS/CHECKPOINT_v2.6.0.md` — vieux checkpoint
+- `DOCS/BACKLOG.md` — obsolète (v2.5.0)
+- `DOCS/RELEASE_PLAN.md` — remplacé par SESSION_BRIEF
+- `DOCS/CICD_POST_BUILD.md` — doublon de `.kilo/plans/cicd-post-build.md`
+- `DesignSpec.md` — design "Material Modern" dépassé
+- `.kilo/plans/cicd-post-build.md` — plan jamais implémenté
 
-## Modifications fichiers
-- `scripts/post-build.sh`: Script CI/CD complet (incrémente versionCode, build Docker, deploy ADB)
-- `AGENTS.md`: Section CI/CD documentée
-- `.kilo/checkpoint-guide.md`: Comportement CI/CD obligatoire après build
+## Modifications fichiers durant cette session
+- `app/build.gradle.kts`: version 2.6.0/build7 → 3.0.0/build10
+- `MetronomeEngine.kt`: centralise ToneGenerator
+- `LiveViewModel.kt`: retire ToneGenerator local
+- `StandaloneMetronomeViewModel.kt`: retire ToneGenerator local
+- `LivePerformanceScreen.kt`: wrap-around via currentPageOffsetFraction
+- `MainActivity.kt`: init engine avec prefs + context
+- `AppViewModelFactory.kt`: corriger constructeur
+- `to-delete/`: fichiers inutilisés archivés
 
-## État actuel de l'app sur téléphone
-- **Version:** 2.4.2
-- **Build:** 18
-- **APK:** app/build/outputs/apk/debug/app-debug.apk (20:32)
-- **Statut:** Déployée sur téléphone ✓
+## État de l'app
+- **Version:** 3.0.0
+- **Build:** 10
+- **APK:** `app/build/outputs/apk/debug/app-debug.apk`
+- **Tests:** 72 passent, 1 ignoré
+
+## Prochaine session : S10
+- Identifier la prochaine feature ou amélioration

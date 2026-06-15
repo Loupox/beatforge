@@ -1,5 +1,7 @@
 # Cheminée — Session Brief
 
+**Repo:** https://github.com/Loupox/beatforge
+
 ## Session en cours : NEXT SESSION
 **Dernière mise à jour :** 2026-06-15
 **Version :** 3.0.0
@@ -8,11 +10,10 @@
 
 ---
 
-### PROCHAINE SESSION : S9 — Fix buildDir deprecated + Cleanup
+### PROCHAINE SESSION : S10 — Proposer une idée
 
-**Livrables S9 :**
-- [ ] Corriger `buildDir` → `layout.buildDirectory` dans `app/build.gradle.kts` (Jacoco)
-- [ ] Tests + build OK
+**Livrables S10 :**
+- [ ] Identifier la prochaine feature ou amélioration
 
 ---
 
@@ -21,7 +22,7 @@
 ### Version actuelle
 - **versionName :** 3.0.0
 - **versionCode :** 10
-- **Dernier commit :** `387063c` — v3.0 S8: Fix BUG-001 (double son) + swipe cyclique + composants partagés
+- **Dernier commit :** `5d3747d` — v3.0 stable, checkpoint final
 
 ### Stack
 - Kotlin + Jetpack Compose (BOM 2024.06.00 / Compose 1.6.x)
@@ -67,11 +68,11 @@ docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
 ### Tests ignorés
 - `moveSet_reordersCorrectly` — Room Flow + Robolectric (non-blocking)
 
-### Deprecated à corriger
+### Résolu en v3.0
 - [x] `VolumeUp/VolumeOff` → `AutoMirrored` icons ✅ S6
 - [x] `SmallTopAppBar` → `TopAppBar` ✅ S6
 - [x] BUG-001 double son ✅ S8
-- [ ] `buildDir` → `layout.buildDirectory` dans `app/build.gradle.kts` (Jacoco)
+- [x] `buildDir` → `layout.buildDirectory` ✅ S9
 
 ---
 
@@ -94,4 +95,4 @@ docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
 | S6 | v3.0 design foundation (palette, TopBar, logo) | `734aefb` |
 | S7 | Refonte Live + Metronome (layouts unifiés) | `387063c` |
 | S8 | Fix BUG-001 (double son) + swipe cyclique + composants partagés | `387063c` |
-| **S9** | **Fix buildDir deprecated + v3.0 stable** | |
+| S9 | Fix buildDir deprecated + v3.0 stable | `f61cf99`, `5d3747d` |

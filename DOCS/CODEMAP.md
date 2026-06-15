@@ -3,17 +3,17 @@
 ## Fichiers et dossiers essentiels
 
 ### Racine du projet
-- `README.md` : guide d’entrée et résumé du projet.
-- `DesignSpec.md` : spécifications UI/UX et planning.
+- `README.md` : guide d'entrée et résumé du projet.
+- `SESSION_BRIEF.md` : état du projet, session en cours, prochaine tâche.
+- `AGENTS.md` : guide agent à jour (remote GitHub, stack, fichiers clés).
 - `docker-compose.yml` : configuration des services Docker pour build et shell.
 - `Dockerfile` : image Docker de build Android.
-- `scripts/deploy.sh` : script d’installation de l’APK sur un appareil Android.
 
 ### Documentation interne
 - `DOCS/ARCHITECTURE.md` : architecture du projet.
 - `DOCS/BUILD.md` : instructions de build Docker.
 - `DOCS/DEPLOY.md` : instructions de déploiement sur téléphone.
-- `DOCS/AGENT_GUIDE.md` : mode d’emploi pour les agents.
+- `DOCS/AGENT_GUIDE.md` : mode d'emploi pour les agents.
 - `DOCS/CODEMAP.md` : repérage des fichiers et dossiers.
 
 ## Build et déploiement

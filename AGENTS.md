@@ -1,5 +1,7 @@
 # Cheminée — Agent Guide
 
+**Repo:** https://github.com/Loupox/beatforge
+
 ## Démarrage d'une session
 
 **Lire en premier :** `SESSION_BRIEF.md` — contient l'état du projet, la prochaine tâche, et le contexte nécessaire.
@@ -10,31 +12,29 @@ SESSION_BRIEF.md → .kilo/plans/design-refresh-v3.md → livrables visés
 
 ---
 
-## Build & Deploy
+## Build & Test
 
 ```bash
-./scripts/post-build.sh          # Build Docker + incrémente versionCode + deploy téléphone
+docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests (72 tests)
+docker compose run --rm shell ./gradlew assembleDebug      # Build APK
 ```
 
-Sans incrémenter :
-```bash
-docker compose run --rm build ./gradlew assembleDebug
-```
+**APK généré dans :** `app/build/outputs/apk/debug/app-debug.apk`
 
 ---
 
-## Tests
-
-```bash
-docker compose run --rm shell ./gradlew testDebugUnitTest
-```
-**72 tests, 1 ignoré** (`moveSet_reordersCorrectly` — Room Flow/Robolectric)
+## Version actuelle
+- **versionName:** 3.0.0
+- **versionCode:** 10
+- **Dernier commit:** `f61cf99`
 
 ---
 
-## Checkpoint
+## Checkpoint en fin de session
 
-À chaque fin de session : mettre à jour `SESSION_BRIEF.md` (section "Session en cours") et `DOCS/CHECKPOINT_v2.6.0.md`.
+1. Commit les changements
+2. Mettre à jour `SESSION_BRIEF.md`
+3. Push sur `origin/main`
 
 ---
 
@@ -42,18 +42,18 @@ docker compose run --rm shell ./gradlew testDebugUnitTest
 
 | Fichier | Rôle |
 |---------|------|
-| `MetronomeEngine.kt` | Moteur singleton |
-| `PreferencesManager.kt` | Persistance |
-| `LivePerformanceScreen.kt` | Écran Live |
-| `LiveViewModel.kt` | VM Live |
-| `MetronomeScreen.kt` | Écran Standalone |
+| `MetronomeEngine.kt` | Moteur singleton — flash, son, beatTrigger (UN ToneGenerator) |
+| `PreferencesManager.kt` | Persistance prefs (sound, vibration, flash, BPM) |
+| `LivePerformanceScreen.kt` | Écran Live avec Pager, wrap-around swipe cyclique |
+| `LiveViewModel.kt` | VM Live : bind, playFor, toggle |
+| `MetronomeScreen.kt` | Écran Standalone, TopAppBar + layout scrollable |
+| `ui/components/FlashColorPicker.kt` | Sélecteur couleur partagé |
+| `ui/components/BeatDots.kt` | Indicateurs de beat animés partagés |
 | `AppNavGraph.kt` | NavHost |
+| `AppViewModelFactory.kt` | Factory VMs |
 
 ## Stack
 - Compose BOM 2024.06.00 (1.6.x)
 - Room + Hilt
 - Navigation Compose
 - StateFlow + LaunchedEffect
-
-## Limitations connues
-- Swipe cyclique `HorizontalPager` : non résolu → boutons Prev/Next (cf. `SESSION_BRIEF.md`)

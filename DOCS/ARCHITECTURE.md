@@ -3,21 +3,26 @@
 ## Objectif
 Fournir une vue structurée du projet Android "Cheminée" pour faciliter la compréhension du code et les interventions.
 
-## Vue d’ensemble
+## Vue d'ensemble
 Application Android Kotlin + Jetpack Compose pour préparer des setlists de morceaux et piloter un métronome visuel en live.
 
 ## Packages principaux
 - `com.cheminee.metronome`
-  - `MainActivity.kt` : point d’entrée de l’application.
+  - `MainActivity.kt` : point d'entrée de l'application.
+  - `MetronomeEngine.kt` : singleton — moteur métronome (flash, son, beatTrigger).
 - `com.cheminee.metronome.ui`
-  - `theme/` : thème Material3, couleurs, typographie.
-  - `home/` : écran d’accueil et navigation principale.
+  - `theme/` : thème Material3, couleurs Acier & Métal, typographie.
   - `sets/` : affichage et gestion des sets.
-  - `editor/` : édition d’un set et des morceaux.
-  - `live/` : écran live plein écran, flash BPM, pager.
-  - `components/` : composants d’interface réutilisables.
+  - `editor/` : édition d'un set et des morceaux.
+  - `live/` : écran live plein écran, flash BPM, pager cyclique.
+  - `metronome/` : écran métronome standalone.
+  - `settings/` : paramètres.
+  - `about/` : à propos.
+  - `components/` : composants partagés (BeatDots, FlashColorPicker).
 - `com.cheminee.metronome.data`
   - Entités Room, DAO, conversion JSON, import/export.
+- `com.cheminee.metronome.repository`
+  - `SetRepository.kt` : abstraction sur les sets.
 - `com.cheminee.metronome.repository`
   - `SetRepository` : couche d’accès aux données et règles métier.
 - `com.cheminee.metronome.metronome`
