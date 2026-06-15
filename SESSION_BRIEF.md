@@ -2,28 +2,26 @@
 
 ## Session en cours : NEXT SESSION
 **Dernière mise à jour :** 2026-06-15
-**Version :** 3.0.0-dev (design refresh S7 done)
+**Version :** 3.0.0
+**VersionCode :** 10
 **État :** ✅ Build OK, Tests OK (72 tests, 1 ignoré)
 
 ---
 
-### PROCHAINE SESSION : S8 — Fix BUG-001 + Finitions v3.0
+### PROCHAINE SESSION : S9 — Fix buildDir deprecated + Cleanup
 
-**Plan détaillé :** `.kilo/plans/design-refresh-v3.md`
-
-**Livrables S8 :**
-- [ ] Fix BUG-001 : double son Live après Métronome (centraliser son dans MetronomeEngine)
-- [ ] Tests passent
-- [ ] Build APK v3.0 stable
+**Livrables S9 :**
+- [ ] Corriger `buildDir` → `layout.buildDirectory` dans `app/build.gradle.kts` (Jacoco)
+- [ ] Tests + build OK
 
 ---
 
 ## Contexte projet
 
 ### Version actuelle
-- **versionName :** 3.0.0-dev
-- **versionCode :** 9
-- **Dernier commit :** `8c38c9e` — v3.0 design refresh (S7): layouts unifiés Live + Metronome
+- **versionName :** 3.0.0
+- **versionCode :** 10
+- **Dernier commit :** `387063c` — v3.0 S8: Fix BUG-001 (double son) + swipe cyclique + composants partagés
 
 ### Stack
 - Kotlin + Jetpack Compose (BOM 2024.06.00 / Compose 1.6.x)
@@ -41,32 +39,30 @@ docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
 ### Fichiers clés du projet
 | Fichier | Rôle |
 |---------|------|
-| `MetronomeEngine.kt` | Moteur singleton — start/stop/tick/flash/sound |
+| `MetronomeEngine.kt` | Moteur singleton — start/stop/tick/flash/sound (ToneGenerator centralisé) |
 | `PreferencesManager.kt` | Persistance prefs (sound, vibration, flash, BPM) |
-| `LivePerformanceScreen.kt` | Écran Live avec Pager, BPM + BeatDots hors pager |
-| `LiveViewModel.kt` | VM Live : bind, playFor, toggle, vibration |
+| `LivePerformanceScreen.kt` | Écran Live avec Pager, BPM + BeatDots hors pager, wrap-around swipe |
+| `LiveViewModel.kt` | VM Live : bind, playFor, toggle |
 | `MetronomeScreen.kt` | Écran Standalone, TopAppBar + layout scrollable |
 | `AppNavGraph.kt` | NavHost, `startDestination = Routes.ABOUT` |
 | `ui/components/FlashColorPicker.kt` | Sélecteur couleur partagé |
 | `ui/components/BeatDots.kt` | Indicateurs de beat animés partagés |
 
 ### Architecture Live / Metronome
-- `MetronomeEngine` (singleton object) : moteur métronome partagé entre Live et Standalone
-- Les VMs écoutent `beatTrigger` et jouent le son (BUG-001 : les 2 VMs peuvent être actifs simultanément)
-- Les VMs jouent aussi la vibration individuellement
+- `MetronomeEngine` (singleton object) : moteur partagé, UN seul `ToneGenerator` créé par `setContext()`
+- Le son est joué dans l'engine via `playSoundIfEnabled()`, plus de double son possible
+- Les VMs ne jouent plus le son ni la vibration individuellement
 
 ---
 
 ## Bugs / Limitations connues
 
-### Bug double son Live après Métronome (BUG-001) — EN COURS
-- **Description :** Quand on lance d'abord le métronome puis on passe en mode Live, il y a 2 sons très rapprochés à chaque beat
-- **Cause :** Les 2 VMs (`LiveViewModel` + `StandaloneMetronomeViewModel`) créent chacun un `ToneGenerator` et écoutent `beatTrigger`. Lors de la navigation, les 2 collectors peuvent être actifs temporairement → 2 sons.
-- **Fix prévu :** Centraliser le son dans `MetronomeEngine` (un seul `ToneGenerator`). Les VMs ne jouent plus le son — l'engine le fait.
+### Bug double son (BUG-001) — FIXED ✅
+- Cause : 2 `ToneGenerator` dans les VMs → 2 sons lors de navigation
+- Fix : centralisé dans `MetronomeEngine` (S8)
 
-### Swipe cyclique (FIXED in S8)
-- Utilise `currentPageOffsetFraction` pour détecter le swipe au-delà des bords (seuil ±0.5)
-- Wrap vers dernière/première page via `animateScrollToPage`
+### Swipe cyclique — FIXED ✅
+- Utilise `currentPageOffsetFraction` (seuil ±0.5) pour détecter swipe au-delà des bords
 
 ### Tests ignorés
 - `moveSet_reordersCorrectly` — Room Flow + Robolectric (non-blocking)
@@ -74,7 +70,8 @@ docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
 ### Deprecated à corriger
 - [x] `VolumeUp/VolumeOff` → `AutoMirrored` icons ✅ S6
 - [x] `SmallTopAppBar` → `TopAppBar` ✅ S6
-- [ ] `buildDir` dans `app/build.gradle.kts` (Jacoco)
+- [x] BUG-001 double son ✅ S8
+- [ ] `buildDir` → `layout.buildDirectory` dans `app/build.gradle.kts` (Jacoco)
 
 ---
 
@@ -95,5 +92,6 @@ docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
 | S4 | v2.6.0 stable | - |
 | S5 | Fix US-NAV-01 + US-NAV-03 (boutons cycliques) | `8c38c9e` |
 | S6 | v3.0 design foundation (palette, TopBar, logo) | `734aefb` |
-| S7 | Refonte Live + Metronome (layouts unifiés, composants partagés) | à commiter |
-| **S8** | **Fix BUG-001 (double son) + Finitions v3.0 stable** | |
+| S7 | Refonte Live + Metronome (layouts unifiés) | `387063c` |
+| S8 | Fix BUG-001 (double son) + swipe cyclique + composants partagés | `387063c` |
+| **S9** | **Fix buildDir deprecated + v3.0 stable** | |
