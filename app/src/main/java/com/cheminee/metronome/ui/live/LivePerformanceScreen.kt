@@ -2,6 +2,9 @@ package com.cheminee.metronome.ui.live
 
 import android.app.Activity
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -11,9 +14,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,18 +26,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
-import androidx.compose.material.icons.automirrored.filled.VolumeOff
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -48,27 +48,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-
-import android.util.Log
-
-import com.cheminee.metronome.data.PreferencesManager
+import androidx.compose.ui.unit.sp
 import com.cheminee.metronome.data.Song
+import com.cheminee.metronome.ui.components.BeatDots
+import com.cheminee.metronome.ui.components.FlashColorPicker
 import com.cheminee.metronome.ui.theme.Spacing
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -81,11 +78,10 @@ fun LivePerformanceScreen(
     onExit: () -> Unit,
     autoplay: Boolean = false
 ) {
-    Log.d("MetronomeEngine", "LiveScreen composing START: setId=$setId, autoplay=$autoplay")
     LaunchedEffect(setId) {
-        Log.d("MetronomeEngine", "LiveScreen LaunchedEffect triggered, calling bind($setId, $autoplay)")
         viewModel.bind(setId, autoplay)
     }
+
     val songs by viewModel.songs.collectAsState()
     val flashing by viewModel.engine.flash.collectAsState()
     val running by viewModel.engine.running.collectAsState()
@@ -95,7 +91,6 @@ fun LivePerformanceScreen(
     val soundEnabled by (viewModel.soundEnabled?.collectAsState(initial = true) ?: remember { mutableStateOf(true) })
     val vibrationEnabled by (viewModel.vibrationEnabled?.collectAsState(initial = false) ?: remember { mutableStateOf(false) })
     val isLoading by viewModel.isLoading.collectAsState()
-    Log.d("MetronomeEngine", "LiveScreen state: isLoading=$isLoading, songs.size=${songs.size}, running=$running")
 
     val context = LocalContext.current
     DisposableEffect(Unit) {
@@ -133,7 +128,9 @@ fun LivePerformanceScreen(
 
     if (isLoading) {
         Box(
-            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -147,7 +144,9 @@ fun LivePerformanceScreen(
 
     if (songs.isEmpty()) {
         Box(
-            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -163,26 +162,27 @@ fun LivePerformanceScreen(
     val coroutineScope = rememberCoroutineScope()
     val currentSong = songs.getOrNull(pagerState.currentPage)
 
-    val pageFlow = snapshotFlow { pagerState.currentPage }
     LaunchedEffect(pagerState, songs) {
         var prevPage = -1
-        pageFlow.collect { current ->
+        snapshotFlow { pagerState.currentPage to pagerState.currentPageOffsetFraction }.collect { (current, offset) ->
             if (prevPage == -1) {
                 prevPage = current
                 return@collect
             }
-            if (prevPage == 0 && current == songs.lastIndex) {
-                Log.d("LiveWrap", "wrap→ LEFT: $prevPage → $current, scroll to ${songs.lastIndex}")
-                pagerState.scrollToPage(songs.lastIndex)
-            } else if (prevPage == songs.lastIndex && current == 0) {
-                Log.d("LiveWrap", "wrap→ RIGHT: $prevPage → $current, scroll to 0")
-                pagerState.scrollToPage(0)
+            if (prevPage == 0 && offset < -0.5f) {
+                pagerState.animateScrollToPage(songs.lastIndex)
+                prevPage = songs.lastIndex
+            } else if (prevPage == songs.lastIndex && offset > 0.5f) {
+                pagerState.animateScrollToPage(0)
+                prevPage = 0
+            } else if (current != prevPage) {
+                prevPage = current
             }
-            prevPage = current
         }
     }
-    val flashColors = PreferencesManager.FLASH_COLORS
-    val flashColor = androidx.compose.ui.graphics.Color(flashColors.getOrElse(flashColorIndex) { flashColors[0] })
+
+    val flashColors = com.cheminee.metronome.data.PreferencesManager.FLASH_COLORS
+    val flashColor = Color(flashColors.getOrElse(flashColorIndex) { flashColors[0] })
     val bgColor = if (flashing && flashEnabled) flashColor else MaterialTheme.colorScheme.background
     val animatedBgColor by animateColorAsState(targetValue = bgColor, animationSpec = tween(durationMillis = 300))
 
@@ -225,18 +225,14 @@ fun LivePerformanceScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = {
-                        viewModel.toggleSound()
-                    }) {
+                    IconButton(onClick = { viewModel.toggleSound() }) {
                         Icon(
                             imageVector = if (soundEnabled) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
                             contentDescription = if (soundEnabled) "Son activé" else "Son désactivé",
                             tint = if (soundEnabled) Color(0xFFC4973A) else Color(0xFFF7F4F0).copy(alpha = 0.5f)
                         )
                     }
-                    IconButton(onClick = {
-                        viewModel.toggleVibration()
-                    }) {
+                    IconButton(onClick = { viewModel.toggleVibration() }) {
                         Icon(
                             imageVector = Icons.Default.Vibration,
                             contentDescription = if (vibrationEnabled) "Vibration activée" else "Vibration désactivée",
@@ -250,29 +246,41 @@ fun LivePerformanceScreen(
                 )
             )
 
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = Spacing.sm),
-                horizontalArrangement = Arrangement.Center
+                    .padding(horizontal = Spacing.lg),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                flashColors.forEachIndexed { index, colorInt ->
-                    val color = Color(colorInt)
-                    val isSelected = index == flashColorIndex
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(24.dp)
-                            .clip(CircleShape)
-                            .background(color)
-                            .border(
-                                width = if (isSelected) 3.dp else 1.dp,
-                                color = if (isSelected) Color.White else Color.Gray,
-                                shape = CircleShape
-                            )
-                            .clickable { viewModel.setFlashColorIndex(index) }
-                    )
-                }
+                Spacer(modifier = Modifier.size(Spacing.lg))
+
+                Text(
+                    text = currentSong?.bpm?.toString() ?: "--",
+                    style = MaterialTheme.typography.displayLarge.copy(fontSize = 96.sp),
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center
+                )
+
+                Text(
+                    text = "BPM",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Spacer(modifier = Modifier.size(Spacing.md))
+
+                FlashColorPicker(
+                    selectedIndex = flashColorIndex,
+                    onColorSelected = { viewModel.setFlashColorIndex(it) }
+                )
+
+                Spacer(modifier = Modifier.size(Spacing.lg))
+
+                BeatDots(
+                    beatIndex = beatIndex,
+                    running = running
+                )
             }
 
             Box(
@@ -287,7 +295,7 @@ fun LivePerformanceScreen(
                     beyondBoundsPageCount = 1
                 ) { page ->
                     val song = songs[page]
-                    SongPage(song = song, beatIndex = beatIndex, running = running)
+                    SongPage(song = song)
                 }
             }
 
@@ -369,7 +377,7 @@ private fun ControlBar(
 }
 
 @Composable
-private fun SongPage(song: Song, beatIndex: Int, running: Boolean) {
+private fun SongPage(song: Song) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -397,39 +405,14 @@ private fun SongPage(song: Song, beatIndex: Int, running: Boolean) {
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold
                 )
-                Spacer(modifier = Modifier.size(Spacing.sm))
-                Text(
-                    text = "${song.bpm} BPM",
-                    style = MaterialTheme.typography.displayLarge,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
-                )
                 if (song.comments.isNotBlank()) {
                     Spacer(modifier = Modifier.size(Spacing.md))
                     Text(
                         text = song.comments,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = Spacing.xs)
+                        textAlign = TextAlign.Center
                     )
-                }
-                if (running) {
-                    Spacer(modifier = Modifier.size(Spacing.lg))
-                    Row(horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
-                        repeat(4) { i ->
-                            Box(
-                                modifier = Modifier
-                                    .size(if (i == beatIndex) 24.dp else 14.dp)
-                                    .background(
-                                        color = if (i == beatIndex)
-                                            MaterialTheme.colorScheme.primary
-                                        else
-                                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
-                                        shape = CircleShape
-                                    )
-                            )
-                        }
-                    }
                 }
             }
         }

@@ -1,12 +1,6 @@
 package com.cheminee.metronome.ui.live
 
 import android.content.Context
-import android.media.AudioManager
-import android.media.ToneGenerator
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,8 +16,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -31,18 +23,8 @@ import kotlinx.coroutines.sync.withLock
 class LiveViewModel(
     private val repository: SetRepository,
     private val preferencesManager: PreferencesManager? = null,
-    private val context: Context? = null
+    @Suppress("UNUSED_PARAMETER") private val context: Context? = null
 ) : ViewModel() {
-
-    private val vibrator: Vibrator? = context?.let {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager = it.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
-            vibratorManager?.defaultVibrator
-        } else {
-            @Suppress("DEPRECATION")
-            it.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
-        }
-    }
 
     private val setIdFlow = MutableStateFlow<Long?>(null)
     private val autoplayRequested = MutableStateFlow(false)
@@ -78,20 +60,10 @@ class LiveViewModel(
         preferencesManager?.setVibrationEnabled(!current)
     }
 
-    private var toneGenerator: ToneGenerator? = null
     private val playForMutex = Mutex()
 
     init {
-        Log.d("MetronomeEngine", "LiveVM init: creating ToneGenerator")
         engine.setScope(viewModelScope)
-        @Suppress("DEPRECATION")
-        val tg: ToneGenerator? = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
-        toneGenerator = tg
-        if (toneGenerator != null) {
-            Log.d("MetronomeEngine", "LiveVM init: ToneGenerator created successfully")
-        } else {
-            Log.e("MetronomeEngine", "LiveVM init: ToneGenerator returned null")
-        }
 
         viewModelScope.launch {
             songs.collect { songsList ->
@@ -105,31 +77,6 @@ class LiveViewModel(
                     songsList.firstOrNull()?.let { song ->
                         Log.d("MetronomeEngine", "LiveVM songs.collect: autoplaying song ${song.name} at ${song.bpm} BPM")
                         engine.start(song.bpm)
-                    }
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            engine.beatTrigger.collectLatest { beat ->
-                Log.d("MetronomeEngine", "LiveVM beatTrigger: beat = $beat, toneGenerator = ${toneGenerator != null}")
-                val isFirstBeat = beat % 4 == 0
-                val soundEnabled = preferencesManager?.soundEnabled?.value ?: true
-                if (soundEnabled) {
-                    val tone = if (isFirstBeat) ToneGenerator.TONE_PROP_BEEP2 else ToneGenerator.TONE_PROP_BEEP
-                    val duration = if (isFirstBeat) 100 else 75
-                    toneGenerator?.startTone(tone, duration)
-                    Log.d("MetronomeEngine", "LiveVM beatTrigger: played tone $tone for duration $duration")
-                }
-                val vibrationEnabled = preferencesManager?.vibrationEnabled?.value ?: false
-                if (vibrationEnabled) {
-                    vibrator?.let { v ->
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            v.vibrate(VibrationEffect.createOneShot(30, 255))
-                        } else {
-                            @Suppress("DEPRECATION")
-                            v.vibrate(30)
-                        }
                     }
                 }
             }
@@ -181,10 +128,8 @@ class LiveViewModel(
     }
 
     override fun onCleared() {
-        Log.d("MetronomeEngine", "LiveVM onCleared: releasing ToneGenerator, stopping engine")
+        Log.d("MetronomeEngine", "LiveVM onCleared: stopping engine")
         engine.stop()
-        toneGenerator?.release()
-        toneGenerator = null
         super.onCleared()
     }
 }

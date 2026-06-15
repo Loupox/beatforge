@@ -1,40 +1,18 @@
 package com.cheminee.metronome.ui.metronome
 
-import android.content.Context
-import android.media.AudioManager
-import android.media.ToneGenerator
-import android.os.Build
 import android.os.SystemClock
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cheminee.metronome.data.PreferencesManager
 import com.cheminee.metronome.metronome.MetronomeEngine
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 open class StandaloneMetronomeViewModel(
-    private val preferencesManager: PreferencesManager? = null,
-    private val createToneGenerator: Boolean = true,
-    private val context: Context? = null
+    private val preferencesManager: PreferencesManager? = null
 ) : ViewModel() {
-
-    private val vibrator: Vibrator? = context?.let {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager = it.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
-            vibratorManager?.defaultVibrator
-        } else {
-            @Suppress("DEPRECATION")
-            it.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
-        }
-    }
 
     val engine: MetronomeEngine = MetronomeEngine
 
@@ -68,55 +46,12 @@ open class StandaloneMetronomeViewModel(
 
     private var bpmSyncJob: Job? = null
 
-    private var toneGenerator: ToneGenerator? = null
-
     private val tapTimestamps = mutableListOf<Long>()
     private var tapResetJob: Job? = null
     private val tapTimeoutMs = 2000L
 
     init {
-        Log.d("MetronomeEngine", "StandaloneVM init: creating ToneGenerator (enabled=$createToneGenerator)")
-        if (createToneGenerator) {
-            @Suppress("DEPRECATION")
-            toneGenerator = try {
-                ToneGenerator(AudioManager.STREAM_MUSIC, 100)
-            } catch (error: Throwable) {
-                Log.e("MetronomeEngine", "StandaloneVM init: ToneGenerator unavailable", error)
-                null
-            }
-            if (toneGenerator != null) {
-                Log.d("MetronomeEngine", "StandaloneVM init: ToneGenerator created")
-            } else {
-                Log.e("MetronomeEngine", "StandaloneVM init: ToneGenerator unavailable")
-            }
-        } else {
-            toneGenerator = null
-        }
-
-        viewModelScope.launch {
-            engine.beatTrigger.collectLatest { beat ->
-                Log.d("MetronomeEngine", "StandaloneVM beatTrigger: beat=$beat")
-                val isFirstBeat = beat % 4 == 0
-                val soundEnabled = preferencesManager?.soundEnabled?.value ?: true
-                if (soundEnabled) {
-                    val tone = if (isFirstBeat) ToneGenerator.TONE_PROP_BEEP2 else ToneGenerator.TONE_PROP_BEEP
-                    val duration = if (isFirstBeat) 100 else 75
-                    toneGenerator?.startTone(tone, duration)
-                    Log.d("MetronomeEngine", "StandaloneVM beatTrigger: played tone $tone")
-                }
-                val vibrationEnabled = preferencesManager?.vibrationEnabled?.value ?: false
-                if (vibrationEnabled) {
-                    vibrator?.let { v ->
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            v.vibrate(VibrationEffect.createOneShot(30, 255))
-                        } else {
-                            @Suppress("DEPRECATION")
-                            v.vibrate(30)
-                        }
-                    }
-                }
-            }
-        }
+        engine.setScope(viewModelScope)
     }
 
     fun onTap() {
@@ -195,8 +130,6 @@ open class StandaloneMetronomeViewModel(
         Log.d("MetronomeEngine", "StandaloneVM onCleared")
         bpmSyncJob?.cancel()
         engine.stop()
-        toneGenerator?.release()
-        toneGenerator = null
         super.onCleared()
     }
 }

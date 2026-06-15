@@ -1,9 +1,13 @@
 package com.cheminee.metronome.metronome
 
+import android.content.Context
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.util.Log
+import com.cheminee.metronome.data.PreferencesManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -34,11 +38,41 @@ object MetronomeEngine {
     private var currentBeat = 0
     private var intervalMs: Long = 500L
 
+    private var preferencesManager: PreferencesManager? = null
+    private var toneGenerator: ToneGenerator? = null
+
     fun setScope(@Suppress("UNUSED_PARAMETER") newScope: kotlinx.coroutines.CoroutineScope) {
         if (handler == null) {
             handler = Handler(Looper.getMainLooper())
             Log.d("MetronomeEngine", "setScope: Handler created")
         }
+    }
+
+    fun setPreferences(pm: PreferencesManager) {
+        preferencesManager = pm
+    }
+
+    fun setContext(@Suppress("UNUSED_PARAMETER") context: Context) {
+        if (toneGenerator == null) {
+            @Suppress("DEPRECATION")
+            toneGenerator = try {
+                ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+            } catch (e: Throwable) {
+                Log.e("MetronomeEngine", "ToneGenerator unavailable", e)
+                null
+            }
+            Log.d("MetronomeEngine", "setContext: ToneGenerator created = ${toneGenerator != null}")
+        }
+    }
+
+    private fun playSoundIfEnabled(beat: Int) {
+        val pm = preferencesManager ?: return
+        if (!pm.soundEnabled.value) return
+        val isFirstBeat = beat % 4 == 0
+        val tone = if (isFirstBeat) ToneGenerator.TONE_PROP_BEEP2 else ToneGenerator.TONE_PROP_BEEP
+        val duration = if (isFirstBeat) 100 else 75
+        toneGenerator?.startTone(tone, duration)
+        Log.d("MetronomeEngine", "playSound: beat=$beat, tone=$tone, duration=$duration")
     }
 
     fun start(bpm: Int, beatsPerBar: Int = DEFAULT_BEATS_PER_BAR) {
@@ -79,6 +113,7 @@ object MetronomeEngine {
                 if (currentBeat != lastEmittedBeat) {
                     lastEmittedBeat = currentBeat
                     _beatTrigger.value = currentBeat
+                    playSoundIfEnabled(currentBeat)
                 }
                 Log.d("MetronomeEngine", "Flash ON: beat=$currentBeat, tickId=$myTickId")
 

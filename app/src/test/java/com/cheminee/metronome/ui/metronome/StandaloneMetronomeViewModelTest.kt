@@ -9,12 +9,8 @@ import org.robolectric.RobolectricTestRunner
 class StandaloneMetronomeViewModelTest {
 
     private fun createTestableViewModel(): StandaloneMetronomeViewModel {
-        return object : StandaloneMetronomeViewModel(
-            preferencesManager = null,
-            createToneGenerator = false
-        ) {
-            protected override fun initialize() {
-            }
+        return object : StandaloneMetronomeViewModel(null) {
+            protected override fun initialize() {}
         }
     }
 

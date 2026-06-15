@@ -24,7 +24,7 @@ class AppViewModelFactory(
         modelClass.isAssignableFrom(LiveViewModel::class.java) ->
             LiveViewModel(repository, preferencesManager, context) as T
         modelClass.isAssignableFrom(StandaloneMetronomeViewModel::class.java) ->
-            StandaloneMetronomeViewModel(preferencesManager, true, context) as T
+            StandaloneMetronomeViewModel(preferencesManager) as T
         else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

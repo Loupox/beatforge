@@ -21,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cheminee.metronome.data.AppDatabase
 import com.cheminee.metronome.data.PreferencesManager
+import com.cheminee.metronome.metronome.MetronomeEngine
 import com.cheminee.metronome.repository.SetRepository
 import com.cheminee.metronome.ui.AppNavGraph
 import com.cheminee.metronome.ui.AppTopBarMenu
@@ -41,6 +42,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferencesManager = PreferencesManager(applicationContext)
+        MetronomeEngine.setPreferences(preferencesManager)
+        MetronomeEngine.setContext(applicationContext)
 
         setContent {
             ChemineeTheme {

@@ -1,33 +1,29 @@
 # Cheminée — Session Brief
 
 ## Session en cours : NEXT SESSION
-**Dernière mise à jour :** 2026-06-14
-**Version :** 2.6.1 stable
+**Dernière mise à jour :** 2026-06-15
+**Version :** 3.0.0-dev (design refresh S7 done)
 **État :** ✅ Build OK, Tests OK (72 tests, 1 ignoré)
 
 ---
 
-### PROCHAINE SESSION : S6 — Architecture Design (v3.0)
+### PROCHAINE SESSION : S8 — Fix BUG-001 + Finitions v3.0
 
 **Plan détaillé :** `.kilo/plans/design-refresh-v3.md`
 
-**Livrables S6 :**
-- [ ] `ui/theme/Color.kt` : nouvelle palette "Acier & Métal" (Primary `#3D3D3D`, Accent `#C4973A`, BG `#F7F4F0`)
-- [ ] `ui/theme/Type.kt` : DM Mono (BPM display) + DM Sans (UI)
-- [ ] `Theme.kt` : mise à jour avec nouvelle palette
-- [ ] Dépendances Google Fonts : DM Mono + DM Sans
-- [ ] `ic_launcher_foreground.xml` : logo caisse claire + baguettes
-- [ ] `TopBar.kt` : TopAppBar Material 3, edge-to-edge avec `statusBarsPadding()`
-- [ ] Build + Tests passent
+**Livrables S8 :**
+- [ ] Fix BUG-001 : double son Live après Métronome (centraliser son dans MetronomeEngine)
+- [ ] Tests passent
+- [ ] Build APK v3.0 stable
 
 ---
 
 ## Contexte projet
 
 ### Version actuelle
-- **versionName :** 2.6.0 (inchangé — pas de bump pour fix-only)
-- **versionCode :** 7
-- **Dernier commit :** `8c38c9e` — v2.6.1: Fix top bar, about screen default, prev/next cyclic nav
+- **versionName :** 3.0.0-dev
+- **versionCode :** 9
+- **Dernier commit :** `8c38c9e` — v3.0 design refresh (S7): layouts unifiés Live + Metronome
 
 ### Stack
 - Kotlin + Jetpack Compose (BOM 2024.06.00 / Compose 1.6.x)
@@ -38,43 +34,47 @@
 
 ### Build & Test
 ```bash
-./scripts/post-build.sh          # Build + incrémente versionCode + deploy
-docker compose run --rm shell ./gradlew testDebugUnitTest
+docker compose run --rm shell ./gradlew assembleDebug      # Build
+docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
 ```
 
 ### Fichiers clés du projet
 | Fichier | Rôle |
 |---------|------|
-| `MetronomeEngine.kt` | Moteur singleton — start/stop/tick/flash |
+| `MetronomeEngine.kt` | Moteur singleton — start/stop/tick/flash/sound |
 | `PreferencesManager.kt` | Persistance prefs (sound, vibration, flash, BPM) |
-| `LivePerformanceScreen.kt` | Écran Live avec Pager |
-| `LiveViewModel.kt` | VM Live : bind, playFor, toggle, setFlashColorIndex |
-| `MetronomeScreen.kt` | Écran Standalone |
+| `LivePerformanceScreen.kt` | Écran Live avec Pager, BPM + BeatDots hors pager |
+| `LiveViewModel.kt` | VM Live : bind, playFor, toggle, vibration |
+| `MetronomeScreen.kt` | Écran Standalone, TopAppBar + layout scrollable |
 | `AppNavGraph.kt` | NavHost, `startDestination = Routes.ABOUT` |
-| `SetsListViewModelTest.kt` | Tests avec diagnostic Room Flow |
+| `ui/components/FlashColorPicker.kt` | Sélecteur couleur partagé |
+| `ui/components/BeatDots.kt` | Indicateurs de beat animés partagés |
 
 ### Architecture Live / Metronome
 - `MetronomeEngine` (singleton object) : moteur métronome partagé entre Live et Standalone
-- `LiveViewModel` : injecte `PreferencesManager`, `SetRepository`, crée `ToneGenerator`
-- `LivePerformanceScreen` : `HorizontalPager` sur les songs du set, `ControlBar` avec Prev/Play/Next
+- Les VMs écoutent `beatTrigger` et jouent le son (BUG-001 : les 2 VMs peuvent être actifs simultanément)
+- Les VMs jouent aussi la vibration individuellement
 
 ---
 
 ## Bugs / Limitations connues
 
-### Swipe cyclique (DEFERRED → v3.0)
-- `HorizontalPager` (Compose 1.6.x) ne change pas `currentPage` lors du snap-back aux bords
-- `snapshotFlow { pagerState.currentPage }` ne détecte rien sur snap-back
-- `pointerInput` + `detectHorizontalDragGestures` intercepte TOUS les events → Pager ne scroll plus
-- **Workaround actif** : boutons Prev/Next dans `ControlBar` avec modulo → `animateScrollToPage`
+### Bug double son Live après Métronome (BUG-001) — EN COURS
+- **Description :** Quand on lance d'abord le métronome puis on passe en mode Live, il y a 2 sons très rapprochés à chaque beat
+- **Cause :** Les 2 VMs (`LiveViewModel` + `StandaloneMetronomeViewModel`) créent chacun un `ToneGenerator` et écoutent `beatTrigger`. Lors de la navigation, les 2 collectors peuvent être actifs temporairement → 2 sons.
+- **Fix prévu :** Centraliser le son dans `MetronomeEngine` (un seul `ToneGenerator`). Les VMs ne jouent plus le son — l'engine le fait.
+
+### Swipe cyclique (FIXED in S8)
+- Utilise `currentPageOffsetFraction` pour détecter le swipe au-delà des bords (seuil ±0.5)
+- Wrap vers dernière/première page via `animateScrollToPage`
 
 ### Tests ignorés
-- `moveSet_reordersCorrectly` — Room Flow + Robolectric (cause identifiée, non-blocking)
+- `moveSet_reordersCorrectly` — Room Flow + Robolectric (non-blocking)
 
 ### Deprecated à corriger
-- `VolumeUp/VolumeOff` → `AutoMirrored` icons
-- `SmallTopAppBar` → `TopAppBar` dans `TopBar.kt`
-- `buildDir` dans `app/build.gradle.kts` (lignes 117, 120, 127, 139)
+- [x] `VolumeUp/VolumeOff` → `AutoMirrored` icons ✅ S6
+- [x] `SmallTopAppBar` → `TopAppBar` ✅ S6
+- [ ] `buildDir` dans `app/build.gradle.kts` (Jacoco)
 
 ---
 
@@ -83,17 +83,17 @@ docker compose run --rm shell ./gradlew testDebugUnitTest
 - **Primary :** `#3D3D3D` (charbon) / `#E8E4DF` (ivoire dark)
 - **Accent :** `#C4973A` (or mat)
 - **Background :** `#F7F4F0` (blanc chaud) / `#111111` (noir)
-- **Typographie :** DM Mono (BPM) + DM Sans (UI)
+- **Typographie :** FontFamily.Monospace (BPM) + FontFamily.SansSerif (UI)
 
 ---
 
 ## Historique des sessions
 
-| Session | Livrable |
-|---------|----------|
-| S1-S3 | Son + Vibration + Color picker + À propos |
-| S4 | v2.6.0 stable (bugs découverts) |
-| S5 | Fix US-NAV-01 + US-NAV-03 (boutons cycliques) |
-| **S6** | **→ Architecture design v3.0** |
-| S7 | Refonte Live + Metronome |
-| S8 | Finitions + v3.0 stable |
+| Session | Livrable | Commit |
+|---------|----------|--------|
+| S1-S3 | Son + Vibration + Color picker + À propos | - |
+| S4 | v2.6.0 stable | - |
+| S5 | Fix US-NAV-01 + US-NAV-03 (boutons cycliques) | `8c38c9e` |
+| S6 | v3.0 design foundation (palette, TopBar, logo) | `734aefb` |
+| S7 | Refonte Live + Metronome (layouts unifiés, composants partagés) | à commiter |
+| **S8** | **Fix BUG-001 (double son) + Finitions v3.0 stable** | |
