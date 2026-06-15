@@ -19,3 +19,7 @@ captures/
 *.jpg
 *.png
 ss.jpeg
+
+# Signing
+*.keystore
+cheminee.keystore

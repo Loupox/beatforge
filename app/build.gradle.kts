@@ -16,24 +16,14 @@ android {
         applicationId = "com.cheminee.metronome"
         minSdk = 26
         targetSdk = 34
-        versionCode = 10
+        versionCode = 11
         versionName = "3.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    signingConfigs {
-        create("release") {
-            storeFile = file("${project.rootDir}/cheminee.keystore")
-            storePassword = "cheminee123"
-            keyAlias = "cheminee"
-            keyPassword = "cheminee123"
-        }
     }
 
     buildTypes {
         debug {
             isDebuggable = true
-            signingConfig = signingConfigs.getByName("release")
         }
         release {
             isMinifyEnabled = false
@@ -41,7 +31,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
         }
     }
 
