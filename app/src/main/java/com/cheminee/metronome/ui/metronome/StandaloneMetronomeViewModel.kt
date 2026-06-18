@@ -20,6 +20,7 @@ open class StandaloneMetronomeViewModel(
     val flashColorIndex = preferencesManager?.flashColorIndex
     val soundEnabled = preferencesManager?.soundEnabled
     val vibrationEnabled = preferencesManager?.vibrationEnabled
+    val accentFirstBeatEnabled = preferencesManager?.accentFirstBeatEnabled
 
     fun toggleSound() {
         val current = preferencesManager?.soundEnabled?.value ?: true

@@ -95,9 +95,15 @@ fun MetronomeScreen(
     val flashColorIndex by (viewModel.flashColorIndex?.collectAsState(initial = 0) ?: remember { mutableStateOf(0) })
     val soundEnabled by (viewModel.soundEnabled?.collectAsState(initial = true) ?: remember { mutableStateOf(true) })
     val vibrationEnabled by (viewModel.vibrationEnabled?.collectAsState(initial = false) ?: remember { mutableStateOf(false) })
+    val accentFirstBeatEnabled by (viewModel.accentFirstBeatEnabled?.collectAsState(initial = true) ?: remember { mutableStateOf(true) })
 
     val flashColors = com.cheminee.metronome.data.PreferencesManager.FLASH_COLORS
-    val flashColor = Color(flashColors.getOrElse(flashColorIndex) { flashColors[0] })
+    val isFirstBeatAccented = accentFirstBeatEnabled && beatIndex == 0
+    val flashColor = if (isFirstBeatAccented) {
+        Color(flashColors.getOrElse(6) { flashColors[6] })
+    } else {
+        Color(flashColors.getOrElse(flashColorIndex) { flashColors[0] })
+    }
     val bgColor = if (flashing && running && flashEnabled) flashColor else MaterialTheme.colorScheme.background
     val animatedBgColor by animateColorAsState(targetValue = bgColor, animationSpec = tween(durationMillis = 300))
 

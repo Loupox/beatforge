@@ -44,6 +44,7 @@ object MetronomeEngine {
 
     private var preferencesManager: PreferencesManager? = null
     private var toneGenerator: ToneGenerator? = null
+    private var toneGeneratorAccent: ToneGenerator? = null
     private var vibrator: Vibrator? = null
 
     fun setScope(@Suppress("UNUSED_PARAMETER") newScope: kotlinx.coroutines.CoroutineScope) {
@@ -61,12 +62,22 @@ object MetronomeEngine {
         if (toneGenerator == null) {
             @Suppress("DEPRECATION")
             toneGenerator = try {
-                ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                ToneGenerator(AudioManager.STREAM_MUSIC, 60)
             } catch (e: Throwable) {
                 Log.e("MetronomeEngine", "ToneGenerator unavailable", e)
                 null
             }
-            Log.d("MetronomeEngine", "setContext: ToneGenerator created = ${toneGenerator != null}")
+            Log.d("MetronomeEngine", "setContext: ToneGenerator normal created = ${toneGenerator != null}")
+        }
+        if (toneGeneratorAccent == null) {
+            @Suppress("DEPRECATION")
+            toneGeneratorAccent = try {
+                ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+            } catch (e: Throwable) {
+                Log.e("MetronomeEngine", "ToneGenerator accent unavailable", e)
+                null
+            }
+            Log.d("MetronomeEngine", "setContext: ToneGenerator accent created = ${toneGeneratorAccent != null}")
         }
         if (vibrator == null) {
             vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -86,10 +97,10 @@ object MetronomeEngine {
         val isFirstBeat = beat % currentBeatsPerBar == 0
         val accentEnabled = pm.accentFirstBeatEnabled.value
         val isAccented = isFirstBeat && accentEnabled
-        val tone = if (isAccented) ToneGenerator.TONE_PROP_BEEP2 else ToneGenerator.TONE_PROP_BEEP
-        val duration = if (isAccented) 100 else 75
-        toneGenerator?.startTone(tone, duration)
-        Log.d("MetronomeEngine", "playSound: beat=$beat, isFirst=$isFirstBeat, accent=$isAccented, tone=$tone, duration=$duration")
+        val duration = if (isAccented) 150 else 75
+        val generator = if (isAccented) toneGeneratorAccent else toneGenerator
+        generator?.startTone(ToneGenerator.TONE_PROP_BEEP2, duration)
+        Log.d("MetronomeEngine", "playSound: beat=$beat, isFirst=$isFirstBeat, accent=$isAccented, vol=${if (isAccented) 100 else 60}, duration=$duration")
     }
 
     private fun playVibrationIfEnabled(beat: Int) {
