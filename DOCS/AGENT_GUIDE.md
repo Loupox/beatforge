@@ -12,6 +12,7 @@ Donner aux agents une méthode claire pour reprendre le code du projet sans perd
 ## Règles de base
 - Utiliser `README.md` comme point d’entrée.
 - Lire `DOCS/ARCHITECTURE.md` avant de modifier la structure ou la navigation.
+- Lire `SESSION_BRIEF.md` pour comprendre à quelle étape nous étions
 - Lire `DOCS/BUILD.md` avant toute compilation.
 - Lire `DOCS/DEPLOY.md` avant de donner une procédure d’installation.
 
@@ -26,7 +27,7 @@ Donner aux agents une méthode claire pour reprendre le code du projet sans perd
 ## Points importants à ne pas oublier
 - Le build se fait via Docker, pas en local.
 - L’APK debug se trouve dans `app/build/outputs/apk/debug/app-debug.apk`.
-- Le déploiement utilise `./scripts/deploy.sh` ou `adb install -r`.
+- Le déploiement utilise `./scripts/post-build.sh` ou `adb install -r`.
 - Les écrans live sont dans `ui/live/`.
 - L’import/export JSON est géré dans `data/`.
 - Ne pas utiliser fetch_webpage ou des outils externes pour lire des fichiers locaux du repo ; privilégier read_file, grep_search, etc.
