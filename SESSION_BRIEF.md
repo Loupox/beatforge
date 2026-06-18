@@ -2,7 +2,7 @@
 
 **Repo:** https://github.com/Loupox/beatforge
 
-## Session en cours : S11 — Accent 1er beat
+## Session en cours : S12 — Signatures rythmiques
 **Dernière mise à jour :** 2026-06-18
 **Version :** 3.0.1
 **VersionCode :** 12
@@ -10,7 +10,7 @@
 
 ---
 
-### PROCHAINE SESSION : S12 — Signatures rythmiques
+### PROCHAINE SESSION : S13 — ???
 
 **Livrables S12 :**
 - [ ] Support 3/4, 4/4, 6/8, 5/4, 7/8...
@@ -100,11 +100,12 @@ Le docker-compose monte `${HOME}/.android:/root/.android` pour partager le keyst
 - [x] Play button réduit (96dp → 72dp) ✅ S10
 - [x] docker-compose: volume `${HOME}/.android` pour keystore debug ✅ S10
 
-### S11 — Accent 1er beat (IN PROGRESS)
-- [ ] Beat 1 = son + vibration + flash STRONGER que beats 2-N
-- [ ] Toggle dans Settings: "Accentuer le 1er beat" (défaut: ON)
-- [ ] Persistant via PreferencesManager
-- [ ] Impact: MetronomeEngine, Settings (ajout toggle)
+### S11 — Accent 1er beat (DONE ✅)
+- [x] Beat 1 = son + vibration + flash STRONGER que beats 2-N
+- [x] Toggle dans Settings: "Accentuer le 1er beat" (défaut: ON)
+- [x] Persistant via PreferencesManager
+- [x] Impact: MetronomeEngine, Settings (ajout toggle)
+- [x] Flash rouge (index 6) sur beat 1 quand accent activé ✅ `a29dde8`
 
 ### S12 — Signatures rythmiques (PLANNED)
 - [ ] 4/4, 3/4, 6/8, 5/4, 7/8...
@@ -136,3 +137,4 @@ Le docker-compose monte `${HOME}/.android:/root/.android` pour partager le keyst
 | S9 | Fix buildDir deprecated + v3.0 stable | `f61cf99`, `5d3747d` |
 | S10 | Bottom Nav + theme toggle + vibration fix + deploy pipeline | `38291f1` |
 | S10b | Cleanup: old docs + ignore screenshot/ | `f326848` |
+| S11 | Accent first beat (sound/vibration/flash stronger on beat 1) + toggle in Settings | `a29dde8` |
