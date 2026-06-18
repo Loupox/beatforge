@@ -5,7 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ChemineeTheme(
+fun BeatForgeTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
@@ -13,7 +13,7 @@ fun ChemineeTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = ChemineeTypography,
+        typography = BeatForgeTypography,
         content = content
     )
 }

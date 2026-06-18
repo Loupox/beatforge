@@ -30,7 +30,7 @@ import com.cheminee.metronome.ui.AppNavGraph
 import com.cheminee.metronome.ui.AppTopBarMenu
 import com.cheminee.metronome.ui.AppViewModelFactory
 import com.cheminee.metronome.ui.Routes
-import com.cheminee.metronome.ui.theme.ChemineeTheme
+import com.cheminee.metronome.ui.theme.BeatForgeTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
                 val darkThemeEnabled by preferencesManager.darkThemeEnabled.collectAsState()
-                ChemineeTheme(useDarkTheme = darkThemeEnabled) {
+                BeatForgeTheme(useDarkTheme = darkThemeEnabled) {
                     val navController = rememberNavController()
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentRoute = navBackStackEntry?.destination?.route

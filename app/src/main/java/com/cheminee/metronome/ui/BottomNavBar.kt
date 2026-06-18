@@ -14,9 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import com.cheminee.metronome.R
-import com.cheminee.metronome.ui.theme.ChemineeColors
 
 enum class BottomNavItem(
     val route: String?,
@@ -37,8 +37,9 @@ fun AppBottomNavBar(
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface,
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        tonalElevation = 0.dp,
         modifier = modifier
     ) {
         BottomNavItem.entries.forEach { item ->
@@ -65,8 +66,10 @@ fun AppBottomNavBar(
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = ChemineeColors.Charbon,
-                    selectedTextColor = ChemineeColors.Charbon,
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                     indicatorColor = MaterialTheme.colorScheme.primaryContainer
                 )
             )
