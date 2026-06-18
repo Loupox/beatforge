@@ -66,12 +66,19 @@ echo ">>> Test de déploiement..."
 if adb devices 2>/dev/null | grep -E "	device$" > /dev/null; then
     echo "  [OK] Téléphone détecté"
     echo "  >>> Installation en cours..."
-    if adb install -r "$APK"; then
-        echo "  [OK] Déploiement réussi!"
+    if adb install -r "$APK" 2>/dev/null; then
+        echo "  [OK] Mise à jour réussie (données conservées)"
         DEPLOY_STATUS="Déployé sur téléphone"
     else
-        echo "  [!] Échec du déploiement"
-        DEPLOY_STATUS="APK prêt (erreur ADB)"
+        echo "  [!] Signature différente — désinstallation puis réinstall..."
+        adb uninstall com.cheminee.metronome
+        if adb install "$APK"; then
+            echo "  [OK] App réinstallée"
+            DEPLOY_STATUS="Déployé sur téléphone (données réinitialisées)"
+        else
+            echo "  [!] Échec du déploiement"
+            DEPLOY_STATUS="APK prêt (erreur ADB)"
+        fi
     fi
 else
     echo "  [!] Aucun téléphone connecté"

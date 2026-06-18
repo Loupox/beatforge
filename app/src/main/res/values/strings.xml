@@ -51,4 +51,11 @@
     <string name="settings_flash">Flash visuel</string>
     <string name="settings_flash_desc">Changer la couleur de l\'écran à chaque beat</string>
     <string name="settings_version">Version %1$s</string>
+    <string name="nav_sets">Sets</string>
+    <string name="nav_live">Live</string>
+    <string name="nav_metronome">Métronome</string>
+    <string name="nav_more">Plus</string>
+    <string name="settings_appearance_section">Apparence</string>
+    <string name="settings_dark_mode">Mode sombre</string>
+    <string name="settings_dark_mode_desc">Forcer le thème sombre</string>
 </resources>

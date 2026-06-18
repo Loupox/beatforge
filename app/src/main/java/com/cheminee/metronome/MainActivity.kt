@@ -3,6 +3,7 @@ package com.cheminee.metronome
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +25,7 @@ import com.cheminee.metronome.data.AppDatabase
 import com.cheminee.metronome.data.PreferencesManager
 import com.cheminee.metronome.metronome.MetronomeEngine
 import com.cheminee.metronome.repository.SetRepository
+import com.cheminee.metronome.ui.AppBottomNavBar
 import com.cheminee.metronome.ui.AppNavGraph
 import com.cheminee.metronome.ui.AppTopBarMenu
 import com.cheminee.metronome.ui.AppViewModelFactory
@@ -46,66 +49,87 @@ class MainActivity : ComponentActivity() {
         MetronomeEngine.setContext(applicationContext)
 
         setContent {
-            ChemineeTheme {
-                val navController = rememberNavController()
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentRoute = navBackStackEntry?.destination?.route
-                var triggerImport by remember { mutableStateOf(false) }
+                val darkThemeEnabled by preferencesManager.darkThemeEnabled.collectAsState()
+                ChemineeTheme(useDarkTheme = darkThemeEnabled) {
+                    val navController = rememberNavController()
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentRoute = navBackStackEntry?.destination?.route
+                    var triggerImport by remember { mutableStateOf(false) }
+                    var showOverflow by remember { mutableStateOf(false) }
 
-                val routesWithMenu = listOf(Routes.SETS, Routes.EDITOR, Routes.METRONOME, Routes.ABOUT, Routes.SETTINGS)
+                    val bottomNavRoutes = listOf(Routes.SETS, Routes.METRONOME)
+                    val showBottomNav = currentRoute in bottomNavRoutes
+                            || currentRoute == Routes.SETTINGS
+                            || currentRoute == Routes.ABOUT
+                            || currentRoute?.startsWith("editor/") == true
+                            || currentRoute?.startsWith("live/") == true
 
-                Scaffold(
-                    topBar = {
-                        if (currentRoute in routesWithMenu) {
-                            TopAppBar(
-                                title = { Text(getString(R.string.app_name)) },
-                                colors = TopAppBarDefaults.topAppBarColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    titleContentColor = MaterialTheme.colorScheme.onPrimary
-                                ),
-                                actions = {
-                                    AppTopBarMenu(
-                                        onNavigateToSets = {
-                                            if (currentRoute != Routes.SETS) {
-                                                navController.navigate(Routes.SETS) {
-                                                    popUpTo(Routes.SETS) { inclusive = true }
+                    Scaffold(
+                        topBar = {
+                            if (currentRoute in listOf(Routes.SETS, Routes.ABOUT, Routes.SETTINGS)
+                                || currentRoute?.startsWith("editor/") == true) {
+                                TopAppBar(
+                                    title = { Text(getString(R.string.app_name)) },
+                                    colors = TopAppBarDefaults.topAppBarColors(
+                                        containerColor = MaterialTheme.colorScheme.primary,
+                                        titleContentColor = MaterialTheme.colorScheme.onPrimary
+                                    ),
+                                    actions = {
+                                        AppTopBarMenu(
+                                            onNavigateToAbout = {
+                                                if (currentRoute != Routes.ABOUT) {
+                                                    navController.navigate(Routes.ABOUT)
                                                 }
-                                            }
-                                        },
-                                        onNavigateToMetronome = {
-                                            if (currentRoute != Routes.METRONOME) {
-                                                navController.navigate(Routes.METRONOME)
-                                            }
-                                        },
-                                        onNavigateToAbout = {
-                                            if (currentRoute != Routes.ABOUT) {
-                                                navController.navigate(Routes.ABOUT)
-                                            }
-                                        },
-                                        onNavigateToSettings = {
-                                            if (currentRoute != Routes.SETTINGS) {
-                                                navController.navigate(Routes.SETTINGS)
-                                            }
-                                        },
-                                        onImportClick = {
-                                            if (currentRoute != Routes.SETS) {
-                                                navController.navigate(Routes.SETS) {
-                                                    popUpTo(Routes.SETS) { inclusive = true }
+                                            },
+                                            onNavigateToSettings = {
+                                                if (currentRoute != Routes.SETTINGS) {
+                                                    navController.navigate(Routes.SETTINGS)
                                                 }
+                                            },
+                                            onImportClick = {
+                                                if (currentRoute != Routes.SETS) {
+                                                    navController.navigate(Routes.SETS) {
+                                                        popUpTo(Routes.SETS) { inclusive = true }
+                                                    }
+                                                }
+                                                triggerImport = true
                                             }
-                                            triggerImport = true
+                                        )
+                                    }
+                                )
+                            }
+                        },
+                        bottomBar = {
+                            if (showBottomNav) {
+                                AppBottomNavBar(
+                                    currentRoute = currentRoute,
+                                    onNavigateToSets = {
+                                        if (currentRoute != Routes.SETS) {
+                                            navController.navigate(Routes.SETS) {
+                                                popUpTo(Routes.SETS) { inclusive = true }
+                                            }
                                         }
-                                    )
-                                }
-                            )
+                                    },
+                                    onNavigateToMetronome = {
+                                        if (currentRoute != Routes.METRONOME) {
+                                            navController.navigate(Routes.METRONOME)
+                                        }
+                                    },
+                                    onOverflowClick = { showOverflow = true }
+                                )
+                            }
                         }
-                    }
-                ) { padding ->
+                    ) { padding ->
+                        val scaffoldPadding = if (currentRoute == Routes.METRONOME) {
+                            PaddingValues(bottom = padding.calculateBottomPadding())
+                        } else {
+                            padding
+                        }
                     AppNavGraph(
                         navController = navController,
                         viewModelFactory = factory,
                         preferencesManager = preferencesManager,
-                        modifier = Modifier.padding(padding),
+                        modifier = Modifier.padding(scaffoldPadding),
                         triggerImport = triggerImport,
                         onImportHandled = { triggerImport = false }
                     )

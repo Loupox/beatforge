@@ -3,9 +3,13 @@ package com.cheminee.metronome.metronome
 import android.content.Context
 import android.media.AudioManager
 import android.media.ToneGenerator
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.util.Log
 import com.cheminee.metronome.data.PreferencesManager
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +44,7 @@ object MetronomeEngine {
 
     private var preferencesManager: PreferencesManager? = null
     private var toneGenerator: ToneGenerator? = null
+    private var vibrator: Vibrator? = null
 
     fun setScope(@Suppress("UNUSED_PARAMETER") newScope: kotlinx.coroutines.CoroutineScope) {
         if (handler == null) {
@@ -52,7 +57,7 @@ object MetronomeEngine {
         preferencesManager = pm
     }
 
-    fun setContext(@Suppress("UNUSED_PARAMETER") context: Context) {
+    fun setContext(context: Context) {
         if (toneGenerator == null) {
             @Suppress("DEPRECATION")
             toneGenerator = try {
@@ -62,6 +67,16 @@ object MetronomeEngine {
                 null
             }
             Log.d("MetronomeEngine", "setContext: ToneGenerator created = ${toneGenerator != null}")
+        }
+        if (vibrator == null) {
+            vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
+                vibratorManager?.defaultVibrator
+            } else {
+                @Suppress("DEPRECATION")
+                context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+            }
+            Log.d("MetronomeEngine", "setContext: Vibrator created = ${vibrator != null}")
         }
     }
 
@@ -73,6 +88,21 @@ object MetronomeEngine {
         val duration = if (isFirstBeat) 100 else 75
         toneGenerator?.startTone(tone, duration)
         Log.d("MetronomeEngine", "playSound: beat=$beat, tone=$tone, duration=$duration")
+    }
+
+    private fun playVibrationIfEnabled(beat: Int) {
+        val pm = preferencesManager ?: return
+        if (!pm.vibrationEnabled.value) return
+        val isFirstBeat = beat % 4 == 0
+        vibrator?.let { v ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(30, if (isFirstBeat) 255 else 128))
+            } else {
+                @Suppress("DEPRECATION")
+                v.vibrate(30)
+            }
+        }
+        Log.d("MetronomeEngine", "playVibration: beat=$beat, isFirst=$isFirstBeat")
     }
 
     fun start(bpm: Int, beatsPerBar: Int = DEFAULT_BEATS_PER_BAR) {
@@ -114,6 +144,7 @@ object MetronomeEngine {
                     lastEmittedBeat = currentBeat
                     _beatTrigger.value = currentBeat
                     playSoundIfEnabled(currentBeat)
+                    playVibrationIfEnabled(currentBeat)
                 }
                 Log.d("MetronomeEngine", "Flash ON: beat=$currentBeat, tickId=$myTickId")
 

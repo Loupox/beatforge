@@ -10,5 +10,13 @@ if [ ! -f "$APK" ]; then
 fi
 
 echo ">> Installation de $APK sur l'appareil..."
-adb install -r "$APK"
+
+if adb install -r "$APK" 2>/dev/null; then
+    echo ">> [OK] Mise à jour réussie (données conservées)"
+else
+    echo ">> [!] Signature différente détectée — désinstallation puis réinstall..."
+    adb uninstall com.cheminee.metronome
+    adb install "$APK"
+    echo ">> [OK] App réinstallée"
+fi
 echo ">> Terminé !"

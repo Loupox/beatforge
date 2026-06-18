@@ -2,17 +2,17 @@
 
 **Repo:** https://github.com/Loupox/beatforge
 
-## Session en cours : NEXT SESSION
-**Dernière mise à jour :** 2026-06-15
-**Version :** 3.0.0
-**VersionCode :** 10
+## Session en cours : S10 — Refonte Navigation
+**Dernière mise à jour :** 2026-06-16
+**Version :** 3.0.1
+**VersionCode :** 12
 **État :** ✅ Build OK, Tests OK (72 tests, 1 ignoré)
 
 ---
 
-### PROCHAINE SESSION : S10 — Proposer une idée
+### PROCHAINE SESSION : S11 — Proposer une idée
 
-**Livrables S10 :**
+**Livrables S11 :**
 - [ ] Identifier la prochaine feature ou amélioration
 
 ---
@@ -20,9 +20,9 @@
 ## Contexte projet
 
 ### Version actuelle
-- **versionName :** 3.0.0
-- **versionCode :** 10
-- **Dernier commit :** `5d3747d` — v3.0 stable, checkpoint final
+- **versionName :** 3.0.1
+- **versionCode :** 12
+- **Dernier commit :** non commité (session S10 en cours)
 
 ### Stack
 - Kotlin + Jetpack Compose (BOM 2024.06.00 / Compose 1.6.x)
@@ -35,24 +35,36 @@
 ```bash
 docker compose run --rm shell ./gradlew assembleDebug      # Build
 docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
+docker compose run --rm shell ./gradlew assembleDebug && adb install -r app/build/outputs/apk/debug/app-debug.apk  # Build + deploy
 ```
 
 ### Fichiers clés du projet
 | Fichier | Rôle |
 |---------|------|
-| `MetronomeEngine.kt` | Moteur singleton — start/stop/tick/flash/sound (ToneGenerator centralisé) |
-| `PreferencesManager.kt` | Persistance prefs (sound, vibration, flash, BPM) |
+| `MetronomeEngine.kt` | Moteur singleton — start/stop/tick/flash/sound/vibration (ToneGenerator + Vibrator centralisés) |
+| `PreferencesManager.kt` | Persistance prefs (sound, vibration, flash, BPM, darkTheme) |
 | `LivePerformanceScreen.kt` | Écran Live avec Pager, BPM + BeatDots hors pager, wrap-around swipe |
 | `LiveViewModel.kt` | VM Live : bind, playFor, toggle |
-| `MetronomeScreen.kt` | Écran Standalone, TopAppBar + layout scrollable |
-| `AppNavGraph.kt` | NavHost, `startDestination = Routes.ABOUT` |
+| `MetronomeScreen.kt` | Écran Standalone, modifier paramétrable pour padding bottom bar |
+| `AppNavGraph.kt` | NavHost, `startDestination = Routes.SETS` |
+| `BottomNavBar.kt` | Bottom Navigation Bar — Sets, Métronome, Plus |
+| `AppTopBarMenu.kt` | Overflow menu (Settings, About, Import) |
 | `ui/components/FlashColorPicker.kt` | Sélecteur couleur partagé |
 | `ui/components/BeatDots.kt` | Indicateurs de beat animés partagés |
 
 ### Architecture Live / Metronome
-- `MetronomeEngine` (singleton object) : moteur partagé, UN seul `ToneGenerator` créé par `setContext()`
-- Le son est joué dans l'engine via `playSoundIfEnabled()`, plus de double son possible
+- `MetronomeEngine` (singleton object) : moteur partagé, UN seul `ToneGenerator` + UN seul `Vibrator` créés par `setContext()`
+- Son joué via `playSoundIfEnabled()`, vibration via `playVibrationIfEnabled()` à chaque beat
 - Les VMs ne jouent plus le son ni la vibration individuellement
+
+### Scripts CI/CD
+| Script | Rôle |
+|--------|------|
+| `scripts/post-build.sh` | Incrémente versionCode, build Docker, deploy ADB (gestion smart install) |
+| `scripts/deploy.sh` | Deploy APK existant sur téléphone (gestion smart install) |
+
+### Docker — Volume keystore debug
+Le docker-compose monte `${HOME}/.android:/root/.android` pour partager le keystore debug avec le host. Après `docker compose down`, le build suivant utilise le bon keystore et `adb install -r` préserve les données.
 
 ---
 
@@ -73,6 +85,18 @@ docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
 - [x] `SmallTopAppBar` → `TopAppBar` ✅ S6
 - [x] BUG-001 double son ✅ S8
 - [x] `buildDir` → `layout.buildDirectory` ✅ S9
+
+### Résolu en v3.0.1
+- [x] Hamburger menu → Bottom Navigation Bar ✅ S10
+- [x] Start destination: `ABOUT` → `SETS` ✅ S10
+- [x] Theme toggle Dark/Light dans Paramètres (persistant) ✅ S10
+- [x] Vibration: ajoutée dans MetronomeEngine (cassée depuis S8) ✅ S10
+- [x] MetronomeScreen: accepte modifier pour padding bottom bar ✅ S10
+- [x] Vibration icon: `Vibration` activé / `DoNotDisturb` désactivé ✅ S10
+- [x] MetronomeScreen: retiré statusBarsPadding() (espace noir) ✅ S10
+- [x] MetronomeScreen: retiré label "BPM" et spacer inutile ✅ S10
+- [x] Play button réduit (96dp → 72dp) ✅ S10
+- [x] docker-compose: volume `${HOME}/.android` pour keystore debug ✅ S10
 
 ---
 
@@ -96,3 +120,4 @@ docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests
 | S7 | Refonte Live + Metronome (layouts unifiés) | `387063c` |
 | S8 | Fix BUG-001 (double son) + swipe cyclique + composants partagés | `387063c` |
 | S9 | Fix buildDir deprecated + v3.0 stable | `f61cf99`, `5d3747d` |
+| S10 | Bottom Nav + theme toggle + vibration fix + deploy pipeline | — |

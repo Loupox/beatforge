@@ -11,6 +11,7 @@ services:
       - ./:/workspace
       - gradle-cache:/root/.gradle
       - android-cache:/opt/android-sdk/.cache
+      - ${HOME}/.android:/root/.android
     command: []
 
   shell:
@@ -25,6 +26,7 @@ services:
       - ./:/workspace
       - gradle-cache:/root/.gradle
       - android-cache:/opt/android-sdk/.cache
+      - ${HOME}/.android:/root/.android
     entrypoint: ["/bin/bash"]
     command: []
     stdin_open: true

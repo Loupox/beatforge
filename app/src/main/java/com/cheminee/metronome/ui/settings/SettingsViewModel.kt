@@ -9,6 +9,7 @@ class SettingsViewModel(private val preferencesManager: PreferencesManager) : Vi
     val soundEnabled: StateFlow<Boolean> = preferencesManager.soundEnabled
     val flashEnabled: StateFlow<Boolean> = preferencesManager.flashEnabled
     val vibrationEnabled: StateFlow<Boolean> = preferencesManager.vibrationEnabled
+    val darkThemeEnabled: StateFlow<Boolean> = preferencesManager.darkThemeEnabled
 
     fun setSoundEnabled(enabled: Boolean) {
         preferencesManager.setSoundEnabled(enabled)
@@ -20,5 +21,9 @@ class SettingsViewModel(private val preferencesManager: PreferencesManager) : Vi
 
     fun setFlashEnabled(enabled: Boolean) {
         preferencesManager.setFlashEnabled(enabled)
+    }
+
+    fun setDarkThemeEnabled(enabled: Boolean) {
+        preferencesManager.setDarkThemeEnabled(enabled)
     }
 }

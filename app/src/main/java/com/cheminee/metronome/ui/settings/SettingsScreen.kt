@@ -33,6 +33,7 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
     val soundEnabled by viewModel.soundEnabled.collectAsState()
     val flashEnabled by viewModel.flashEnabled.collectAsState()
     val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
+    val darkThemeEnabled by viewModel.darkThemeEnabled.collectAsState()
 
     Column(
         modifier = Modifier
@@ -48,6 +49,31 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
         )
 
         Spacer(modifier = Modifier.height(Spacing.sm))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        ) {
+            Column(modifier = Modifier.padding(Spacing.md)) {
+                Text(
+                    text = stringResource(R.string.settings_appearance_section),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.height(Spacing.sm))
+
+                SettingRow(
+                    title = stringResource(R.string.settings_dark_mode),
+                    description = stringResource(R.string.settings_dark_mode_desc),
+                    checked = darkThemeEnabled,
+                    onCheckedChange = { viewModel.setDarkThemeEnabled(it) }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(Spacing.lg))
 
         Card(
             modifier = Modifier.fillMaxWidth(),

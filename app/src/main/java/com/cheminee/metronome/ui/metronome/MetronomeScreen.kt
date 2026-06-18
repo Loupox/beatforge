@@ -14,15 +14,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
+import androidx.compose.material.icons.filled.DoNotDisturb
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Vibration
@@ -85,7 +83,10 @@ fun VelocitySlider(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
+fun MetronomeScreen(
+    viewModel: StandaloneMetronomeViewModel,
+    modifier: Modifier = Modifier
+) {
     val engine = viewModel.engine
     val running by engine.running.collectAsState()
     val beatIndex by engine.beatIndex.collectAsState()
@@ -103,7 +104,7 @@ fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
     var showBpmDialog by remember { mutableStateOf(false) }
     var bpmInput by remember { mutableStateOf("") }
 
-    Box(modifier = Modifier.fillMaxSize().background(color = animatedBgColor)) {
+    Box(modifier = modifier.fillMaxSize().background(color = animatedBgColor)) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar(
                 title = {
@@ -113,7 +114,6 @@ fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 },
-                modifier = Modifier.statusBarsPadding(),
                 actions = {
                     IconButton(onClick = { viewModel.toggleSound() }) {
                         Icon(
@@ -124,7 +124,7 @@ fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
                     }
                     IconButton(onClick = { viewModel.toggleVibration() }) {
                         Icon(
-                            imageVector = Icons.Default.Vibration,
+                            imageVector = if (vibrationEnabled) Icons.Default.Vibration else Icons.Default.DoNotDisturb,
                             contentDescription = if (vibrationEnabled) "Vibration activée" else "Vibration désactivée",
                             tint = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -138,45 +138,29 @@ fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
                     .padding(horizontal = Spacing.lg),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Spacer(modifier = Modifier.size(Spacing.xl))
-
                 Box(modifier = Modifier.clickable { showBpmDialog = true }) {
                     Text(
                         text = "${viewModel.bpm}",
-                        style = MaterialTheme.typography.displayLarge.copy(fontSize = 120.sp),
+                        style = MaterialTheme.typography.displayLarge.copy(fontSize = 100.sp),
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center
                     )
                 }
 
-                Spacer(modifier = Modifier.size(Spacing.xs))
-
-                Text(
-                    text = "BPM",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(modifier = Modifier.size(Spacing.lg))
-
                 FlashColorPicker(
                     selectedIndex = flashColorIndex,
                     onColorSelected = { viewModel.setFlashColorIndex(it) }
                 )
 
-                Spacer(modifier = Modifier.size(Spacing.xl))
-
                 BeatDots(
                     beatIndex = beatIndex,
                     running = running
                 )
-
-                Spacer(modifier = Modifier.size(Spacing.xl))
 
                 Card(
                     modifier = Modifier
@@ -193,7 +177,7 @@ fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
                     )
                 }
 
-                Spacer(modifier = Modifier.size(Spacing.lg))
+                Spacer(modifier = Modifier.size(Spacing.md))
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -240,29 +224,25 @@ fun MetronomeScreen(viewModel: StandaloneMetronomeViewModel) {
                     }
                 }
 
-                Spacer(modifier = Modifier.size(Spacing.xxl))
-
                 Box(
                     modifier = Modifier
-                        .size(96.dp)
+                        .size(72.dp)
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.primary),
                     contentAlignment = Alignment.Center
                 ) {
                     IconButton(
                         onClick = { viewModel.toggle() },
-                        modifier = Modifier.size(96.dp)
+                        modifier = Modifier.size(72.dp)
                     ) {
                         Icon(
                             imageVector = if (running) Icons.Default.Pause else Icons.Default.PlayArrow,
                             contentDescription = if (running) "Pause" else "Play",
                             tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(48.dp)
+                            modifier = Modifier.size(36.dp)
                         )
                     }
                 }
-
-                Spacer(modifier = Modifier.size(Spacing.xxl))
             }
         }
     }

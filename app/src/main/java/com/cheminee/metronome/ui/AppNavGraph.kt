@@ -51,7 +51,7 @@ fun AppNavGraph(
     triggerImport: Boolean = false,
     onImportHandled: () -> Unit = {}
 ) {
-    NavHost(navController = navController, startDestination = Routes.ABOUT, modifier = modifier) {
+    NavHost(navController = navController, startDestination = Routes.SETS, modifier = modifier) {
         composable(Routes.SETS) {
             Log.d("MetronomeEngine", "NavGraph: Entering SETS")
             val vm: SetsListViewModel = viewModel(factory = viewModelFactory)
@@ -121,7 +121,7 @@ fun AppNavGraph(
             Log.d("MetronomeEngine", "NavGraph: Entering METRONOME")
             val vm: StandaloneMetronomeViewModel = viewModel(factory = viewModelFactory)
             Log.d("MetronomeEngine", "NavGraph: StandaloneMetronomeViewModel created")
-            MetronomeScreen(viewModel = vm)
+            MetronomeScreen(viewModel = vm, modifier = modifier)
         }
         composable(Routes.ABOUT) {
             AboutScreen()
