@@ -19,6 +19,7 @@ captures/
 *.jpg
 *.png
 ss.jpeg
+screenshot/
 
 # Signing
 *.keystore
