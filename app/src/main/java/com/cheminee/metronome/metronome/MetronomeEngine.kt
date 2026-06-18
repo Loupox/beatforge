@@ -83,26 +83,30 @@ object MetronomeEngine {
     private fun playSoundIfEnabled(beat: Int) {
         val pm = preferencesManager ?: return
         if (!pm.soundEnabled.value) return
-        val isFirstBeat = beat % 4 == 0
-        val tone = if (isFirstBeat) ToneGenerator.TONE_PROP_BEEP2 else ToneGenerator.TONE_PROP_BEEP
-        val duration = if (isFirstBeat) 100 else 75
+        val isFirstBeat = beat % currentBeatsPerBar == 0
+        val accentEnabled = pm.accentFirstBeatEnabled.value
+        val isAccented = isFirstBeat && accentEnabled
+        val tone = if (isAccented) ToneGenerator.TONE_PROP_BEEP2 else ToneGenerator.TONE_PROP_BEEP
+        val duration = if (isAccented) 100 else 75
         toneGenerator?.startTone(tone, duration)
-        Log.d("MetronomeEngine", "playSound: beat=$beat, tone=$tone, duration=$duration")
+        Log.d("MetronomeEngine", "playSound: beat=$beat, isFirst=$isFirstBeat, accent=$isAccented, tone=$tone, duration=$duration")
     }
 
     private fun playVibrationIfEnabled(beat: Int) {
         val pm = preferencesManager ?: return
         if (!pm.vibrationEnabled.value) return
-        val isFirstBeat = beat % 4 == 0
+        val isFirstBeat = beat % currentBeatsPerBar == 0
+        val accentEnabled = pm.accentFirstBeatEnabled.value
+        val isAccented = isFirstBeat && accentEnabled
         vibrator?.let { v ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(30, if (isFirstBeat) 255 else 128))
+                v.vibrate(VibrationEffect.createOneShot(30, if (isAccented) 255 else 128))
             } else {
                 @Suppress("DEPRECATION")
                 v.vibrate(30)
             }
         }
-        Log.d("MetronomeEngine", "playVibration: beat=$beat, isFirst=$isFirstBeat")
+        Log.d("MetronomeEngine", "playVibration: beat=$beat, isFirst=$isFirstBeat, accent=$isAccented")
     }
 
     fun start(bpm: Int, beatsPerBar: Int = DEFAULT_BEATS_PER_BAR) {

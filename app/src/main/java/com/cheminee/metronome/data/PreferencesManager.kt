@@ -25,6 +25,9 @@ class PreferencesManager(context: Context) {
     private val _darkThemeEnabled = MutableStateFlow(prefs.getBoolean(KEY_DARK_THEME_ENABLED, false))
     val darkThemeEnabled: StateFlow<Boolean> = _darkThemeEnabled.asStateFlow()
 
+    private val _accentFirstBeatEnabled = MutableStateFlow(prefs.getBoolean(KEY_ACCENT_FIRST_BEAT_ENABLED, true))
+    val accentFirstBeatEnabled: StateFlow<Boolean> = _accentFirstBeatEnabled.asStateFlow()
+
     fun setSoundEnabled(enabled: Boolean) {
         _soundEnabled.value = enabled
         prefs.edit().putBoolean(KEY_SOUND_ENABLED, enabled).apply()
@@ -50,6 +53,11 @@ class PreferencesManager(context: Context) {
         prefs.edit().putBoolean(KEY_DARK_THEME_ENABLED, enabled).apply()
     }
 
+    fun setAccentFirstBeatEnabled(enabled: Boolean) {
+        _accentFirstBeatEnabled.value = enabled
+        prefs.edit().putBoolean(KEY_ACCENT_FIRST_BEAT_ENABLED, enabled).apply()
+    }
+
     companion object {
         private const val PREFS_NAME = "cheminee_prefs"
         private const val KEY_SOUND_ENABLED = "sound_enabled"
@@ -57,6 +65,7 @@ class PreferencesManager(context: Context) {
         private const val KEY_FLASH_ENABLED = "flash_enabled"
         private const val KEY_FLASH_COLOR_INDEX = "flash_color_index"
         private const val KEY_DARK_THEME_ENABLED = "dark_theme_enabled"
+        private const val KEY_ACCENT_FIRST_BEAT_ENABLED = "accent_first_beat_enabled"
 
         val FLASH_COLORS = listOf(
             0xFFFFEB3Bu.toInt(),  // Jaune

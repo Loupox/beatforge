@@ -54,6 +54,7 @@ class LiveViewModel(
     val flashColorIndex = preferencesManager?.flashColorIndex
     val soundEnabled = preferencesManager?.soundEnabled
     val vibrationEnabled = preferencesManager?.vibrationEnabled
+    val accentFirstBeatEnabled = preferencesManager?.accentFirstBeatEnabled
 
     fun toggleVibration() {
         val current = preferencesManager?.vibrationEnabled?.value ?: false

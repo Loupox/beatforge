@@ -2,18 +2,20 @@
 
 **Repo:** https://github.com/Loupox/beatforge
 
-## Session en cours : S10 — Refonte Navigation
-**Dernière mise à jour :** 2026-06-16
+## Session en cours : S11 — Accent 1er beat
+**Dernière mise à jour :** 2026-06-18
 **Version :** 3.0.1
 **VersionCode :** 12
 **État :** ✅ Build OK, Tests OK (72 tests, 1 ignoré)
 
 ---
 
-### PROCHAINE SESSION : S11 — Proposer une idée
+### PROCHAINE SESSION : S12 — Signatures rythmiques
 
-**Livrables S11 :**
-- [ ] Identifier la prochaine feature ou amélioration
+**Livrables S12 :**
+- [ ] Support 3/4, 4/4, 6/8, 5/4, 7/8...
+- [ ] Pattern d'accent par signature
+- [ ] UI picker signature
 
 ---
 
@@ -22,7 +24,7 @@
 ### Version actuelle
 - **versionName :** 3.0.1
 - **versionCode :** 12
-- **Dernier commit :** non commité (session S10 en cours)
+- **Dernier commit S10 :** `38291f1` (Bottom Navigation + theme toggle + vibration fix + nav fix)
 
 ### Stack
 - Kotlin + Jetpack Compose (BOM 2024.06.00 / Compose 1.6.x)
@@ -98,6 +100,18 @@ Le docker-compose monte `${HOME}/.android:/root/.android` pour partager le keyst
 - [x] Play button réduit (96dp → 72dp) ✅ S10
 - [x] docker-compose: volume `${HOME}/.android` pour keystore debug ✅ S10
 
+### S11 — Accent 1er beat (IN PROGRESS)
+- [ ] Beat 1 = son + vibration + flash STRONGER que beats 2-N
+- [ ] Toggle dans Settings: "Accentuer le 1er beat" (défaut: ON)
+- [ ] Persistant via PreferencesManager
+- [ ] Impact: MetronomeEngine, Settings (ajout toggle)
+
+### S12 — Signatures rythmiques (PLANNED)
+- [ ] 4/4, 3/4, 6/8, 5/4, 7/8...
+- [ ] Pattern d'accent: beat 1 toujours accentué, reste configurable
+- [ ] UI: dropdown/picker signature
+- [ ] Persistant
+
 ---
 
 ## Direction artistique v3.0
@@ -120,4 +134,5 @@ Le docker-compose monte `${HOME}/.android:/root/.android` pour partager le keyst
 | S7 | Refonte Live + Metronome (layouts unifiés) | `387063c` |
 | S8 | Fix BUG-001 (double son) + swipe cyclique + composants partagés | `387063c` |
 | S9 | Fix buildDir deprecated + v3.0 stable | `f61cf99`, `5d3747d` |
-| S10 | Bottom Nav + theme toggle + vibration fix + deploy pipeline | — |
+| S10 | Bottom Nav + theme toggle + vibration fix + deploy pipeline | `38291f1` |
+| S10b | Cleanup: old docs + ignore screenshot/ | `f326848` |

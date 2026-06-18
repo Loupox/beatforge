@@ -34,6 +34,7 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
     val flashEnabled by viewModel.flashEnabled.collectAsState()
     val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
     val darkThemeEnabled by viewModel.darkThemeEnabled.collectAsState()
+    val accentFirstBeatEnabled by viewModel.accentFirstBeatEnabled.collectAsState()
 
     Column(
         modifier = Modifier
@@ -112,6 +113,15 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                     description = stringResource(R.string.settings_flash_desc),
                     checked = flashEnabled,
                     onCheckedChange = { viewModel.setFlashEnabled(it) }
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.sm))
+
+                SettingRow(
+                    title = stringResource(R.string.settings_accent_first_beat),
+                    description = stringResource(R.string.settings_accent_first_beat_desc),
+                    checked = accentFirstBeatEnabled,
+                    onCheckedChange = { viewModel.setAccentFirstBeatEnabled(it) }
                 )
             }
         }
