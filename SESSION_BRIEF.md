@@ -7,6 +7,7 @@
 **Version :** 3.0.1
 **VersionCode :** 12
 **État :** ✅ Build OK, Tests OK (72 tests, 1 ignoré)
+**Checkpoint:** `cb97815`
 
 ---
 
