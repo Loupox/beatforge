@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cheminee.metronome.data.PreferencesManager
 import com.cheminee.metronome.data.Song
+import com.cheminee.metronome.data.TimeSignature
 import com.cheminee.metronome.metronome.MetronomeEngine
 import com.cheminee.metronome.repository.SetRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,6 +56,7 @@ class LiveViewModel(
     val soundEnabled = preferencesManager?.soundEnabled
     val vibrationEnabled = preferencesManager?.vibrationEnabled
     val accentFirstBeatEnabled = preferencesManager?.accentFirstBeatEnabled
+    val timeSignature = preferencesManager?.timeSignature
 
     fun toggleVibration() {
         val current = preferencesManager?.vibrationEnabled?.value ?: false

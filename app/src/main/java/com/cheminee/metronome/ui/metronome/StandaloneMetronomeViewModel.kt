@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cheminee.metronome.data.PreferencesManager
+import com.cheminee.metronome.data.TimeSignature
 import com.cheminee.metronome.metronome.MetronomeEngine
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -21,6 +22,7 @@ open class StandaloneMetronomeViewModel(
     val soundEnabled = preferencesManager?.soundEnabled
     val vibrationEnabled = preferencesManager?.vibrationEnabled
     val accentFirstBeatEnabled = preferencesManager?.accentFirstBeatEnabled
+    val timeSignature = preferencesManager?.timeSignature
 
     fun toggleSound() {
         val current = preferencesManager?.soundEnabled?.value ?: true
@@ -72,7 +74,7 @@ open class StandaloneMetronomeViewModel(
             }
             if (intervals.isNotEmpty()) {
                 val avgInterval = intervals.average()
-                val calculatedBpm = (60000.0 / avgInterval).toInt().coerceIn(30, 300)
+                val calculatedBpm = (60000.0 / avgInterval).toInt().coerceIn(45, 250)
                 setBpm(calculatedBpm)
             }
         }
@@ -100,15 +102,19 @@ open class StandaloneMetronomeViewModel(
     }
 
     fun setBpm(value: Int) {
-        _bpm.intValue = value.coerceIn(30, 300)
+        _bpm.intValue = value.coerceIn(45, 250)
         if (engine.running.value) {
-            engine.start(_bpm.intValue)
+            val ts = preferencesManager?.timeSignature?.value ?: TimeSignature.FOUR_FOUR
+            engine.start(_bpm.intValue, ts)
         }
     }
 
+    fun incrementBpm() = setBpm(bpm + 1)
+    fun decrementBpm() = setBpm(bpm - 1)
+
     fun getFinalBpm(): Int {
         val current = _bpm.intValue
-        val niceValues = listOf(30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300)
+        val niceValues = listOf(45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 235, 240, 245, 250)
         val closest = niceValues.minByOrNull { kotlin.math.abs(it - current) } ?: current
         return if (kotlin.math.abs(closest - current) <= 5) closest else current
     }
@@ -122,8 +128,24 @@ open class StandaloneMetronomeViewModel(
             if (engine.running.value) {
                 engine.stop()
             } else {
-                engine.start(_bpm.intValue)
+                val ts = preferencesManager?.timeSignature?.value ?: TimeSignature.DEFAULT
+                engine.start(_bpm.intValue, ts)
             }
+        }
+    }
+
+    fun setTimeSignature(timeSignature: TimeSignature) {
+        preferencesManager?.setTimeSignature(timeSignature)
+        if (engine.running.value) {
+            engine.start(_bpm.intValue, timeSignature)
+        }
+    }
+
+    fun setCustomTimeSignature(numerator: Int, beatUnit: Int) {
+        val customTs = TimeSignature.Custom.create(numerator, beatUnit)
+        preferencesManager?.setTimeSignature(customTs)
+        if (engine.running.value) {
+            engine.start(_bpm.intValue, customTs)
         }
     }
 

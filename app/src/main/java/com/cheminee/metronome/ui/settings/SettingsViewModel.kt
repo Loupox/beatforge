@@ -2,6 +2,7 @@ package com.cheminee.metronome.ui.settings
 
 import androidx.lifecycle.ViewModel
 import com.cheminee.metronome.data.PreferencesManager
+import com.cheminee.metronome.data.TimeSignature
 import kotlinx.coroutines.flow.StateFlow
 
 class SettingsViewModel(private val preferencesManager: PreferencesManager) : ViewModel() {
@@ -11,6 +12,7 @@ class SettingsViewModel(private val preferencesManager: PreferencesManager) : Vi
     val vibrationEnabled: StateFlow<Boolean> = preferencesManager.vibrationEnabled
     val darkThemeEnabled: StateFlow<Boolean> = preferencesManager.darkThemeEnabled
     val accentFirstBeatEnabled: StateFlow<Boolean> = preferencesManager.accentFirstBeatEnabled
+    val timeSignature: StateFlow<TimeSignature> = preferencesManager.timeSignature
 
     fun setSoundEnabled(enabled: Boolean) {
         preferencesManager.setSoundEnabled(enabled)

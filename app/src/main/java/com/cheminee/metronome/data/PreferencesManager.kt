@@ -28,6 +28,16 @@ class PreferencesManager(context: Context) {
     private val _accentFirstBeatEnabled = MutableStateFlow(prefs.getBoolean(KEY_ACCENT_FIRST_BEAT_ENABLED, true))
     val accentFirstBeatEnabled: StateFlow<Boolean> = _accentFirstBeatEnabled.asStateFlow()
 
+    private val _timeSignature = MutableStateFlow(
+        TimeSignature.fromString(
+            prefs.getString(KEY_TIME_SIGNATURE, TimeSignature.DEFAULT.presetType.name)
+                ?: TimeSignature.DEFAULT.presetType.name,
+            prefs.getInt(KEY_CUSTOM_NUMERATOR, 4),
+            prefs.getInt(KEY_CUSTOM_BEAT_UNIT, 4)
+        )
+    )
+    val timeSignature: StateFlow<TimeSignature> = _timeSignature.asStateFlow()
+
     fun setSoundEnabled(enabled: Boolean) {
         _soundEnabled.value = enabled
         prefs.edit().putBoolean(KEY_SOUND_ENABLED, enabled).apply()
@@ -58,6 +68,20 @@ class PreferencesManager(context: Context) {
         prefs.edit().putBoolean(KEY_ACCENT_FIRST_BEAT_ENABLED, enabled).apply()
     }
 
+    fun setTimeSignature(timeSignature: TimeSignature) {
+        _timeSignature.value = timeSignature
+        when (timeSignature) {
+            is TimeSignature.Preset -> {
+                prefs.edit().putString(KEY_TIME_SIGNATURE, timeSignature.presetType.name).apply()
+            }
+            is TimeSignature.Custom -> {
+                prefs.edit().putString(KEY_TIME_SIGNATURE, "CUSTOM").apply()
+                prefs.edit().putInt(KEY_CUSTOM_NUMERATOR, timeSignature.numerator).apply()
+                prefs.edit().putInt(KEY_CUSTOM_BEAT_UNIT, timeSignature.beatUnit).apply()
+            }
+        }
+    }
+
     companion object {
         private const val PREFS_NAME = "cheminee_prefs"
         private const val KEY_SOUND_ENABLED = "sound_enabled"
@@ -66,6 +90,9 @@ class PreferencesManager(context: Context) {
         private const val KEY_FLASH_COLOR_INDEX = "flash_color_index"
         private const val KEY_DARK_THEME_ENABLED = "dark_theme_enabled"
         private const val KEY_ACCENT_FIRST_BEAT_ENABLED = "accent_first_beat_enabled"
+        private const val KEY_TIME_SIGNATURE = "time_signature"
+        private const val KEY_CUSTOM_NUMERATOR = "custom_numerator"
+        private const val KEY_CUSTOM_BEAT_UNIT = "custom_beat_unit"
 
         val FLASH_COLORS = listOf(
             0xFFFFEB3Bu.toInt(),  // Jaune

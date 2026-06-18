@@ -20,9 +20,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DoNotDisturb
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -55,8 +57,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cheminee.metronome.R
+import com.cheminee.metronome.data.TimeSignature
 import com.cheminee.metronome.ui.components.BeatDots
 import com.cheminee.metronome.ui.components.FlashColorPicker
+import com.cheminee.metronome.ui.components.TimeSignatureDisplay
+import com.cheminee.metronome.ui.components.TimeSignaturePicker
 import com.cheminee.metronome.ui.theme.Spacing
 
 @Composable
@@ -96,6 +101,10 @@ fun MetronomeScreen(
     val soundEnabled by (viewModel.soundEnabled?.collectAsState(initial = true) ?: remember { mutableStateOf(true) })
     val vibrationEnabled by (viewModel.vibrationEnabled?.collectAsState(initial = false) ?: remember { mutableStateOf(false) })
     val accentFirstBeatEnabled by (viewModel.accentFirstBeatEnabled?.collectAsState(initial = true) ?: remember { mutableStateOf(true) })
+    val timeSignature by (viewModel.timeSignature?.collectAsState(initial = TimeSignature.FOUR_FOUR) ?: remember { mutableStateOf(TimeSignature.FOUR_FOUR) })
+
+    val customNumerator = if (timeSignature is TimeSignature.Custom) (timeSignature as TimeSignature.Custom).numerator else 4
+    val customBeatUnit = if (timeSignature is TimeSignature.Custom) (timeSignature as TimeSignature.Custom).beatUnit else 4
 
     val flashColors = com.cheminee.metronome.data.PreferencesManager.FLASH_COLORS
     val isFirstBeatAccented = accentFirstBeatEnabled && beatIndex == 0
@@ -148,14 +157,35 @@ fun MetronomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Box(modifier = Modifier.clickable { showBpmDialog = true }) {
+                Row(
+                    modifier = Modifier.clickable { showBpmDialog = true },
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    IconButton(onClick = { viewModel.decrementBpm() }) {
+                        Icon(
+                            imageVector = Icons.Default.Remove,
+                            contentDescription = "-1 BPM",
+                            modifier = Modifier.size(32.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
                     Text(
                         text = "${viewModel.bpm}",
                         style = MaterialTheme.typography.displayLarge.copy(fontSize = 100.sp),
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(horizontal = 8.dp)
                     )
+                    IconButton(onClick = { viewModel.incrementBpm() }) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "+1 BPM",
+                            modifier = Modifier.size(32.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 }
 
                 FlashColorPicker(
@@ -165,8 +195,38 @@ fun MetronomeScreen(
 
                 BeatDots(
                     beatIndex = beatIndex,
-                    running = running
+                    running = running,
+                    beatsPerBar = engine.currentBeatsPerBar
                 )
+
+                TimeSignatureDisplay(displayName = engine.currentTimeSignatureDisplay)
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(Spacing.md),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(R.string.time_signature),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(Spacing.sm))
+                        TimeSignaturePicker(
+                            selectedTimeSignature = timeSignature,
+                            onTimeSignatureSelected = { viewModel.setTimeSignature(it) },
+                            customNumerator = customNumerator,
+                            customBeatUnit = customBeatUnit,
+                            onCustomSave = { num, unit -> viewModel.setCustomTimeSignature(num, unit) }
+                        )
+                    }
+                }
 
                 Card(
                     modifier = Modifier
@@ -204,7 +264,7 @@ fun MetronomeScreen(
                         Slider(
                             value = viewModel.bpm.toFloat(),
                             onValueChange = { viewModel.setBpm(it.toInt()) },
-                            valueRange = 30f..300f,
+                            valueRange = 45f..250f,
                             modifier = Modifier.fillMaxWidth(),
                             colors = SliderDefaults.colors(
                                 thumbColor = MaterialTheme.colorScheme.primary,
@@ -217,12 +277,12 @@ fun MetronomeScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                "30",
+                                "45",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                "300",
+                                "250",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -274,7 +334,7 @@ fun MetronomeScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        val newBpm = bpmInput.toIntOrNull()?.coerceIn(30, 300)
+                        val newBpm = bpmInput.toIntOrNull()?.coerceIn(45, 250)
                         if (newBpm != null) {
                             viewModel.setBpm(newBpm)
                         }

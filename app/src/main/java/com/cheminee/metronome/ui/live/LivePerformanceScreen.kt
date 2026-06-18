@@ -285,7 +285,8 @@ fun LivePerformanceScreen(
 
                 BeatDots(
                     beatIndex = beatIndex,
-                    running = running
+                    running = running,
+                    beatsPerBar = viewModel.engine.currentBeatsPerBar
                 )
             }
 
