@@ -3,6 +3,7 @@ package com.cheminee.metronome.ui.metronome
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,6 +46,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -62,6 +64,7 @@ import com.cheminee.metronome.ui.components.FlashColorButton
 import com.cheminee.metronome.ui.components.TimeSignatureDisplay
 import com.cheminee.metronome.ui.components.TimeSignaturePicker
 import com.cheminee.metronome.ui.theme.BeatForgeTextStyles
+import com.cheminee.metronome.ui.theme.BorderThickness
 import com.cheminee.metronome.ui.theme.Spacing
 
 @Composable
@@ -161,6 +164,7 @@ fun MetronomeScreen(
                                 .size(32.dp)
                                 .clip(CircleShape)
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape)
                                 .clickable { viewModel.decrementBpm() },
                             contentAlignment = Alignment.Center
                         ) {
@@ -183,6 +187,7 @@ fun MetronomeScreen(
                                 .size(32.dp)
                                 .clip(CircleShape)
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape)
                                 .clickable { viewModel.incrementBpm() },
                             contentAlignment = Alignment.Center
                         ) {
@@ -210,7 +215,8 @@ fun MetronomeScreen(
                 BeatDots(
                     beatIndex = beatIndex,
                     running = running,
-                    beatsPerBar = engine.currentBeatsPerBar
+                    beatsPerBar = engine.currentBeatsPerBar,
+                    showSubdots = true
                 )
 
                 TimeSignatureDisplay(displayName = engine.currentTimeSignatureDisplay)

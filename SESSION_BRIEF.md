@@ -4,8 +4,8 @@
 
 ## Session en cours : S12 — Signatures rythmiques
 **Dernière mise à jour :** 2026-06-18
-**Version :** 3.0.1
-**VersionCode :** 12
+**Version :** 3.1.0
+**VersionCode :** 13
 **État :** ✅ Build OK, Tests OK (72 tests, 1 ignoré)
 **Checkpoint:** `cb97815`
 
@@ -14,18 +14,18 @@
 ### PROCHAINE SESSION : S13 — ???
 
 **Livrables S12 :**
-- [ ] Support 3/4, 4/4, 6/8, 5/4, 7/8...
-- [ ] Pattern d'accent par signature
-- [ ] UI picker signature
+- [x] Support 3/4, 4/4, 6/8, 5/4, 7/8...
+- [x] Pattern d'accent par signature
+- [x] UI picker signature
 
 ---
 
 ## Contexte projet
 
 ### Version actuelle
-- **versionName :** 3.0.1
-- **versionCode :** 12
-- **Dernier commit S10 :** `38291f1` (Bottom Navigation + theme toggle + vibration fix + nav fix)
+- **versionName :** 3.1.0
+- **versionCode :** 13
+- **Dernier commit S11 :** `a29dde8` (Accent first beat)
 
 ### Stack
 - Kotlin + Jetpack Compose (BOM 2024.06.00 / Compose 1.6.x)
@@ -101,6 +101,17 @@ Le docker-compose monte `${HOME}/.android:/root/.android` pour partager le keyst
 - [x] Play button réduit (96dp → 72dp) ✅ S10
 - [x] docker-compose: volume `${HOME}/.android` pour keystore debug ✅ S10
 
+### Résolu en v3.1
+- [x] TimeSignature enum: 4/4, 3/4, 6/8, 2/4, 5/4, 7/8 ✅ S12
+- [x] MetronomeEngine: support time signatures avec accent patterns ✅ S12
+- [x] TimeSignaturePicker UI component ✅ S12
+- [x] TimeSignatureDisplay UI component ✅ S12
+- [x] Integration MetronomeScreen avec TimeSignaturePicker ✅ S12
+- [x] StandaloneMetronomeViewModel: timeSignature support ✅ S12
+- [x] LiveViewModel: timeSignature property ✅ S12
+- [x] BeatDots: dynamic beatsPerBar display ✅ S12
+- [x] PreferencesManager: persist timeSignature ✅ S12
+
 ### S11 — Accent 1er beat (DONE ✅)
 - [x] Beat 1 = son + vibration + flash STRONGER que beats 2-N
 - [x] Toggle dans Settings: "Accentuer le 1er beat" (défaut: ON)
@@ -108,11 +119,11 @@ Le docker-compose monte `${HOME}/.android:/root/.android` pour partager le keyst
 - [x] Impact: MetronomeEngine, Settings (ajout toggle)
 - [x] Flash rouge (index 6) sur beat 1 quand accent activé ✅ `a29dde8`
 
-### S12 — Signatures rythmiques (PLANNED)
-- [ ] 4/4, 3/4, 6/8, 5/4, 7/8...
-- [ ] Pattern d'accent: beat 1 toujours accentué, reste configurable
-- [ ] UI: dropdown/picker signature
-- [ ] Persistant
+### S12 — Signatures rythmiques (DONE ✅)
+- [x] 4/4, 3/4, 6/8, 2/4, 5/4, 7/8
+- [x] Pattern d'accent: beat 1 toujours accentué, configurable par signature
+- [x] UI: TimeSignaturePicker avec chips cliquables
+- [x] Persistant via PreferencesManager
 
 ---
 
@@ -139,3 +150,4 @@ Le docker-compose monte `${HOME}/.android:/root/.android` pour partager le keyst
 | S10 | Bottom Nav + theme toggle + vibration fix + deploy pipeline | `38291f1` |
 | S10b | Cleanup: old docs + ignore screenshot/ | `f326848` |
 | S11 | Accent first beat (sound/vibration/flash stronger on beat 1) + toggle in Settings | `a29dde8` |
+| S12 | Time signatures (4/4, 3/4, 6/8, 5/4, 7/8) + accent patterns + UI picker | TBD |

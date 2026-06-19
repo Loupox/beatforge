@@ -15,8 +15,18 @@ SESSION_BRIEF.md → .kilo/plans/design-refresh-v3.md → livrables visés
 ## Build & Test
 
 ```bash
-docker compose run --rm shell ./gradlew testDebugUnitTest  # Tests (72 tests)
-docker compose run --rm shell ./gradlew assembleDebug      # Build APK
+./scripts/build-and-deploy.sh    # Build + incrémente versionCode + deploy (recommandé)
+./scripts/deploy.sh              # Deploy seul (APK déjà compilé)
+```
+
+**Workflow détaillé :**
+
+```bash
+# Tests seulement
+docker compose run --rm shell ./gradlew testDebugUnitTest  # 72 tests
+
+# Build APK seulement
+docker compose run --rm shell ./gradlew assembleDebug
 ```
 
 **APK généré dans :** `app/build/outputs/apk/debug/app-debug.apk`
@@ -24,9 +34,8 @@ docker compose run --rm shell ./gradlew assembleDebug      # Build APK
 ---
 
 ## Version actuelle
-- **versionName:** 3.0.0
-- **versionCode:** 10
-- **Dernier commit:** `f61cf99`
+- **versionName:** 3.1.0
+- **versionCode:** 13
 
 ---
 

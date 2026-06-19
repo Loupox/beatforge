@@ -57,7 +57,27 @@ Puis, dans le conteneur :
 - Build après modification : `docker compose run --rm build`
 - Lancer des tests unitaires depuis le conteneur : `docker compose run --rm shell` puis `./gradlew test`
 
+## Script de build complet
+
+Le script `build-and-deploy.sh` automatise l'ensemble du workflow :
+
+```bash
+./scripts/build-and-deploy.sh
+```
+
+**Ce qu'il fait :**
+1. Incrémente `versionCode` automatiquement
+2. Exécute `docker compose run --rm build` (clean + assembleDebug)
+3. Deploy sur le téléphone via `adb` si connecté
+4. Revert automatique du `versionCode` si le build échoue
+
+Pour un build sans incrémenter la version :
+
+```bash
+docker compose run --rm build
+```
+
 ## Attention
 
-- Ne pas exécuter `./gradlew` en local si l’agent ou l’environnement ne contient pas le SDK Android.
+- Ne pas exécuter `./gradlew` en local si l'agent ou l'environnement ne contient pas le SDK Android.
 - Toujours utiliser les commandes Docker documentées ici.

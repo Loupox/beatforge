@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cheminée</string>
+    <string name="app_name">BeatForge</string>
     <string name="sets_title">Mes sets</string>
     <string name="new_set">Nouveau set</string>
     <string name="set_name_hint">Nom du set</string>
@@ -41,7 +41,7 @@
     <string name="import_action">Importer un set</string>
     <string name="tap_tempo">TAP</string>
     <string name="enter_bpm_title">Entrez le BPM</string>
-    <string name="enter_bpm_hint">BPM (30-300)</string>
+    <string name="enter_bpm_hint">BPM (45-250)</string>
     <string name="settings_title">Paramètres</string>
     <string name="settings_metronome_section">Métronome</string>
     <string name="settings_sound">Son</string>
@@ -60,4 +60,5 @@
     <string name="settings_appearance_section">Apparence</string>
     <string name="settings_dark_mode">Mode sombre</string>
     <string name="settings_dark_mode_desc">Forcer le thème sombre</string>
+    <string name="time_signature">Signature rythmique</string>
 </resources>

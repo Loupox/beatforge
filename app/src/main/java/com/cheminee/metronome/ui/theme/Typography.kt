@@ -122,6 +122,13 @@ object BeatForgeTextStyles {
         lineHeight = 64.sp,
         letterSpacing = 0.sp
     )
+    val bpmLive = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Bold,
+        fontSize = 96.sp,
+        lineHeight = 104.sp,
+        letterSpacing = 0.sp
+    )
     val screenTitle = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,

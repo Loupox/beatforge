@@ -67,6 +67,7 @@ import com.cheminee.metronome.data.Song
 import com.cheminee.metronome.ui.components.BeatDots
 import com.cheminee.metronome.ui.components.ChemineeTopBar
 import com.cheminee.metronome.ui.components.FlashColorPicker
+import com.cheminee.metronome.ui.theme.BeatForgeTextStyles
 import com.cheminee.metronome.ui.theme.Spacing
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -251,16 +252,16 @@ fun LivePerformanceScreen(
 
                 Text(
                     text = currentSong?.bpm?.toString() ?: "--",
-                    style = MaterialTheme.typography.displayLarge.copy(fontSize = 96.sp),
-                    fontWeight = FontWeight.Bold,
+                    style = BeatForgeTextStyles.bpmLive,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center
                 )
 
                 Text(
-                    text = "BPM",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = "B P M",
+                    style = BeatForgeTextStyles.microLabel,
+                    color = MaterialTheme.colorScheme.primary,
+                    letterSpacing = androidx.compose.ui.unit.TextUnit(3.5f, androidx.compose.ui.unit.TextUnitType.Sp)
                 )
 
                 Spacer(modifier = Modifier.size(Spacing.md))
@@ -275,7 +276,8 @@ fun LivePerformanceScreen(
                 BeatDots(
                     beatIndex = beatIndex,
                     running = running,
-                    beatsPerBar = viewModel.engine.currentBeatsPerBar
+                    beatsPerBar = viewModel.engine.currentBeatsPerBar,
+                    showSubdots = true
                 )
             }
 
