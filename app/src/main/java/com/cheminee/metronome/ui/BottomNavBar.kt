@@ -2,7 +2,7 @@ package com.cheminee.metronome.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +26,7 @@ enum class BottomNavItem(
 ) {
     SETS(Routes.SETS, R.string.nav_sets, Icons.AutoMirrored.Filled.MenuBook),
     METRONOME(Routes.METRONOME, R.string.nav_metronome, Icons.Default.Timer),
-    OVERFLOW(null, R.string.nav_more, Icons.Default.MoreVert)
+    PLUS(null, R.string.nav_more, Icons.Default.Add)
 }
 
 @Composable
@@ -34,7 +34,7 @@ fun AppBottomNavBar(
     currentRoute: String?,
     onNavigateToSets: () -> Unit,
     onNavigateToMetronome: () -> Unit,
-    onOverflowClick: () -> Unit,
+    onPlusClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
@@ -47,7 +47,7 @@ fun AppBottomNavBar(
             val selected = when (item) {
                 BottomNavItem.SETS -> currentRoute == Routes.SETS
                 BottomNavItem.METRONOME -> currentRoute == Routes.METRONOME
-                BottomNavItem.OVERFLOW -> false
+                BottomNavItem.PLUS -> false
             }
 
             NavigationBarItem(
@@ -63,7 +63,7 @@ fun AppBottomNavBar(
                     when (item) {
                         BottomNavItem.SETS -> onNavigateToSets()
                         BottomNavItem.METRONOME -> onNavigateToMetronome()
-                        BottomNavItem.OVERFLOW -> onOverflowClick()
+                        BottomNavItem.PLUS -> onPlusClick()
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(

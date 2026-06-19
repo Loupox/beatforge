@@ -11,6 +11,7 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -57,12 +58,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cheminee.metronome.R
 import com.cheminee.metronome.data.Song
 import com.cheminee.metronome.ui.components.BeatDots
 import com.cheminee.metronome.ui.components.ChemineeTopBar
@@ -137,7 +142,7 @@ fun LivePerformanceScreen(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                "Chargement...",
+                stringResource(R.string.loading),
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyLarge
             )
@@ -153,7 +158,7 @@ fun LivePerformanceScreen(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                "Pas de morceau dans ce set.",
+                stringResource(R.string.no_songs_in_set),
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyLarge
             )
@@ -193,6 +198,7 @@ fun LivePerformanceScreen(
     }
     val bgColor = if (flashing && flashEnabled) flashColor else MaterialTheme.colorScheme.background
     val animatedBgColor by animateColorAsState(targetValue = bgColor, animationSpec = tween(durationMillis = 300))
+    val barsAlpha by animateFloatAsState(targetValue = if (flashing && flashEnabled) 0.6f else 1f, animationSpec = tween(durationMillis = 300), label = "barsAlpha")
 
     LaunchedEffect(pagerState, songs, running) {
         snapshotFlowOfPage(pagerState)
@@ -209,9 +215,9 @@ fun LivePerformanceScreen(
             .clickable { currentSong?.let { viewModel.toggle(it.bpm) } }
             .background(animatedBgColor)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize().alpha(barsAlpha)) {
             ChemineeTopBar(
-                title = currentSong?.name ?: "Live",
+                title = currentSong?.name ?: stringResource(R.string.nav_live),
                 navigationIcon = {
                     IconButton(onClick = {
                         viewModel.stop()
@@ -219,7 +225,7 @@ fun LivePerformanceScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Quitter",
+                            contentDescription = stringResource(R.string.quitter),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -228,15 +234,15 @@ fun LivePerformanceScreen(
                     IconButton(onClick = { viewModel.toggleSound() }) {
                         Icon(
                             imageVector = if (soundEnabled) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
-                            contentDescription = if (soundEnabled) "Son activé" else "Son désactivé",
+                            contentDescription = if (soundEnabled) stringResource(R.string.sound_on) else stringResource(R.string.sound_off),
                             tint = if (soundEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     IconButton(onClick = { viewModel.toggleVibration() }) {
                         Icon(
                             imageVector = Icons.Default.Vibration,
-                            contentDescription = if (vibrationEnabled) "Vibration activée" else "Vibration désactivée",
-                            tint = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            contentDescription = if (vibrationEnabled) stringResource(R.string.vibration_on) else stringResource(R.string.vibration_off),
+                            tint = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
                         )
                     }
                 }
@@ -258,10 +264,9 @@ fun LivePerformanceScreen(
                 )
 
                 Text(
-                    text = "B P M",
+                    text = stringResource(R.string.bpm_label),
                     style = BeatForgeTextStyles.microLabel,
-                    color = MaterialTheme.colorScheme.primary,
-                    letterSpacing = androidx.compose.ui.unit.TextUnit(3.5f, androidx.compose.ui.unit.TextUnitType.Sp)
+                    color = MaterialTheme.colorScheme.primary
                 )
 
                 Spacer(modifier = Modifier.size(Spacing.md))
@@ -277,7 +282,7 @@ fun LivePerformanceScreen(
                     beatIndex = beatIndex,
                     running = running,
                     beatsPerBar = viewModel.engine.currentBeatsPerBar,
-                    showSubdots = true
+                    showSubdots = false
                 )
             }
 
@@ -297,8 +302,51 @@ fun LivePerformanceScreen(
                 }
             }
 
+            val nextSongIndex = (pagerState.currentPage + 1) % songs.size
+            val nextSong = songs.getOrNull(nextSongIndex)
+
+            if (nextSong != null) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(Spacing.md),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Text(
+                                text = stringResource(R.string.next_song_label),
+                                style = BeatForgeTextStyles.microLabel,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Text(
+                                text = nextSong.name,
+                                style = BeatForgeTextStyles.cardLabel,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                        Text(
+                            text = "${nextSong.bpm}",
+                            style = BeatForgeTextStyles.screenTitle,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            }
+
             ControlBar(
                 running = running,
+                modifier = Modifier.alpha(barsAlpha),
                 onPrevious = {
                     coroutineScope.launch {
                         val prevPage = if (pagerState.currentPage > 0) {
@@ -328,10 +376,11 @@ private fun ControlBar(
     running: Boolean,
     onPrevious: () -> Unit,
     onToggle: () -> Unit,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(bottom = Spacing.xl, top = Spacing.md),
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -340,7 +389,7 @@ private fun ControlBar(
         IconButton(onClick = onPrevious) {
             Icon(
                 imageVector = Icons.Default.SkipPrevious,
-                contentDescription = "Morceau précédent",
+                contentDescription = stringResource(R.string.previous_song),
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(36.dp)
             )
@@ -348,17 +397,15 @@ private fun ControlBar(
         Box(
             modifier = Modifier
                 .size(96.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.15f),
-                    shape = CircleShape
-                ),
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primary),
             contentAlignment = Alignment.Center
         ) {
-            IconButton(onClick = onToggle) {
+            IconButton(onClick = onToggle, modifier = Modifier.size(96.dp)) {
                 Icon(
                     imageVector = if (running) Icons.Default.Pause else Icons.Default.PlayArrow,
-                    contentDescription = if (running) "Pause" else "Play",
-                    tint = MaterialTheme.colorScheme.onBackground,
+                    contentDescription = if (running) stringResource(R.string.pause) else stringResource(R.string.play),
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(48.dp)
                 )
             }
@@ -366,7 +413,7 @@ private fun ControlBar(
         IconButton(onClick = onNext) {
             Icon(
                 imageVector = Icons.Default.SkipNext,
-                contentDescription = "Morceau suivant",
+                contentDescription = stringResource(R.string.next_song),
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(36.dp)
             )

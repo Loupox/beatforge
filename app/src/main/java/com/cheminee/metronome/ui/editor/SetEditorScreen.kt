@@ -73,7 +73,7 @@ fun SetEditorScreen(
                     IconButton(onClick = onBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null
+                            contentDescription = stringResource(R.string.close)
                         )
                     }
                 },
@@ -211,7 +211,7 @@ private fun SongCard(
                 IconButton(onClick = onMoveUp, enabled = canMoveUp) {
                     Icon(
                         Icons.Filled.ArrowUpward,
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.move_up),
                         tint = if (canMoveUp)
                             MaterialTheme.colorScheme.onSurfaceVariant
                         else
@@ -221,7 +221,7 @@ private fun SongCard(
                 IconButton(onClick = onMoveDown, enabled = canMoveDown) {
                     Icon(
                         Icons.Filled.ArrowDownward,
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.move_down),
                         tint = if (canMoveDown)
                             MaterialTheme.colorScheme.onSurfaceVariant
                         else

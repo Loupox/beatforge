@@ -128,7 +128,7 @@ fun AppNavGraph(
         }
         composable(Routes.SETTINGS) {
             val vm = SettingsViewModel(preferencesManager = preferencesManager)
-            SettingsScreen(viewModel = vm, onBack = { navController.popBackStack() })
+            SettingsScreen(viewModel = vm)
         }
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.cheminee.metronome.ui.theme.BeatForgeTextStyles
 import com.cheminee.metronome.ui.theme.Spacing
 
 @Composable
@@ -47,7 +48,7 @@ fun ChemineeCard(
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = BeatForgeTextStyles.cardLabel,
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -55,7 +56,7 @@ fun ChemineeCard(
                     if (!subtitle.isNullOrEmpty()) {
                         Text(
                             text = subtitle,
-                            style = MaterialTheme.typography.bodySmall,
+                            style = BeatForgeTextStyles.metadata,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }

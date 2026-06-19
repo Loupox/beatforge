@@ -118,8 +118,8 @@ object BeatForgeTextStyles {
     val bpm = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        fontSize = 56.sp,
-        lineHeight = 64.sp,
+        fontSize = 72.sp,
+        lineHeight = 80.sp,
         letterSpacing = 0.sp
     )
     val bpmLive = TextStyle(

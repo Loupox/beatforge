@@ -1,5 +1,8 @@
 package com.cheminee.metronome.ui.settings
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,15 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -30,126 +29,112 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cheminee.metronome.BuildConfig
 import com.cheminee.metronome.R
-import com.cheminee.metronome.ui.components.ChemineeSmallTopBar
+import com.cheminee.metronome.ui.theme.BorderThickness
 import com.cheminee.metronome.ui.theme.Spacing
 
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel, onBack: () -> Unit) {
+fun SettingsScreen(viewModel: SettingsViewModel) {
     val soundEnabled by viewModel.soundEnabled.collectAsState()
     val flashEnabled by viewModel.flashEnabled.collectAsState()
     val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
     val darkThemeEnabled by viewModel.darkThemeEnabled.collectAsState()
     val accentFirstBeatEnabled by viewModel.accentFirstBeatEnabled.collectAsState()
 
-    Scaffold(
-        topBar = {
-            ChemineeSmallTopBar(
-                title = stringResource(R.string.settings_title),
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Retour",
-                            tint = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                }
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(Spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(Spacing.md)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
+            .statusBarsPadding()
+            .border(BorderStroke(BorderThickness.thin, MaterialTheme.colorScheme.outline))
+            .padding(Spacing.lg),
+        verticalArrangement = Arrangement.spacedBy(Spacing.md)
+    ) {
+        Spacer(modifier = Modifier.height(Spacing.sm))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
-            Spacer(modifier = Modifier.height(Spacing.sm))
+            Column(modifier = Modifier.padding(Spacing.md)) {
+                Text(
+                    text = stringResource(R.string.settings_appearance_section),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-            ) {
-                Column(modifier = Modifier.padding(Spacing.md)) {
-                    Text(
-                        text = stringResource(R.string.settings_appearance_section),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                Spacer(modifier = Modifier.height(Spacing.sm))
 
-                    Spacer(modifier = Modifier.height(Spacing.sm))
-
-                    SettingRow(
-                        title = stringResource(R.string.settings_dark_mode),
-                        description = stringResource(R.string.settings_dark_mode_desc),
-                        checked = darkThemeEnabled,
-                        onCheckedChange = { viewModel.setDarkThemeEnabled(it) }
-                    )
-                }
+                SettingRow(
+                    title = stringResource(R.string.settings_dark_mode),
+                    description = stringResource(R.string.settings_dark_mode_desc),
+                    checked = darkThemeEnabled,
+                    onCheckedChange = { viewModel.setDarkThemeEnabled(it) }
+                )
             }
-
-            Spacer(modifier = Modifier.height(Spacing.lg))
-
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-            ) {
-                Column(modifier = Modifier.padding(Spacing.md)) {
-                    Text(
-                        text = stringResource(R.string.settings_metronome_section),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-
-                    Spacer(modifier = Modifier.height(Spacing.sm))
-
-                    SettingRow(
-                        title = stringResource(R.string.settings_sound),
-                        description = stringResource(R.string.settings_sound_desc),
-                        checked = soundEnabled,
-                        onCheckedChange = { viewModel.setSoundEnabled(it) }
-                    )
-
-                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.sm))
-
-                    SettingRow(
-                        title = stringResource(R.string.settings_vibration),
-                        description = stringResource(R.string.settings_vibration_desc),
-                        checked = vibrationEnabled,
-                        onCheckedChange = { viewModel.setVibrationEnabled(it) }
-                    )
-
-                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.sm))
-
-                    SettingRow(
-                        title = stringResource(R.string.settings_flash),
-                        description = stringResource(R.string.settings_flash_desc),
-                        checked = flashEnabled,
-                        onCheckedChange = { viewModel.setFlashEnabled(it) }
-                    )
-
-                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.sm))
-
-                    SettingRow(
-                        title = stringResource(R.string.settings_accent_first_beat),
-                        description = stringResource(R.string.settings_accent_first_beat_desc),
-                        checked = accentFirstBeatEnabled,
-                        onCheckedChange = { viewModel.setAccentFirstBeatEnabled(it) }
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Text(
-                text = stringResource(R.string.settings_version, BuildConfig.VERSION_NAME),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
         }
+
+        Spacer(modifier = Modifier.height(Spacing.lg))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        ) {
+            Column(modifier = Modifier.padding(Spacing.md)) {
+                Text(
+                    text = stringResource(R.string.settings_metronome_section),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.height(Spacing.sm))
+
+                SettingRow(
+                    title = stringResource(R.string.settings_sound),
+                    description = stringResource(R.string.settings_sound_desc),
+                    checked = soundEnabled,
+                    onCheckedChange = { viewModel.setSoundEnabled(it) }
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.sm))
+
+                SettingRow(
+                    title = stringResource(R.string.settings_vibration),
+                    description = stringResource(R.string.settings_vibration_desc),
+                    checked = vibrationEnabled,
+                    onCheckedChange = { viewModel.setVibrationEnabled(it) }
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.sm))
+
+                SettingRow(
+                    title = stringResource(R.string.settings_flash),
+                    description = stringResource(R.string.settings_flash_desc),
+                    checked = flashEnabled,
+                    onCheckedChange = { viewModel.setFlashEnabled(it) }
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.sm))
+
+                SettingRow(
+                    title = stringResource(R.string.settings_accent_first_beat),
+                    description = stringResource(R.string.settings_accent_first_beat_desc),
+                    checked = accentFirstBeatEnabled,
+                    onCheckedChange = { viewModel.setAccentFirstBeatEnabled(it) }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Text(
+            text = stringResource(R.string.settings_version, BuildConfig.VERSION_NAME),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+        )
     }
 }
 

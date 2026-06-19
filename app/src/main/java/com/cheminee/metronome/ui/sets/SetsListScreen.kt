@@ -96,7 +96,7 @@ fun SetsListScreen(
                 val parsed = JsonImportParser.parse(text)
                 importPreview = JsonImportParser.buildPreview(parsed)
             } catch (throwable: Throwable) {
-                errorMessage = throwable.message ?: "Erreur d'import"
+                errorMessage = throwable.message ?: context.getString(R.string.import_error)
             }
         }
     )
@@ -144,58 +144,97 @@ fun SetsListScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            if (showTopBar) {
+    if (showTopBar) {
+        Scaffold(
+            topBar = {
                 ChemineeSmallTopBar(
                     title = stringResource(R.string.sets_title),
                     actions = {
                         IconButton(onClick = { importLauncher.launch(arrayOf("application/json")) }) {
                             Icon(
                                 imageVector = Icons.Filled.FileUpload,
-                                contentDescription = "Importer",
+                                contentDescription = stringResource(R.string.import_action),
                                 tint = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
                 )
+            },
+            snackbarHost = { SnackbarHost(snackbarHostState) },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { showCreate = true },
+                    containerColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = stringResource(R.string.new_set),
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
-        },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        floatingActionButton = {
+        ) { padding ->
+            if (sets.isEmpty()) {
+                EmptyState(padding = padding)
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize().padding(padding),
+                    contentPadding = PaddingValues(Spacing.md),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                ) {
+                    items(sets, key = { it.id }) { set ->
+                        SetCard(
+                            set = set,
+                            onOpen = { onOpenSet(set.id) },
+                            onLaunch = { onLaunchLive(set.id, true) },
+                            onExport = {
+                                exportingSetId = set.id
+                                exportingSetName = set.name
+                            },
+                            onRename = { renaming = set },
+                            onDeleteRequest = { deletingSet = set }
+                        )
+                    }
+                }
+            }
+        }
+    } else {
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (sets.isEmpty()) {
+                EmptyState(padding = androidx.compose.foundation.layout.PaddingValues(0.dp))
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(Spacing.md),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                ) {
+                    items(sets, key = { it.id }) { set ->
+                        SetCard(
+                            set = set,
+                            onOpen = { onOpenSet(set.id) },
+                            onLaunch = { onLaunchLive(set.id, true) },
+                            onExport = {
+                                exportingSetId = set.id
+                                exportingSetName = set.name
+                            },
+                            onRename = { renaming = set },
+                            onDeleteRequest = { deletingSet = set }
+                        )
+                    }
+                }
+            }
             FloatingActionButton(
                 onClick = { showCreate = true },
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(Spacing.md)
             ) {
                 Icon(
                     Icons.Filled.Add,
                     contentDescription = stringResource(R.string.new_set),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
-            }
-        }
-    ) { padding ->
-        if (sets.isEmpty()) {
-            EmptyState(padding = padding)
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(padding),
-                contentPadding = PaddingValues(Spacing.md),
-                verticalArrangement = Arrangement.spacedBy(Spacing.xs)
-            ) {
-                items(sets, key = { it.id }) { set ->
-                    SetCard(
-                        set = set,
-                        onOpen = { onOpenSet(set.id) },
-                        onLaunch = { onLaunchLive(set.id, true) },
-                        onExport = {
-                            exportingSetId = set.id
-                            exportingSetName = set.name
-                        },
-                        onRename = { renaming = set },
-                        onDeleteRequest = { deletingSet = set }
-                    )
-                }
             }
         }
     }
@@ -210,13 +249,13 @@ fun SetsListScreen(
     importPreview?.let { preview ->
         AlertDialog(
             onDismissRequest = { importPreview = null },
-            title = { Text("Importer \"${preview.parsedSet.setName}\"") },
+            title = { Text(stringResource(R.string.import_set_title, preview.parsedSet.setName)) },
             text = {
                 Column {
-                    Text("${preview.totalSongs} morceaux detectes")
-                    Text("${preview.uniqueSongs} titres uniques, ${preview.duplicateTitles.size} doublons ignores")
+                    Text(stringResource(R.string.songs_detected, preview.totalSongs))
+                    Text(stringResource(R.string.import_summary, preview.uniqueSongs, preview.duplicateTitles.size))
                     if (preview.duplicateTitles.isNotEmpty()) {
-                        Text("Doublons detectes:")
+                        Text(stringResource(R.string.duplicates_found))
                         preview.duplicateTitles.forEach { duplicate ->
                             Text("• $duplicate")
                         }
@@ -227,14 +266,14 @@ fun SetsListScreen(
                 TextButton(onClick = {
                     viewModel.importSet(preview.parsedSet) { result ->
                         if (result.isSuccess) {
-                            errorMessage = "Import termine"
+                            errorMessage = context.getString(R.string.import_complete)
                         } else {
-                            errorMessage = result.exceptionOrNull()?.message ?: "Erreur pendant l'import"
+                            errorMessage = result.exceptionOrNull()?.message ?: context.getString(R.string.import_failed)
                         }
                         importPreview = null
                     }
                 }) {
-                    Text("Importer")
+                    Text(stringResource(R.string.import_action))
                 }
             },
             dismissButton = {
@@ -310,7 +349,7 @@ private fun SetCard(
                     IconButton(onClick = onLaunch) {
                         Icon(
                             Icons.Filled.PlayArrow,
-                            contentDescription = "Live",
+                            contentDescription = stringResource(R.string.nav_live),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -325,14 +364,14 @@ private fun SetCard(
                 IconButton(onClick = onOpen) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "Ouvrir",
+                        contentDescription = stringResource(R.string.open),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 IconButton(onClick = onRename) {
                     Icon(
                         Icons.Filled.Edit,
-                        contentDescription = "Renommer",
+                        contentDescription = stringResource(R.string.rename),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

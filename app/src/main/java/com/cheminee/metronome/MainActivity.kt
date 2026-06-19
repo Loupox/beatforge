@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,8 +25,8 @@ import com.cheminee.metronome.metronome.MetronomeEngine
 import com.cheminee.metronome.repository.SetRepository
 import com.cheminee.metronome.ui.AppBottomNavBar
 import com.cheminee.metronome.ui.AppNavGraph
-import com.cheminee.metronome.ui.AppTopBarMenu
 import com.cheminee.metronome.ui.AppViewModelFactory
+import com.cheminee.metronome.ui.PlusBottomSheet
 import com.cheminee.metronome.ui.Routes
 import com.cheminee.metronome.ui.theme.BeatForgeTheme
 
@@ -55,7 +53,10 @@ class MainActivity : ComponentActivity() {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentRoute = navBackStackEntry?.destination?.route
                     var triggerImport by remember { mutableStateOf(false) }
-                    var showOverflow by remember { mutableStateOf(false) }
+                    var showPlus by remember { mutableStateOf(false) }
+                    val sheetState = rememberModalBottomSheetState()
+                    val soundEnabled by preferencesManager.soundEnabled.collectAsState()
+                    val vibrationEnabled by preferencesManager.vibrationEnabled.collectAsState()
 
                     val bottomNavRoutes = listOf(Routes.SETS, Routes.METRONOME)
                     val showBottomNav = currentRoute in bottomNavRoutes
@@ -65,40 +66,6 @@ class MainActivity : ComponentActivity() {
                             || currentRoute?.startsWith("live/") == true
 
                     Scaffold(
-                        topBar = {
-                            if (currentRoute in listOf(Routes.SETS, Routes.ABOUT, Routes.SETTINGS)
-                                || currentRoute?.startsWith("editor/") == true) {
-                                TopAppBar(
-                                    title = { Text(getString(R.string.app_name)) },
-                                    colors = TopAppBarDefaults.topAppBarColors(
-                                        containerColor = MaterialTheme.colorScheme.primary,
-                                        titleContentColor = MaterialTheme.colorScheme.onPrimary
-                                    ),
-                                    actions = {
-                                        AppTopBarMenu(
-                                            onNavigateToAbout = {
-                                                if (currentRoute != Routes.ABOUT) {
-                                                    navController.navigate(Routes.ABOUT)
-                                                }
-                                            },
-                                            onNavigateToSettings = {
-                                                if (currentRoute != Routes.SETTINGS) {
-                                                    navController.navigate(Routes.SETTINGS)
-                                                }
-                                            },
-                                            onImportClick = {
-                                                if (currentRoute != Routes.SETS) {
-                                                    navController.navigate(Routes.SETS) {
-                                                        popUpTo(Routes.SETS) { inclusive = true }
-                                                    }
-                                                }
-                                                triggerImport = true
-                                            }
-                                        )
-                                    }
-                                )
-                            }
-                        },
                         bottomBar = {
                             if (showBottomNav) {
                                 AppBottomNavBar(
@@ -115,7 +82,7 @@ class MainActivity : ComponentActivity() {
                                             navController.navigate(Routes.METRONOME)
                                         }
                                     },
-                                    onOverflowClick = { showOverflow = true }
+                                    onPlusClick = { showPlus = true }
                                 )
                             }
                         }
@@ -132,6 +99,35 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(scaffoldPadding),
                         triggerImport = triggerImport,
                         onImportHandled = { triggerImport = false }
+                    )
+                }
+
+                if (showPlus) {
+                    PlusBottomSheet(
+                        sheetState = sheetState,
+                        soundEnabled = soundEnabled,
+                        vibrationEnabled = vibrationEnabled,
+                        onToggleSound = { preferencesManager.setSoundEnabled(!soundEnabled) },
+                        onToggleVibration = { preferencesManager.setVibrationEnabled(!vibrationEnabled) },
+                        onNavigateToSettings = {
+                            if (currentRoute != Routes.SETTINGS) {
+                                navController.navigate(Routes.SETTINGS)
+                            }
+                        },
+                        onNavigateToAbout = {
+                            if (currentRoute != Routes.ABOUT) {
+                                navController.navigate(Routes.ABOUT)
+                            }
+                        },
+                        onImportClick = {
+                            if (currentRoute != Routes.SETS) {
+                                navController.navigate(Routes.SETS) {
+                                    popUpTo(Routes.SETS) { inclusive = true }
+                                }
+                            }
+                            triggerImport = true
+                        },
+                        onDismiss = { showPlus = false }
                     )
                 }
             }

@@ -22,7 +22,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.DoNotDisturb
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Remove
@@ -122,23 +121,23 @@ fun MetronomeScreen(
     var showBpmDialog by remember { mutableStateOf(false) }
     var bpmInput by remember { mutableStateOf("") }
 
-    Box(modifier = modifier.fillMaxSize().background(color = animatedBgColor)) {
-        Column(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().background(color = animatedBgColor)) {
+        Column(modifier = modifier) {
             ChemineeTopBar(
-                title = "BeatForge",
+                title = stringResource(R.string.app_name),
                 actions = {
                     IconButton(onClick = { viewModel.toggleSound() }) {
                         Icon(
                             imageVector = if (soundEnabled) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
-                            contentDescription = if (soundEnabled) "Son activé" else "Son désactivé",
+                            contentDescription = if (soundEnabled) stringResource(R.string.sound_on) else stringResource(R.string.sound_off),
                             tint = if (soundEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     IconButton(onClick = { viewModel.toggleVibration() }) {
                         Icon(
-                            imageVector = if (vibrationEnabled) Icons.Default.Vibration else Icons.Default.DoNotDisturb,
-                            contentDescription = if (vibrationEnabled) "Vibration activée" else "Vibration désactivée",
-                            tint = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            imageVector = Icons.Default.Vibration,
+                            contentDescription = if (vibrationEnabled) stringResource(R.string.vibration_on) else stringResource(R.string.vibration_off),
+                            tint = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
                         )
                     }
                 }
@@ -149,8 +148,9 @@ fun MetronomeScreen(
                     .fillMaxSize()
                     .padding(horizontal = Spacing.lg),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
+                Spacer(modifier = Modifier.size(Spacing.xs))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -170,7 +170,7 @@ fun MetronomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Remove,
-                                contentDescription = "-1 BPM",
+                                contentDescription = stringResource(R.string.decrement_bpm),
                                 modifier = Modifier.size(20.dp),
                                 tint = MaterialTheme.colorScheme.primary
                             )
@@ -193,30 +193,24 @@ fun MetronomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "+1 BPM",
+                                contentDescription = stringResource(R.string.increment_bpm),
                                 modifier = Modifier.size(20.dp),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
                     Text(
-                        text = "B P M",
+                        text = stringResource(R.string.bpm_label),
                         style = BeatForgeTextStyles.microLabel,
-                        color = MaterialTheme.colorScheme.primary,
-                        letterSpacing = androidx.compose.ui.unit.TextUnit(3.5f, androidx.compose.ui.unit.TextUnitType.Sp)
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
-
-                FlashColorButton(
-                    selectedIndex = flashColorIndex,
-                    onColorSelected = { viewModel.setFlashColorIndex(it) }
-                )
 
                 BeatDots(
                     beatIndex = beatIndex,
                     running = running,
                     beatsPerBar = engine.currentBeatsPerBar,
-                    showSubdots = true
+                    showSubdots = false
                 )
 
                 TimeSignatureDisplay(displayName = engine.currentTimeSignatureDisplay)
@@ -232,12 +226,6 @@ fun MetronomeScreen(
                             .padding(Spacing.md),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
-                            text = stringResource(R.string.time_signature),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(Spacing.sm))
                         TimeSignaturePicker(
                             selectedTimeSignature = timeSignature,
                             onTimeSignatureSelected = { viewModel.setTimeSignature(it) },
@@ -248,8 +236,11 @@ fun MetronomeScreen(
                     }
                 }
 
+                Spacer(modifier = Modifier.size(Spacing.sm))
+
                 Card(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .clip(RoundedCornerShape(12.dp))
                         .clickable { viewModel.onTap() },
                     shape = RoundedCornerShape(12.dp),
@@ -259,11 +250,12 @@ fun MetronomeScreen(
                         text = stringResource(R.string.tap_tempo),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(horizontal = Spacing.lg, vertical = Spacing.sm)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
+                        textAlign = TextAlign.Center
                     )
                 }
-
-                Spacer(modifier = Modifier.size(Spacing.md))
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -276,7 +268,7 @@ fun MetronomeScreen(
                             .padding(Spacing.md)
                     ) {
                         Text(
-                            text = "Tempo",
+                            text = stringResource(R.string.tempo),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(bottom = Spacing.xs)
@@ -297,12 +289,12 @@ fun MetronomeScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                "45",
+                                stringResource(R.string.bpm_min),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                "250",
+                                stringResource(R.string.bpm_max),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -310,25 +302,30 @@ fun MetronomeScreen(
                     }
                 }
 
+                FlashColorButton(
+                    selectedIndex = flashColorIndex,
+                    onColorSelected = { viewModel.setFlashColorIndex(it) }
+                )
+
+Spacer(modifier = Modifier.size(Spacing.sm))
                 Box(
                     modifier = Modifier
-                        .size(72.dp)
+                        .size(96.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary),
+                        .background(MaterialTheme.colorScheme.primary)
+                        .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    IconButton(
-                        onClick = { viewModel.toggle() },
-                        modifier = Modifier.size(72.dp)
-                    ) {
+                    IconButton(onClick = { viewModel.toggle() }, modifier = Modifier.size(96.dp)) {
                         Icon(
                             imageVector = if (running) Icons.Default.Pause else Icons.Default.PlayArrow,
-                            contentDescription = if (running) "Pause" else "Play",
+                            contentDescription = if (running) stringResource(R.string.pause) else stringResource(R.string.play),
                             tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(36.dp)
+                            modifier = Modifier.size(48.dp)
                         )
                     }
                 }
+                Spacer(modifier = Modifier.size(Spacing.sm))
             }
         }
     }

@@ -42,10 +42,10 @@ fun BeatDots(
                 val isBeatOne = i == 0
                 val size by animateDpAsState(
                     targetValue = when {
-                        !running -> if (isBeatOne) 24.dp else 14.dp
-                        isBeatOne -> 24.dp
-                        isActive -> 14.dp
-                        else -> if (isBeatOne) 24.dp else 14.dp
+                        !running -> if (isBeatOne) 28.dp else 18.dp
+                        isBeatOne -> 28.dp
+                        isActive -> 18.dp
+                        else -> if (isBeatOne) 28.dp else 18.dp
                     },
                     animationSpec = tween(durationMillis = 150),
                     label = "dotSize"
