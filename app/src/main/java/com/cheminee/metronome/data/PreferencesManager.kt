@@ -95,14 +95,14 @@ class PreferencesManager(context: Context) {
         private const val KEY_CUSTOM_BEAT_UNIT = "custom_beat_unit"
 
         val FLASH_COLORS = listOf(
-            0xFFFFEB3Bu.toInt(),  // Jaune
-            0xFF00E5FFu.toInt(),  // Cyan
-            0xFFFF00FFu.toInt(),  // Magenta
-            0xFF76FF03u.toInt(),  // Vert lime
-            0xFFFF9100u.toInt(),  // Orange
-            0xFFE040FBu.toInt(),  // Violet
-            0xFFFF5252u.toInt(),  // Rouge
-            0xFF40C4FFu.toInt()   // Bleu clair
+            0xFFff0040.toInt(),  // Rouge
+            0xFFff6600.toInt(),  // Orange
+            0xFFffee00.toInt(),  // Jaune
+            0xFF00ff88.toInt(),  // Vert
+            0xFF00cfff.toInt(),  // Cyan
+            0xFFcc00ff.toInt(),  // Violet
+            0xFFff00cc.toInt(),  // Rose
+            0xFFffffff.toInt()   // Blanc
         )
     }
 }

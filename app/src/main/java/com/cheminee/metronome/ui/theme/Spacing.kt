@@ -11,3 +11,8 @@ object Spacing {
     val xl = 32.dp
     val xxl = 48.dp
 }
+
+object BorderThickness {
+    val thin = 0.5.dp
+    val active = 1.dp
+}

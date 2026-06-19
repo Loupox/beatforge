@@ -65,6 +65,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cheminee.metronome.data.Song
 import com.cheminee.metronome.ui.components.BeatDots
+import com.cheminee.metronome.ui.components.ChemineeTopBar
 import com.cheminee.metronome.ui.components.FlashColorPicker
 import com.cheminee.metronome.ui.theme.Spacing
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -208,16 +209,8 @@ fun LivePerformanceScreen(
             .background(animatedBgColor)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            androidx.compose.material3.TopAppBar(
-                title = {
-                    Text(
-                        text = currentSong?.name ?: "Live",
-                        maxLines = 1,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = Color(0xFFF7F4F0)
-                    )
-                },
-                modifier = Modifier.statusBarsPadding(),
+            ChemineeTopBar(
+                title = currentSong?.name ?: "Live",
                 navigationIcon = {
                     IconButton(onClick = {
                         viewModel.stop()
@@ -226,7 +219,7 @@ fun LivePerformanceScreen(
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Quitter",
-                            tint = Color(0xFFF7F4F0)
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 },
@@ -235,21 +228,17 @@ fun LivePerformanceScreen(
                         Icon(
                             imageVector = if (soundEnabled) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
                             contentDescription = if (soundEnabled) "Son activé" else "Son désactivé",
-                            tint = if (soundEnabled) Color(0xFFC4973A) else Color(0xFFF7F4F0).copy(alpha = 0.5f)
+                            tint = if (soundEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     IconButton(onClick = { viewModel.toggleVibration() }) {
                         Icon(
                             imageVector = Icons.Default.Vibration,
                             contentDescription = if (vibrationEnabled) "Vibration activée" else "Vibration désactivée",
-                            tint = if (vibrationEnabled) Color(0xFFC4973A) else Color(0xFFF7F4F0).copy(alpha = 0.5f)
+                            tint = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                },
-                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xCC1C1C1C),
-                    titleContentColor = Color(0xFFF7F4F0)
-                )
+                }
             )
 
             Column(

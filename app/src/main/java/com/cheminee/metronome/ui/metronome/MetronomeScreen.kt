@@ -38,8 +38,6 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -59,9 +57,11 @@ import androidx.compose.ui.unit.sp
 import com.cheminee.metronome.R
 import com.cheminee.metronome.data.TimeSignature
 import com.cheminee.metronome.ui.components.BeatDots
-import com.cheminee.metronome.ui.components.FlashColorPicker
+import com.cheminee.metronome.ui.components.ChemineeTopBar
+import com.cheminee.metronome.ui.components.FlashColorButton
 import com.cheminee.metronome.ui.components.TimeSignatureDisplay
 import com.cheminee.metronome.ui.components.TimeSignaturePicker
+import com.cheminee.metronome.ui.theme.BeatForgeTextStyles
 import com.cheminee.metronome.ui.theme.Spacing
 
 @Composable
@@ -121,14 +121,8 @@ fun MetronomeScreen(
 
     Box(modifier = modifier.fillMaxSize().background(color = animatedBgColor)) {
         Column(modifier = Modifier.fillMaxSize()) {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Métronome",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                },
+            ChemineeTopBar(
+                title = "BeatForge",
                 actions = {
                     IconButton(onClick = { viewModel.toggleSound() }) {
                         Icon(
@@ -144,10 +138,7 @@ fun MetronomeScreen(
                             tint = if (vibrationEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
+                }
             )
 
             Column(
@@ -157,38 +148,61 @@ fun MetronomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Row(
-                    modifier = Modifier.clickable { showBpmDialog = true },
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    IconButton(onClick = { viewModel.decrementBpm() }) {
-                        Icon(
-                            imageVector = Icons.Default.Remove,
-                            contentDescription = "-1 BPM",
-                            modifier = Modifier.size(32.dp),
-                            tint = MaterialTheme.colorScheme.primary
+                    Row(
+                        modifier = Modifier.clickable { showBpmDialog = true },
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .clickable { viewModel.decrementBpm() },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Remove,
+                                contentDescription = "-1 BPM",
+                                modifier = Modifier.size(20.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                        Text(
+                            text = "${viewModel.bpm}",
+                            style = BeatForgeTextStyles.bpm,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = Spacing.lg)
                         )
+                        Box(
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .clickable { viewModel.incrementBpm() },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "+1 BPM",
+                                modifier = Modifier.size(20.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     }
                     Text(
-                        text = "${viewModel.bpm}",
-                        style = MaterialTheme.typography.displayLarge.copy(fontSize = 100.sp),
-                        fontWeight = FontWeight.Bold,
+                        text = "B P M",
+                        style = BeatForgeTextStyles.microLabel,
                         color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 8.dp)
+                        letterSpacing = androidx.compose.ui.unit.TextUnit(3.5f, androidx.compose.ui.unit.TextUnitType.Sp)
                     )
-                    IconButton(onClick = { viewModel.incrementBpm() }) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "+1 BPM",
-                            modifier = Modifier.size(32.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    }
                 }
 
-                FlashColorPicker(
+                FlashColorButton(
                     selectedIndex = flashColorIndex,
                     onColorSelected = { viewModel.setFlashColorIndex(it) }
                 )
