@@ -13,6 +13,7 @@ class SettingsViewModel(private val preferencesManager: PreferencesManager) : Vi
     val darkThemeEnabled: StateFlow<Boolean> = preferencesManager.darkThemeEnabled
     val accentFirstBeatEnabled: StateFlow<Boolean> = preferencesManager.accentFirstBeatEnabled
     val timeSignature: StateFlow<TimeSignature> = preferencesManager.timeSignature
+    val flashColorIndex: StateFlow<Int> = preferencesManager.flashColorIndex
 
     fun setSoundEnabled(enabled: Boolean) {
         preferencesManager.setSoundEnabled(enabled)
@@ -32,5 +33,9 @@ class SettingsViewModel(private val preferencesManager: PreferencesManager) : Vi
 
     fun setAccentFirstBeatEnabled(enabled: Boolean) {
         preferencesManager.setAccentFirstBeatEnabled(enabled)
+    }
+
+    fun setFlashColorIndex(index: Int) {
+        preferencesManager.setFlashColorIndex(index)
     }
 }

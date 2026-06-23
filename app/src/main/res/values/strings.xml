@@ -53,6 +53,7 @@
     <string name="settings_flash_desc">Changer la couleur de l\'écran à chaque beat</string>
     <string name="settings_accent_first_beat">Accentuer le 1er beat</string>
     <string name="settings_accent_first_beat_desc">Son, vibration et flash plus forts sur le premier temps</string>
+    <string name="settings_flash_color">Couleur flash</string>
     <string name="settings_version">Version %1$s</string>
     <string name="nav_sets">Sets</string>
     <string name="nav_live">Live</string>

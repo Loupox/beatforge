@@ -16,7 +16,7 @@ android {
         applicationId = "com.cheminee.metronome"
         minSdk = 26
         targetSdk = 34
-        versionCode = 13
+        versionCode = 20
         versionName = "3.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

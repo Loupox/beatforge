@@ -13,7 +13,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +22,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -39,9 +40,6 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material.icons.filled.Vibration
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -51,33 +49,32 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.cheminee.metronome.R
 import com.cheminee.metronome.data.Song
 import com.cheminee.metronome.ui.components.BeatDots
 import com.cheminee.metronome.ui.components.ChemineeTopBar
-import com.cheminee.metronome.ui.components.FlashColorPicker
+import com.cheminee.metronome.ui.theme.BeatForgeColors
 import com.cheminee.metronome.ui.theme.BeatForgeTextStyles
 import com.cheminee.metronome.ui.theme.Spacing
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn()
 @Composable
 fun LivePerformanceScreen(
     setId: Long,
@@ -166,28 +163,9 @@ fun LivePerformanceScreen(
         return
     }
 
-    val pagerState = rememberPagerState(pageCount = { songs.size })
+    var currentIndex by remember { mutableIntStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
-    val currentSong = songs.getOrNull(pagerState.currentPage)
-
-    LaunchedEffect(pagerState, songs) {
-        var prevPage = -1
-        snapshotFlow { pagerState.currentPage to pagerState.currentPageOffsetFraction }.collect { (current, offset) ->
-            if (prevPage == -1) {
-                prevPage = current
-                return@collect
-            }
-            if (prevPage == 0 && offset < -0.5f) {
-                pagerState.animateScrollToPage(songs.lastIndex)
-                prevPage = songs.lastIndex
-            } else if (prevPage == songs.lastIndex && offset > 0.5f) {
-                pagerState.animateScrollToPage(0)
-                prevPage = 0
-            } else if (current != prevPage) {
-                prevPage = current
-            }
-        }
-    }
+    val currentSong = songs.getOrNull(currentIndex)
 
     val flashColors = com.cheminee.metronome.data.PreferencesManager.FLASH_COLORS
     val isFirstBeatAccented = accentFirstBeatEnabled && beatIndex == 0
@@ -200,22 +178,15 @@ fun LivePerformanceScreen(
     val animatedBgColor by animateColorAsState(targetValue = bgColor, animationSpec = tween(durationMillis = 300))
     val barsAlpha by animateFloatAsState(targetValue = if (flashing && flashEnabled) 0.6f else 1f, animationSpec = tween(durationMillis = 300), label = "barsAlpha")
 
-    LaunchedEffect(pagerState, songs, running) {
-        snapshotFlowOfPage(pagerState)
-            .distinctUntilChanged()
-            .collect { page ->
-                val song = songs.getOrNull(page) ?: return@collect
-                if (running) viewModel.playFor(song.bpm) else viewModel.stop()
-            }
-    }
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .clickable { currentSong?.let { viewModel.toggle(it.bpm) } }
-            .background(animatedBgColor)
-    ) {
-        Column(modifier = Modifier.fillMaxSize().alpha(barsAlpha)) {
+    Box(modifier = Modifier.fillMaxSize().background(animatedBgColor)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(barsAlpha)
+        ) {
             ChemineeTopBar(
                 title = currentSong?.name ?: stringResource(R.string.nav_live),
                 navigationIcon = {
@@ -248,125 +219,176 @@ fun LivePerformanceScreen(
                 }
             )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Spacing.lg),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(modifier = Modifier.size(Spacing.lg))
-
-                Text(
-                    text = currentSong?.bpm?.toString() ?: "--",
-                    style = BeatForgeTextStyles.bpmLive,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Center
-                )
-
-                Text(
-                    text = stringResource(R.string.bpm_label),
-                    style = BeatForgeTextStyles.microLabel,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                Spacer(modifier = Modifier.size(Spacing.md))
-
-                FlashColorPicker(
-                    selectedIndex = flashColorIndex,
-                    onColorSelected = { viewModel.setFlashColorIndex(it) }
-                )
-
-                Spacer(modifier = Modifier.size(Spacing.lg))
-
-                BeatDots(
-                    beatIndex = beatIndex,
-                    running = running,
-                    beatsPerBar = viewModel.engine.currentBeatsPerBar,
-                    showSubdots = false
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                HorizontalPager(
-                    state = pagerState,
-                    modifier = Modifier.fillMaxSize(),
-                    beyondBoundsPageCount = 1
-                ) { page ->
-                    val song = songs[page]
-                    SongPage(song = song)
-                }
-            }
-
-            val nextSongIndex = (pagerState.currentPage + 1) % songs.size
-            val nextSong = songs.getOrNull(nextSongIndex)
-
-            if (nextSong != null) {
-                Card(
+            if (isLandscape) {
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    )
+                        .weight(1f),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(Spacing.md),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                            .weight(1f)
+                            .padding(horizontal = Spacing.lg),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        Column {
-                            Text(
-                                text = stringResource(R.string.next_song_label),
-                                style = BeatForgeTextStyles.microLabel,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                            Text(
-                                text = nextSong.name,
-                                style = BeatForgeTextStyles.cardLabel,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
                         Text(
-                            text = "${nextSong.bpm}",
-                            style = BeatForgeTextStyles.screenTitle,
+                            text = currentSong?.bpm?.toString() ?: "--",
+                            style = BeatForgeTextStyles.bpmLive,
+                            color = MaterialTheme.colorScheme.primary,
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = stringResource(R.string.bpm_label),
+                            style = BeatForgeTextStyles.microLabel,
                             color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.size(Spacing.lg))
+                        BeatDots(
+                            beatIndex = beatIndex,
+                            running = running,
+                            beatsPerBar = viewModel.engine.currentBeatsPerBar,
+                            showSubdots = false
+                        )
+                        Spacer(modifier = Modifier.size(Spacing.lg))
+                        Text(
+                            text = currentSong?.name ?: "",
+                            style = BeatForgeTextStyles.screenTitle,
+                            color = BeatForgeColors.BronzeCharbon.textPrimary
+                        )
+                        Text(
+                            text = currentSong?.comments?.let { "$it · " }?.plus(viewModel.engine.currentTimeSignatureDisplay)
+                                ?: viewModel.engine.currentTimeSignatureDisplay,
+                            style = BeatForgeTextStyles.microLabel,
+                            color = BeatForgeColors.BronzeCharbon.textMuted
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .navigationBarsPadding()
+                            .padding(horizontal = Spacing.lg),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        ControlBar(
+                            running = running,
+                            modifier = Modifier.fillMaxWidth(),
+                            onPrevious = {
+                                currentIndex = if (currentIndex > 0) currentIndex - 1 else songs.lastIndex
+                                songs.getOrNull(currentIndex)?.let {
+                                    if (running) viewModel.playFor(it.bpm)
+                                }
+                            },
+                            onToggle = {
+                                currentSong?.let { viewModel.toggle(it.bpm) }
+                            },
+                            onNext = {
+                                currentIndex = (currentIndex + 1) % songs.size
+                                songs.getOrNull(currentIndex)?.let {
+                                    if (running) viewModel.playFor(it.bpm)
+                                }
+                            }
                         )
                     }
                 }
-            }
-
-            ControlBar(
-                running = running,
-                modifier = Modifier.alpha(barsAlpha),
-                onPrevious = {
-                    coroutineScope.launch {
-                        val prevPage = if (pagerState.currentPage > 0) {
-                            pagerState.currentPage - 1
-                        } else {
-                            songs.lastIndex
+                SongsMiniList(
+                    songs = songs,
+                    currentIndex = currentIndex,
+                    onSongClick = { index ->
+                        currentIndex = index
+                        songs.getOrNull(index)?.let {
+                            if (running) viewModel.playFor(it.bpm)
                         }
-                        pagerState.animateScrollToPage(prevPage)
                     }
-                },
-                onToggle = {
-                    currentSong?.let { viewModel.toggle(it.bpm) }
-                },
-                onNext = {
-                    coroutineScope.launch {
-                        val nextPage = (pagerState.currentPage + 1) % songs.size
-                        pagerState.animateScrollToPage(nextPage)
+                )
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { currentSong?.let { viewModel.toggle(it.bpm) } },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.size(Spacing.lg))
+                    Text(
+                        text = currentSong?.bpm?.toString() ?: "--",
+                        style = BeatForgeTextStyles.bpmLive,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = stringResource(R.string.bpm_label),
+                        style = BeatForgeTextStyles.microLabel,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.size(Spacing.lg))
+                    BeatDots(
+                        beatIndex = beatIndex,
+                        running = running,
+                        beatsPerBar = viewModel.engine.currentBeatsPerBar,
+                        showSubdots = false
+                    )
+                    Spacer(modifier = Modifier.size(Spacing.lg))
+                    Text(
+                        text = currentSong?.name ?: "",
+                        style = BeatForgeTextStyles.screenTitle,
+                        color = BeatForgeColors.BronzeCharbon.textPrimary
+                    )
+                    if (!currentSong?.comments.isNullOrBlank()) {
+                        Spacer(modifier = Modifier.size(Spacing.xs))
+                        Text(
+                            text = "${currentSong?.comments} · ${viewModel.engine.currentTimeSignatureDisplay}",
+                            style = BeatForgeTextStyles.microLabel,
+                            color = BeatForgeColors.BronzeCharbon.textMuted
+                        )
+                    } else {
+                        Spacer(modifier = Modifier.size(Spacing.xs))
+                        Text(
+                            text = viewModel.engine.currentTimeSignatureDisplay,
+                            style = BeatForgeTextStyles.microLabel,
+                            color = BeatForgeColors.BronzeCharbon.textMuted
+                        )
                     }
                 }
-            )
+
+                Spacer(modifier = Modifier.height(Spacing.md))
+
+                SongsMiniList(
+                    songs = songs,
+                    currentIndex = currentIndex,
+                    onSongClick = { index ->
+                        currentIndex = index
+                        songs.getOrNull(index)?.let {
+                            if (running) viewModel.playFor(it.bpm)
+                        }
+                    }
+                )
+
+                ControlBar(
+                    running = running,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .alpha(barsAlpha),
+                    onPrevious = {
+                        currentIndex = if (currentIndex > 0) currentIndex - 1 else songs.lastIndex
+                        songs.getOrNull(currentIndex)?.let {
+                            if (running) viewModel.playFor(it.bpm)
+                        }
+                    },
+                    onToggle = {
+                        currentSong?.let { viewModel.toggle(it.bpm) }
+                    },
+                    onNext = {
+                        currentIndex = (currentIndex + 1) % songs.size
+                        songs.getOrNull(currentIndex)?.let {
+                            if (running) viewModel.playFor(it.bpm)
+                        }
+                    }
+                )
+            }
         }
     }
 }
@@ -382,7 +404,8 @@ private fun ControlBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = Spacing.xl, top = Spacing.md),
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md)
+            .navigationBarsPadding(),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -422,48 +445,87 @@ private fun ControlBar(
 }
 
 @Composable
-private fun SongPage(song: Song) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = Spacing.lg),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(24.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+private fun SongsMiniList(
+    songs: List<Song>,
+    currentIndex: Int,
+    onSongClick: (Int) -> Unit
+) {
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(currentIndex) {
+        if (songs.isNotEmpty()) {
+            listState.animateScrollToItem(
+                index = currentIndex,
+                scrollOffset = -(listState.layoutInfo.viewportSize.height / 3)
             )
-        ) {
-            Column(
+        }
+    }
+
+    LazyColumn(
+        state = listState,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Spacing.lg)
+            .height(200.dp)
+    ) {
+        itemsIndexed(songs) { index, song ->
+            val isActive = index == currentIndex
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(Spacing.lg),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(vertical = Spacing.xs)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(if (isActive) BeatForgeColors.BronzeCharbon.surface2 else BeatForgeColors.BronzeCharbon.surface)
+                    .clickable { onSongClick(index) },
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = song.name,
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.SemiBold
-                )
-                if (song.comments.isNotBlank()) {
-                    Spacer(modifier = Modifier.size(Spacing.md))
+                Box(
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clip(CircleShape)
+                        .background(
+                            if (isActive) BeatForgeColors.BronzeCharbon.accent
+                            else BeatForgeColors.BronzeCharbon.border
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
                     Text(
-                        text = song.comments,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center
+                        text = "${index + 1}",
+                        style = BeatForgeTextStyles.microLabel,
+                        color = BeatForgeColors.BronzeCharbon.textPrimary,
+                        fontWeight = FontWeight.Medium
                     )
                 }
+                Spacer(modifier = Modifier.size(Spacing.sm))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = song.name,
+                        style = BeatForgeTextStyles.cardLabel,
+                        color = if (isActive) {
+                            BeatForgeColors.BronzeCharbon.textPrimary
+                        } else {
+                            BeatForgeColors.BronzeCharbon.textMuted
+                        }
+                    )
+                    if (song.comments.isNotBlank()) {
+                        Text(
+                            text = song.comments,
+                            style = BeatForgeTextStyles.microLabel,
+                            color = BeatForgeColors.BronzeCharbon.textMuted
+                        )
+                    }
+                }
+                Text(
+                    text = "${song.bpm}",
+                    style = BeatForgeTextStyles.screenTitle,
+                    color = if (isActive) {
+                        BeatForgeColors.BronzeCharbon.accentLight
+                    } else {
+                        BeatForgeColors.BronzeCharbon.textMuted
+                    }
+                )
+                Spacer(modifier = Modifier.size(Spacing.sm))
             }
         }
     }
 }
-
-@OptIn(ExperimentalFoundationApi::class)
-private fun snapshotFlowOfPage(pagerState: androidx.compose.foundation.pager.PagerState) =
-    androidx.compose.runtime.snapshotFlow { pagerState.currentPage }

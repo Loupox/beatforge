@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cheminee.metronome.BuildConfig
 import com.cheminee.metronome.R
+import com.cheminee.metronome.ui.components.FlashColorPicker
 import com.cheminee.metronome.ui.theme.BorderThickness
 import com.cheminee.metronome.ui.theme.Spacing
 
@@ -36,6 +37,7 @@ import com.cheminee.metronome.ui.theme.Spacing
 fun SettingsScreen(viewModel: SettingsViewModel) {
     val soundEnabled by viewModel.soundEnabled.collectAsState()
     val flashEnabled by viewModel.flashEnabled.collectAsState()
+    val flashColorIndex by viewModel.flashColorIndex.collectAsState()
     val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
     val darkThemeEnabled by viewModel.darkThemeEnabled.collectAsState()
     val accentFirstBeatEnabled by viewModel.accentFirstBeatEnabled.collectAsState()
@@ -113,6 +115,22 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                     description = stringResource(R.string.settings_flash_desc),
                     checked = flashEnabled,
                     onCheckedChange = { viewModel.setFlashEnabled(it) }
+                )
+
+                Spacer(modifier = Modifier.height(Spacing.sm))
+
+                Text(
+                    text = stringResource(R.string.settings_flash_color),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium
+                )
+
+                Spacer(modifier = Modifier.height(Spacing.sm))
+
+                FlashColorPicker(
+                    selectedIndex = flashColorIndex,
+                    onColorSelected = { viewModel.setFlashColorIndex(it) },
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.sm))

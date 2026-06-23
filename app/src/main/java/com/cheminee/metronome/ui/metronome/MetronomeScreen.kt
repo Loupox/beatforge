@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -49,6 +50,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -59,8 +61,6 @@ import com.cheminee.metronome.R
 import com.cheminee.metronome.data.TimeSignature
 import com.cheminee.metronome.ui.components.BeatDots
 import com.cheminee.metronome.ui.components.ChemineeTopBar
-import com.cheminee.metronome.ui.components.FlashColorButton
-import com.cheminee.metronome.ui.components.TimeSignatureDisplay
 import com.cheminee.metronome.ui.components.TimeSignaturePicker
 import com.cheminee.metronome.ui.theme.BeatForgeTextStyles
 import com.cheminee.metronome.ui.theme.BorderThickness
@@ -121,6 +121,9 @@ fun MetronomeScreen(
     var showBpmDialog by remember { mutableStateOf(false) }
     var bpmInput by remember { mutableStateOf("") }
 
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
+
     Box(modifier = Modifier.fillMaxSize().background(color = animatedBgColor)) {
         Column(modifier = modifier) {
             ChemineeTopBar(
@@ -143,189 +146,154 @@ fun MetronomeScreen(
                 }
             )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = Spacing.lg),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Spacer(modifier = Modifier.size(Spacing.xs))
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row(
-                        modifier = Modifier.clickable { showBpmDialog = true },
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(32.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape)
-                                .clickable { viewModel.decrementBpm() },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Remove,
-                                contentDescription = stringResource(R.string.decrement_bpm),
-                                modifier = Modifier.size(20.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                        Text(
-                            text = "${viewModel.bpm}",
-                            style = BeatForgeTextStyles.bpm,
-                            color = MaterialTheme.colorScheme.onBackground,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(horizontal = Spacing.lg)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .size(32.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape)
-                                .clickable { viewModel.incrementBpm() },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = stringResource(R.string.increment_bpm),
-                                modifier = Modifier.size(20.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                    Text(
-                        text = stringResource(R.string.bpm_label),
-                        style = BeatForgeTextStyles.microLabel,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-
-                BeatDots(
-                    beatIndex = beatIndex,
-                    running = running,
-                    beatsPerBar = engine.currentBeatsPerBar,
-                    showSubdots = false
-                )
-
-                TimeSignatureDisplay(displayName = engine.currentTimeSignatureDisplay)
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            if (isLandscape) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = Spacing.lg),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(Spacing.md),
+                        modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        TimeSignaturePicker(
-                            selectedTimeSignature = timeSignature,
-                            onTimeSignatureSelected = { viewModel.setTimeSignature(it) },
-                            customNumerator = customNumerator,
-                            customBeatUnit = customBeatUnit,
-                            onCustomSave = { num, unit -> viewModel.setCustomTimeSignature(num, unit) }
+                        Spacer(modifier = Modifier.size(Spacing.xs))
+                        BpmDisplay(
+                            bpm = viewModel.bpm,
+                            onDecrement = { viewModel.decrementBpm() },
+                            onIncrement = { viewModel.incrementBpm() },
+                            onTap = { showBpmDialog = true }
                         )
-                    }
-                }
-
-                Spacer(modifier = Modifier.size(Spacing.sm))
-
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
-                        .clickable { viewModel.onTap() },
-                    shape = RoundedCornerShape(12.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.tap_tempo),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(Spacing.md)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.tempo),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(bottom = Spacing.xs)
+                        Spacer(modifier = Modifier.size(Spacing.lg))
+                        BeatDots(
+                            beatIndex = beatIndex,
+                            running = running,
+                            beatsPerBar = engine.currentBeatsPerBar,
+                            showSubdots = true
                         )
-                        Slider(
-                            value = viewModel.bpm.toFloat(),
-                            onValueChange = { viewModel.setBpm(it.toInt()) },
-                            valueRange = 45f..250f,
+                        Spacer(modifier = Modifier.size(Spacing.lg))
+                        Card(
                             modifier = Modifier.fillMaxWidth(),
-                            colors = SliderDefaults.colors(
-                                thumbColor = MaterialTheme.colorScheme.primary,
-                                activeTrackColor = MaterialTheme.colorScheme.primary,
-                                inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant
-                            )
-                        )
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            shape = RoundedCornerShape(12.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(Spacing.md),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                TimeSignaturePicker(
+                                    selectedTimeSignature = timeSignature,
+                                    onTimeSignatureSelected = { viewModel.setTimeSignature(it) },
+                                    customNumerator = customNumerator,
+                                    customBeatUnit = customBeatUnit,
+                                    onCustomSave = { num, unit -> viewModel.setCustomTimeSignature(num, unit) }
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.size(Spacing.lg))
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable { viewModel.onTap() },
+                            shape = RoundedCornerShape(12.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                         ) {
                             Text(
-                                stringResource(R.string.bpm_min),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                text = stringResource(R.string.tap_tempo),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
+                                textAlign = TextAlign.Center
                             )
-                            Text(
-                                stringResource(R.string.bpm_max),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                        }
+                        Spacer(modifier = Modifier.size(Spacing.lg))
+                    }
+                    PlayButton(
+                        running = running,
+                        onToggle = { viewModel.toggle() }
+                    )
+                    Spacer(modifier = Modifier.size(Spacing.sm))
+                }
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = Spacing.lg),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Spacer(modifier = Modifier.size(Spacing.xs))
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        BpmDisplay(
+                            bpm = viewModel.bpm,
+                            onDecrement = { viewModel.decrementBpm() },
+                            onIncrement = { viewModel.incrementBpm() },
+                            onTap = { showBpmDialog = true }
+                        )
+                        Spacer(modifier = Modifier.size(Spacing.sm))
+                        Text(
+                            text = stringResource(R.string.bpm_label),
+                            style = BeatForgeTextStyles.microLabel,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    BeatDots(
+                        beatIndex = beatIndex,
+                        running = running,
+                        beatsPerBar = engine.currentBeatsPerBar,
+                        showSubdots = true
+                    )
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(Spacing.md),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            TimeSignaturePicker(
+                                selectedTimeSignature = timeSignature,
+                                onTimeSignatureSelected = { viewModel.setTimeSignature(it) },
+                                customNumerator = customNumerator,
+                                customBeatUnit = customBeatUnit,
+                                onCustomSave = { num, unit -> viewModel.setCustomTimeSignature(num, unit) }
                             )
                         }
                     }
-                }
-
-                FlashColorButton(
-                    selectedIndex = flashColorIndex,
-                    onColorSelected = { viewModel.setFlashColorIndex(it) }
-                )
-
-Spacer(modifier = Modifier.size(Spacing.sm))
-                Box(
-                    modifier = Modifier
-                        .size(96.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary)
-                        .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    IconButton(onClick = { viewModel.toggle() }, modifier = Modifier.size(96.dp)) {
-                        Icon(
-                            imageVector = if (running) Icons.Default.Pause else Icons.Default.PlayArrow,
-                            contentDescription = if (running) stringResource(R.string.pause) else stringResource(R.string.play),
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(48.dp)
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { viewModel.onTap() },
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.tap_tempo),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
+                            textAlign = TextAlign.Center
                         )
                     }
+                    Spacer(modifier = Modifier.size(Spacing.lg))
+                    PlayButton(
+                        running = running,
+                        onToggle = { viewModel.toggle() }
+                    )
+                    Spacer(modifier = Modifier.size(Spacing.sm))
                 }
-                Spacer(modifier = Modifier.size(Spacing.sm))
             }
         }
     }
@@ -371,5 +339,83 @@ Spacer(modifier = Modifier.size(Spacing.sm))
                 }
             }
         )
+    }
+}
+
+@Composable
+private fun BpmDisplay(
+    bpm: Int,
+    onDecrement: () -> Unit,
+    onIncrement: () -> Unit,
+    onTap: () -> Unit
+) {
+    Row(
+        modifier = Modifier.clickable { onTap() },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape)
+                .clickable { onDecrement() },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Remove,
+                contentDescription = stringResource(R.string.decrement_bpm),
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+        Text(
+            text = "$bpm",
+            style = BeatForgeTextStyles.bpm,
+            color = MaterialTheme.colorScheme.onBackground,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(horizontal = Spacing.lg)
+        )
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape)
+                .clickable { onIncrement() },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = stringResource(R.string.increment_bpm),
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+@Composable
+private fun PlayButton(
+    running: Boolean,
+    onToggle: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(96.dp)
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.primary)
+            .border(BorderStroke(BorderThickness.active, MaterialTheme.colorScheme.outline), CircleShape),
+        contentAlignment = Alignment.Center
+    ) {
+        IconButton(onClick = onToggle, modifier = Modifier.size(96.dp)) {
+            Icon(
+                imageVector = if (running) Icons.Default.Pause else Icons.Default.PlayArrow,
+                contentDescription = if (running) stringResource(R.string.pause) else stringResource(R.string.play),
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.size(48.dp)
+            )
+        }
     }
 }

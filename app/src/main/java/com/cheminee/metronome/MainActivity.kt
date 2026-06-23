@@ -3,7 +3,6 @@ package com.cheminee.metronome
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -63,7 +62,6 @@ class MainActivity : ComponentActivity() {
                             || currentRoute == Routes.SETTINGS
                             || currentRoute == Routes.ABOUT
                             || currentRoute?.startsWith("editor/") == true
-                            || currentRoute?.startsWith("live/") == true
 
                     Scaffold(
                         bottomBar = {
@@ -87,11 +85,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     ) { padding ->
-                        val scaffoldPadding = if (currentRoute == Routes.METRONOME) {
-                            PaddingValues(bottom = padding.calculateBottomPadding())
-                        } else {
-                            padding
-                        }
+                        val scaffoldPadding = padding
                     AppNavGraph(
                         navController = navController,
                         viewModelFactory = factory,

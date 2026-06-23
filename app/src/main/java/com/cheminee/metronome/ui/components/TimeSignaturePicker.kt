@@ -64,7 +64,9 @@ fun TimeSignaturePicker(
                 showDialog = false
                 onCustomSave(num, unit)
             },
-            onDismiss = { showDialog = false }
+            onDismiss = {
+                if (showDialog) showDialog = false
+            }
         )
     }
 }
